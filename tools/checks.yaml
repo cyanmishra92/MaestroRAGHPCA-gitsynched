@@ -256,12 +256,11 @@ checks:
     origin: seed
     description: "Energy per query, FlashRAG, BS=2 -- mean of CPU and GPU energy"
     kind: value
-    claimed: 791.8
-    locations: ["implementation&eval.tex:164"]
-    tolerance: 0.05
-    tolerance_rationale: "paper prints 1 dp; workbook gives 792.00, so 791.8 is not a rounding of it"
-    expect: FAIL
-    known_defect: "Paper prints 791.8 J; (579.6 + 1004.4)/2 = 792.00 J. Off by 0.2 J."
+    claimed: 792.00
+    locations: ["implementation&eval.tex:173"]
+    tolerance: 0.01
+    tolerance_rationale: "corrected in Task 6; paper now prints the derived value to 2 dp"
+    expect: PASS
     source:
       sheet: PowerComp
       cells: {cpu: C6, gpu: C7}
@@ -285,12 +284,11 @@ checks:
     origin: seed
     description: "FlashRAG peak CPU power excess over MaestroRAG, percent"
     kind: value
-    claimed: 16.45
-    locations: ["implementation&eval.tex:164"]
-    tolerance: 0.05
-    tolerance_rationale: "paper prints 2 dp"
-    expect: FAIL
-    known_defect: "Paper says 16.45%; (184.2 - 158.3)/158.3 = 16.36%. Awaiting its own task."
+    claimed: 16.36
+    locations: ["implementation&eval.tex:173"]
+    tolerance: 0.005
+    tolerance_rationale: "corrected in Task 6; paper prints 2 dp"
+    expect: PASS
     source:
       sheet: PowerComp
       cells: {flash: C4, ours: E4}
@@ -300,12 +298,11 @@ checks:
     origin: seed
     description: "PipeRAG peak CPU power excess over MaestroRAG, percent"
     kind: value
-    claimed: 8.22
-    locations: ["implementation&eval.tex:164"]
-    tolerance: 0.05
-    tolerance_rationale: "paper prints 2 dp"
-    expect: FAIL
-    known_defect: "Paper says 8.22%; (171.09 - 158.3)/158.3 = 8.08%. Awaiting its own task."
+    claimed: 8.08
+    locations: ["implementation&eval.tex:173"]
+    tolerance: 0.005
+    tolerance_rationale: "corrected in Task 6; paper prints 2 dp"
+    expect: PASS
     source:
       sheet: PowerComp
       cells: {pipe: D4, ours: E4}
@@ -1006,3 +1003,404 @@ checks:
       file: docs/Untitled document.md
       regex: 'OOMs at BS=([0-9]+)'
       note: "rebuttal, Common Concerns, ported-optimization experiment"
+
+  # ===================== TASK 6: every value plotted in the rebuilt Figure 6 =========
+  # Panels 1-3 come from the PowerComp tab. Per-query energy divides the tab's window
+  # totals by the batch size of 2, which is the basis Section 5.6 already reports and
+  # which the figure's axis states.
+  # Panel 4 comes from the rebuttal and exists in no workbook tab; those checks are
+  # anchored to the rebuttal sentence and marked origin: rebuttal. They are shares of
+  # IDLE-SUBTRACTED CPU energy and are deliberately NOT checked against the absolute
+  # joules above, because they do not partition that quantity.
+
+  - id: fig6_avgpower_cpu_flashrag
+    origin: task06
+    description: "Figure 6 panel 1: average CPU power, flashrag"
+    kind: value
+    claimed: 48.3
+    locations: []
+    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    tolerance: 0.0
+    expect: PASS
+    source:
+      sheet: PowerComp
+      cells: {v: C2}
+      derivation: "v"
+
+  - id: fig6_avgpower_gpu_flashrag
+    origin: task06
+    description: "Figure 6 panel 1: average GPU power, flashrag"
+    kind: value
+    claimed: 83.67
+    locations: []
+    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    tolerance: 0.0
+    expect: PASS
+    source:
+      sheet: PowerComp
+      cells: {v: C3}
+      derivation: "v"
+
+  - id: fig6_peakpower_cpu_flashrag
+    origin: task06
+    description: "Figure 6 panel 2: peak CPU power, flashrag"
+    kind: value
+    claimed: 184.2
+    locations: []
+    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    tolerance: 0.0
+    expect: PASS
+    source:
+      sheet: PowerComp
+      cells: {v: C4}
+      derivation: "v"
+
+  - id: fig6_peakpower_gpu_flashrag
+    origin: task06
+    description: "Figure 6 panel 2: peak GPU power, flashrag"
+    kind: value
+    claimed: 244.8
+    locations: []
+    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    tolerance: 0.0
+    expect: PASS
+    source:
+      sheet: PowerComp
+      cells: {v: C5}
+      derivation: "v"
+
+  - id: fig6_energy_cpu_flashrag
+    origin: task06
+    description: "Figure 6 panel 3: CPU energy per query, flashrag"
+    kind: value
+    claimed: 289.8
+    locations: []
+    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    tolerance: 0.005
+    expect: PASS
+    source:
+      sheet: PowerComp
+      cells: {v: C6}
+      derivation: "v / 2"
+
+  - id: fig6_energy_gpu_flashrag
+    origin: task06
+    description: "Figure 6 panel 3: GPU energy per query, flashrag"
+    kind: value
+    claimed: 502.2
+    locations: []
+    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    tolerance: 0.005
+    expect: PASS
+    source:
+      sheet: PowerComp
+      cells: {v: C7}
+      derivation: "v / 2"
+
+  - id: fig6_avgpower_cpu_piperag
+    origin: task06
+    description: "Figure 6 panel 1: average CPU power, piperag"
+    kind: value
+    claimed: 62.72
+    locations: []
+    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    tolerance: 0.0
+    expect: PASS
+    source:
+      sheet: PowerComp
+      cells: {v: D2}
+      derivation: "v"
+
+  - id: fig6_avgpower_gpu_piperag
+    origin: task06
+    description: "Figure 6 panel 1: average GPU power, piperag"
+    kind: value
+    claimed: 58.48
+    locations: []
+    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    tolerance: 0.0
+    expect: PASS
+    source:
+      sheet: PowerComp
+      cells: {v: D3}
+      derivation: "v"
+
+  - id: fig6_peakpower_cpu_piperag
+    origin: task06
+    description: "Figure 6 panel 2: peak CPU power, piperag"
+    kind: value
+    claimed: 171.09
+    locations: []
+    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    tolerance: 0.0
+    expect: PASS
+    source:
+      sheet: PowerComp
+      cells: {v: D4}
+      derivation: "v"
+
+  - id: fig6_peakpower_gpu_piperag
+    origin: task06
+    description: "Figure 6 panel 2: peak GPU power, piperag"
+    kind: value
+    claimed: 252.43
+    locations: []
+    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    tolerance: 0.0
+    expect: PASS
+    source:
+      sheet: PowerComp
+      cells: {v: D5}
+      derivation: "v"
+
+  - id: fig6_energy_cpu_piperag
+    origin: task06
+    description: "Figure 6 panel 3: CPU energy per query, piperag"
+    kind: value
+    claimed: 407.62
+    locations: []
+    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    tolerance: 0.005
+    expect: PASS
+    source:
+      sheet: PowerComp
+      cells: {v: D6}
+      derivation: "v / 2"
+
+  - id: fig6_energy_gpu_piperag
+    origin: task06
+    description: "Figure 6 panel 3: GPU energy per query, piperag"
+    kind: value
+    claimed: 373.305
+    locations: []
+    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    tolerance: 0.005
+    expect: PASS
+    source:
+      sheet: PowerComp
+      cells: {v: D7}
+      derivation: "v / 2"
+
+  - id: fig6_avgpower_cpu_maestrorag
+    origin: task06
+    description: "Figure 6 panel 1: average CPU power, maestrorag"
+    kind: value
+    claimed: 42.37
+    locations: []
+    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    tolerance: 0.0
+    expect: PASS
+    source:
+      sheet: PowerComp
+      cells: {v: E2}
+      derivation: "v"
+
+  - id: fig6_avgpower_gpu_maestrorag
+    origin: task06
+    description: "Figure 6 panel 1: average GPU power, maestrorag"
+    kind: value
+    claimed: 42.06
+    locations: []
+    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    tolerance: 0.0
+    expect: PASS
+    source:
+      sheet: PowerComp
+      cells: {v: E3}
+      derivation: "v"
+
+  - id: fig6_peakpower_cpu_maestrorag
+    origin: task06
+    description: "Figure 6 panel 2: peak CPU power, maestrorag"
+    kind: value
+    claimed: 158.3
+    locations: []
+    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    tolerance: 0.0
+    expect: PASS
+    source:
+      sheet: PowerComp
+      cells: {v: E4}
+      derivation: "v"
+
+  - id: fig6_peakpower_gpu_maestrorag
+    origin: task06
+    description: "Figure 6 panel 2: peak GPU power, maestrorag"
+    kind: value
+    claimed: 244.4
+    locations: []
+    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    tolerance: 0.0
+    expect: PASS
+    source:
+      sheet: PowerComp
+      cells: {v: E5}
+      derivation: "v"
+
+  - id: fig6_energy_cpu_maestrorag
+    origin: task06
+    description: "Figure 6 panel 3: CPU energy per query, maestrorag"
+    kind: value
+    claimed: 127.1
+    locations: []
+    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    tolerance: 0.005
+    expect: PASS
+    source:
+      sheet: PowerComp
+      cells: {v: E6}
+      derivation: "v / 2"
+
+  - id: fig6_energy_gpu_maestrorag
+    origin: task06
+    description: "Figure 6 panel 3: GPU energy per query, maestrorag"
+    kind: value
+    claimed: 126.18
+    locations: []
+    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    tolerance: 0.005
+    expect: PASS
+    source:
+      sheet: PowerComp
+      cells: {v: E7}
+      derivation: "v / 2"
+
+  - id: fig6_share_flashrag_ra
+    origin: rebuttal
+    description: "Figure 6 panel 4: FlashRAG retrieval+augmentation share, share of idle-subtracted CPU energy"
+    kind: value
+    claimed: 79.2
+    locations: ["implementation&eval.tex:174"]
+    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    tolerance: 0.0
+    expect: PASS
+    source:
+      file: docs/Untitled document.md
+      regex: 'FlashRAG:([0-9.]+)%R\+A'
+      note: "rebuttal, Reviewer-B power breakdown"
+
+  - id: fig6_share_flashrag_gen
+    origin: rebuttal
+    description: "Figure 6 panel 4: FlashRAG generation-driving share, share of idle-subtracted CPU energy"
+    kind: value
+    claimed: 19.1
+    locations: ["implementation&eval.tex:174"]
+    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    tolerance: 0.0
+    expect: PASS
+    source:
+      file: docs/Untitled document.md
+      regex: 'FlashRAG:[0-9.]+%R\+A, ([0-9.]+)%generation-driving'
+      note: "rebuttal, Reviewer-B power breakdown"
+
+  - id: fig6_share_flashrag_other
+    origin: rebuttal
+    description: "Figure 6 panel 4: FlashRAG other share, share of idle-subtracted CPU energy"
+    kind: value
+    claimed: 1.8
+    locations: ["implementation&eval.tex:174"]
+    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    tolerance: 0.0
+    expect: PASS
+    source:
+      file: docs/Untitled document.md
+      regex: '([0-9.]+)%other'
+      note: "rebuttal, Reviewer-B power breakdown"
+
+  - id: fig6_share_piperag_encode
+    origin: rebuttal
+    description: "Figure 6 panel 4: PipeRAG encode share, share of idle-subtracted CPU energy"
+    kind: value
+    claimed: 20.4
+    locations: ["implementation&eval.tex:174"]
+    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    tolerance: 0.0
+    expect: PASS
+    source:
+      file: docs/Untitled document.md
+      regex: 'PipeRAG:([0-9.]+)%E'
+      note: "rebuttal, Reviewer-B power breakdown"
+
+  - id: fig6_share_piperag_retrieve
+    origin: rebuttal
+    description: "Figure 6 panel 4: PipeRAG retrieve share, share of idle-subtracted CPU energy"
+    kind: value
+    claimed: 64.5
+    locations: ["implementation&eval.tex:174"]
+    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    tolerance: 0.0
+    expect: PASS
+    source:
+      file: docs/Untitled document.md
+      regex: 'PipeRAG:[0-9.]+%E, ([0-9.]+)%R'
+      note: "rebuttal, Reviewer-B power breakdown"
+
+  - id: fig6_share_piperag_augment
+    origin: rebuttal
+    description: "Figure 6 panel 4: PipeRAG augment share, share of idle-subtracted CPU energy"
+    kind: value
+    claimed: 0
+    locations: ["implementation&eval.tex:174"]
+    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    tolerance: 0.0
+    expect: PASS
+    source:
+      file: docs/Untitled document.md
+      regex: 'PipeRAG:[0-9.]+%E, [0-9.]+%R, ([0-9.]+)%A'
+      note: "rebuttal, Reviewer-B power breakdown"
+
+  - id: fig6_share_piperag_gen
+    origin: rebuttal
+    description: "Figure 6 panel 4: PipeRAG generation share, share of idle-subtracted CPU energy"
+    kind: value
+    claimed: 15.6
+    locations: ["implementation&eval.tex:174"]
+    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    tolerance: 0.0
+    expect: PASS
+    source:
+      file: docs/Untitled document.md
+      regex: 'PipeRAG:[0-9.]+%E, [0-9.]+%R, [0-9.]+%A, ([0-9.]+)%G'
+      note: "rebuttal, Reviewer-B power breakdown"
+
+  - id: fig6_share_maestro_encode
+    origin: rebuttal
+    description: "Figure 6 panel 4: MaestroRAG encode share, share of idle-subtracted CPU energy"
+    kind: value
+    claimed: 5.5
+    locations: ["implementation&eval.tex:174"]
+    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    tolerance: 0.0
+    expect: PASS
+    source:
+      file: docs/Untitled document.md
+      regex: 'MaestroRAG:([0-9.]+)%E'
+      note: "rebuttal, Reviewer-B power breakdown"
+
+  - id: fig6_share_maestro_ra
+    origin: rebuttal
+    description: "Figure 6 panel 4: MaestroRAG fused retrieve+augment share, share of idle-subtracted CPU energy"
+    kind: value
+    claimed: 83.2
+    locations: ["implementation&eval.tex:174"]
+    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    tolerance: 0.0
+    expect: PASS
+    source:
+      file: docs/Untitled document.md
+      regex: 'MaestroRAG:[0-9.]+%E, ([0-9.]+)%RA'
+      note: "rebuttal, Reviewer-B power breakdown"
+
+  - id: fig6_share_maestro_gen
+    origin: rebuttal
+    description: "Figure 6 panel 4: MaestroRAG generation share, share of idle-subtracted CPU energy"
+    kind: value
+    claimed: 11.2
+    locations: ["implementation&eval.tex:174"]
+    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    tolerance: 0.0
+    expect: PASS
+    source:
+      file: docs/Untitled document.md
+      regex: 'MaestroRAG:[0-9.]+%E, [0-9.]+%RA, ([0-9.]+)%G'
+      note: "rebuttal, Reviewer-B power breakdown"
