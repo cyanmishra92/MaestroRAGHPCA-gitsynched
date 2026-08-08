@@ -299,37 +299,43 @@ But this is a design decision that we expect the user to make that presents a re
  \begin{figure*} 
     \subfloat[E2E latency of \design{} in RTX4090.]
     {%
-     \includegraphics[clip,width=0.32\linewidth]{Figs/4090LatencyOurs.pdf}%
+     % CR-REPLACED: \includegraphics[clip,width=0.32\linewidth]{Figs/4090LatencyOurs.pdf}%
+     \includegraphics[clip,width=0.32\linewidth]{Figs/cr/4090LatencyOurs.pdf}%
     \label{Fig:OurLatencyE2E4090}
     }
     \hfill
     \subfloat[Speedup: \design{} vs EdgeRAG~\cite{EdgeRAG}.]
     {%
-     \includegraphics[clip,width=0.32\linewidth]{Figs/4090speedupEdgeRAG.pdf}%
+     % CR-REPLACED: \includegraphics[clip,width=0.32\linewidth]{Figs/4090speedupEdgeRAG.pdf}%
+     \includegraphics[clip,width=0.32\linewidth]{Figs/cr/4090speedupEdgeRAG.pdf}%
     \label{Fig:Lat-vs-EdgeRAG}
     }
     \hfill    
     \subfloat[Speedup: \design{} vs FlashRAG~\cite{jin2024flashrag}.]
     {%
-     \includegraphics[clip,width=0.32\linewidth]{Figs/4090speedupFlashRAG.pdf}
+     % CR-REPLACED: \includegraphics[clip,width=0.32\linewidth]{Figs/4090speedupFlashRAG.pdf}
+     \includegraphics[clip,width=0.32\linewidth]{Figs/cr/4090speedupFlashRAG.pdf}
     \label{Fig:Lat-vs-FlashRAG}
     }
     
     \subfloat[Speedup: \design{} vs PipeRAG~\cite{jiang2024piperag}.]
     {%
-    \includegraphics[clip,width=0.32\linewidth]{Figs/4090speedupPipeRAG.pdf}%
+    % CR-REPLACED: \includegraphics[clip,width=0.32\linewidth]{Figs/4090speedupPipeRAG.pdf}%
+    \includegraphics[clip,width=0.32\linewidth]{Figs/cr/4090speedupPipeRAG.pdf}%
     \label{Fig:Lat-vs-PipeRAG}
     }
     \hfill
     \subfloat[E2E latency of \design{} in RTX 4080]
     {%
-    \includegraphics[clip,width=0.32\linewidth]{Figs/4080Latency_MaestroRAG.pdf}%
+    % CR-REPLACED: \includegraphics[clip,width=0.32\linewidth]{Figs/4080Latency_MaestroRAG.pdf}%
+    \includegraphics[clip,width=0.32\linewidth]{Figs/cr/4080Latency_MaestroRAG.pdf}%
     \label{Fig:4080Latency_Ours}
     }
     \hfill
     \subfloat[Speedup: \design{} vs other baselines.]
     {%
-    \includegraphics[clip,width=0.32\linewidth]{Figs/4080Speedup_Merged.pdf}%
+    % CR-REPLACED: \includegraphics[clip,width=0.32\linewidth]{Figs/4080Speedup_Merged.pdf}%
+    \includegraphics[clip,width=0.32\linewidth]{Figs/cr/4080Speedup_Merged.pdf}%
     \label{Fig:4080Speedup_Merged}
     }
     \caption{Speedup of \design{} relative to state-of-the-art RAG frameworks on consumer-grade systems with RTX 4090 (a--d) and RTX 4080 (e--f) GPU. 

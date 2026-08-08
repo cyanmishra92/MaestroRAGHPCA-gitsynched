@@ -1,16 +1,17 @@
 \begin{table}[t]
 \centering
-\caption{\new{Stage-level latency on the RTX\,4090 at \texttt{DB=4\,M} and \texttt{BS=8}, with caching disabled. Generation is excluded because its settings are common to all four systems. A spanned cell marks stages a system measures together: \design{} and \edgeRAG{} fuse retrieval and augmentation (\Cref{subsec:pipeline_design}), while \flashRAG{} fuses encoding and retrieval. An empty cell marks a cost the system does not report separately.}}
+\caption{\new{Stage-level latency in seconds on the RTX\,4090 at \texttt{DB=4\,M} and \texttt{BS=8}, with caching disabled. Generation is excluded because its settings are common to all four systems. A spanned cell marks stages a system measures together: \design{} and \edgeRAG{} fuse retrieval and augmentation (\Cref{subsec:pipeline_design}), while \flashRAG{} fuses encoding and retrieval. An empty cell marks a cost the system does not report separately.}}
 \label{tab:latency_breakdown}
-\resizebox{\linewidth}{!}{%
+{\small
+\setlength{\tabcolsep}{3pt}
 \begin{tabular}{lccccc}
 \toprule
-\textbf{System} & \textbf{Encode} & \textbf{Retrieve} & \textbf{Augment} & \makecell{\textbf{Model}\\\textbf{loads}} & \makecell{\textbf{Scheduler}\\\textbf{/ sync}} \\
+\textbf{System} & \textbf{Enc.} & \textbf{Retr.} & \textbf{Aug.} & \makecell{\textbf{Model}\\\textbf{loads}} & \makecell{\textbf{Sched.}\\\textbf{/ sync}} \\
 \midrule
-\design{}   & 0.20\,s & \multicolumn{2}{c}{1.60\,s}  &                                                & 0.20\,s \\
-\edgeRAG{}  & 0.28\,s & \multicolumn{2}{c}{25.19\,s} &                                                &         \\
-\flashRAG{} & \multicolumn{2}{c}{7.26\,s} & 0.10\,s  & \makecell{0.73\,s (encoder)\\2.20\,s (LLM)}    &         \\
-\pipeRAG{}  & 6.20\,s & 5.20\,s & 0.10\,s            &                                                & $\leq 2$\,s \\
+\design{}   & 0.20 & \multicolumn{2}{c}{1.60}  &                              & 0.20 \\
+\edgeRAG{}  & 0.28 & \multicolumn{2}{c}{25.19} &                              &      \\
+\flashRAG{} & \multicolumn{2}{c}{7.26} & 0.10  & \makecell{0.73 enc.\\2.20 LLM} &      \\
+\pipeRAG{}  & 6.20 & 5.20 & 0.10            &                              & $\leq 2$ \\
 \bottomrule
 \end{tabular}%
 }

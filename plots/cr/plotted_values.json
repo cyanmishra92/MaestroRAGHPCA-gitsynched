@@ -1,0 +1,436 @@
+{
+  "4080Latency_MaestroRAG": {
+    "batch_sizes": [
+      2,
+      4,
+      8,
+      16
+    ],
+    "db_sizes": [
+      "1 mil",
+      "2 mil",
+      "4 mil",
+      "8 mil"
+    ],
+    "values": {
+      "1 mil": [
+        2.144,
+        2.285,
+        2.882,
+        4.138
+      ],
+      "2 mil": [
+        2.57,
+        2.71,
+        3.285,
+        6.39
+      ],
+      "4 mil": [
+        3.199,
+        3.462,
+        3.959,
+        7.36
+      ],
+      "8 mil": [
+        4.7,
+        4.817,
+        5.066,
+        11.58
+      ]
+    }
+  },
+  "4080Speedup_Merged": {
+    "baselines": [
+      "EdgeRAG",
+      "FlashRAG",
+      "PipeRAG"
+    ],
+    "batch_sizes": [
+      2,
+      4,
+      8
+    ],
+    "values": {
+      "EdgeRAG": [
+        4.723351047,
+        8.965915656,
+        8.848193988
+      ],
+      "FlashRAG": [
+        3.085339168,
+        2.455228192,
+        1.960090932
+      ],
+      "PipeRAG": [
+        4.438887152,
+        5.805892548,
+        5.354887598
+      ]
+    }
+  },
+  "4090LatencyOurs": {
+    "batch_sizes": [
+      2,
+      4,
+      8,
+      16
+    ],
+    "db_sizes": [
+      "1 mil",
+      "2 mil",
+      "4 mil",
+      "8 mil"
+    ],
+    "values": {
+      "1 mil": [
+        3.47,
+        3.747,
+        4.29,
+        8.317
+      ],
+      "2 mil": [
+        3.78,
+        4.087,
+        5.027,
+        9.72
+      ],
+      "4 mil": [
+        4.468,
+        4.879,
+        6.497,
+        12.97
+      ],
+      "8 mil": [
+        5.946,
+        6.55,
+        9.86,
+        25.47
+      ]
+    }
+  },
+  "4090speedupEdgeRAG": {
+    "batch_sizes": [
+      2,
+      4,
+      8,
+      16
+    ],
+    "db_sizes": [
+      "1 mil",
+      "2 mil",
+      "4 mil",
+      "8 mil"
+    ],
+    "values": {
+      "1 mil": [
+        1.308357349,
+        2.409927942,
+        3.398601399,
+        3.543344956
+      ],
+      "2 mil": [
+        1.232804233,
+        2.260827012,
+        3.035607718,
+        3.259259259
+      ],
+      "4 mil": [
+        3.621307073,
+        4.197581472,
+        4.371248268,
+        5.618350039
+      ],
+      "8 mil": [
+        9.667003027,
+        9.978625954,
+        12.0811359,
+        6.152336082
+      ]
+    }
+  },
+  "4090speedupFlashRAG": {
+    "batch_sizes": [
+      2,
+      4,
+      8
+    ],
+    "db_sizes": [
+      "1 mil",
+      "2 mil",
+      "4 mil",
+      "8 mil"
+    ],
+    "values": {
+      "1 mil": [
+        1.974063401,
+        2.377902322,
+        3.243356643
+      ],
+      "2 mil": [
+        2.402116402,
+        2.61316369,
+        2.578078377
+      ],
+      "4 mil": [
+        2.634288272,
+        2.506661201,
+        2.522702786
+      ],
+      "8 mil": [
+        3.157753111,
+        2.909923664,
+        1.915821501
+      ]
+    }
+  },
+  "4090speedupPipeRAG": {
+    "batch_sizes": [
+      2,
+      4,
+      8
+    ],
+    "db_sizes": [
+      "1M",
+      "2M",
+      "4M",
+      "8M"
+    ],
+    "values": {
+      "1M": [
+        3.250720461,
+        3.266613291,
+        3.004662005
+      ],
+      "2M": [
+        3.019312169,
+        3.185466112,
+        2.629799085
+      ],
+      "4M": [
+        3.622873769,
+        3.915966387,
+        3.047560412
+      ],
+      "8M": [
+        4.710729902,
+        4.693129771,
+        3.138235294
+      ]
+    }
+  },
+  "JetsonThemVsUs": {
+    "EdgeRAG": [
+      14.14,
+      23.44,
+      38.62,
+      59.0
+    ],
+    "MaestroRAG": [
+      12.923,
+      17.87,
+      28.56,
+      46.979
+    ],
+    "Speedup": [
+      1.09417318,
+      1.311695579,
+      1.352240896,
+      1.255880287
+    ],
+    "batch_sizes": [
+      2,
+      4,
+      8,
+      16
+    ]
+  },
+  "MainLatencyResults2": {
+    "4080/EdgeRAG": 35.03,
+    "4080/FlashRAG": 7.76,
+    "4080/MaestroRAG": 3.959,
+    "4080/PipeRAG": 21.2,
+    "4090/EdgeRAG": 28.4,
+    "4090/FlashRAG": 16.39,
+    "4090/MaestroRAG": 6.497,
+    "4090/MaestroRAG w/ Cache": 0.92,
+    "4090/PipeRAG": 19.8,
+    "Jetson/EdgeRAG": 38.62,
+    "Jetson/FlashRAG": null,
+    "Jetson/MaestroRAG": 28.56,
+    "Jetson/PipeRAG": null
+  },
+  "ThroughputResults": {
+    "Jetson/EdgeRAG": 0.064516129,
+    "Jetson/FlashRAG": null,
+    "Jetson/MaestroRAG": 0.432432432,
+    "Jetson/PipeRAG": 0.370091945,
+    "RTX 4090/EdgeRAG": 0.287640449,
+    "RTX 4090/FlashRAG": 0.683103853,
+    "RTX 4090/MaestroRAG": 1.6,
+    "RTX 4090/PipeRAG": 1.185185185
+  },
+  "batchsize_stacked_linear_labeled": {
+    "index_fetch": [
+      3.36,
+      3.36,
+      3.36,
+      3.36,
+      3.36
+    ],
+    "similarity_search": [
+      0.6,
+      0.7539,
+      1.79,
+      3.81,
+      224.58
+    ],
+    "x": [
+      2,
+      4,
+      8,
+      16,
+      32
+    ],
+    "ylim": 15
+  },
+  "cores_allocation_stacked": {
+    "1M/Empirical": {
+      "Batch Size": 8,
+      "Encode": 4,
+      "Retrieve": 4,
+      "Total": 8
+    },
+    "1M/MaestroRAG": {
+      "Batch Size": 8,
+      "Encode": 2,
+      "Retrieve": 2,
+      "Total": 4
+    },
+    "2M/Empirical": {
+      "Batch Size": 4,
+      "Encode": 1,
+      "Retrieve": 4,
+      "Total": 5
+    },
+    "2M/MaestroRAG": {
+      "Batch Size": 4,
+      "Encode": 1,
+      "Retrieve": 4,
+      "Total": 5
+    },
+    "4M/Empirical": {
+      "Batch Size": 2,
+      "Encode": 2,
+      "Retrieve": 8,
+      "Total": 10
+    },
+    "4M/MaestroRAG": {
+      "Batch Size": 8,
+      "Encode": 2,
+      "Retrieve": 6,
+      "Total": 8
+    },
+    "8M/Empirical": {
+      "Batch Size": 2,
+      "Encode": 1,
+      "Retrieve": 8,
+      "Total": 9
+    },
+    "8M/MaestroRAG": {
+      "Batch Size": 2,
+      "Encode": 1,
+      "Retrieve": 6,
+      "Total": 7
+    }
+  },
+  "forwardpass_8cores": {
+    "x": [
+      2,
+      4,
+      8,
+      16,
+      32
+    ],
+    "y": [
+      0.0546,
+      0.0989,
+      0.256,
+      0.5515,
+      0.9836
+    ]
+  },
+  "forwardpass_bs16_range_discrete": {
+    "max": [
+      0.5257,
+      0.57,
+      0.34,
+      0.23,
+      0.21
+    ],
+    "min": [
+      0.3624,
+      0.309,
+      0.21,
+      0.11,
+      0.07
+    ],
+    "x": [
+      1,
+      2,
+      4,
+      8,
+      16
+    ]
+  },
+  "latency_cores": {
+    "x": [
+      1,
+      2,
+      4,
+      8,
+      16
+    ],
+    "y": [
+      8.77,
+      5.84,
+      4.935,
+      4.12,
+      3.72
+    ]
+  },
+  "latency_dbsize": {
+    "x": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "y": [
+      2.11,
+      3.72,
+      7.449,
+      12.069
+    ]
+  },
+  "stacked_graph": {
+    "execution": [
+      0.258,
+      4.0079,
+      0.1,
+      3.41
+    ],
+    "grand_total": 11.9659,
+    "stages": [
+      "Encode",
+      "Retrieve",
+      "Augment",
+      "Generate"
+    ],
+    "startup": [
+      0.46,
+      3.73,
+      0.0,
+      0.0
+    ]
+  }
+}

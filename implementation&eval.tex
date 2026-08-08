@@ -119,7 +119,8 @@ By confining encoding and retrieval to the CPU and using memory-mapped indices,
 \Cref{fig:JetsonThemVsUs} contrasts our pipeline with EdgeRAG on a Jetson~AGX~Orin  limited to 4~CPU~cores. 
 \begin{wrapfigure}{r}{0.65\linewidth}
   \centering
-  \includegraphics[width=0.9\linewidth]{Figs/JetsonThemVsUs.pdf}
+  % CR-REPLACED: \includegraphics[width=0.9\linewidth]{Figs/JetsonThemVsUs.pdf}
+  \includegraphics[width=\linewidth]{Figs/cr/JetsonThemVsUs.pdf}
   \caption{Latency comparison of EdgeRAG and \design{} on a Jetson~AGX~Orin with 1\,M database.}
   \label{fig:JetsonThemVsUs}
   \vspace{-10pt}
@@ -205,19 +206,22 @@ The power consumption results for EdgeRAG are excluded from our evaluation due t
  \begin{figure*} [ht!]
         \subfloat[Adaptive Worker Allocation]% in \design{}]
     {%
-     \includegraphics[clip,width=0.32\linewidth]{Figs/cores_allocation_stacked.pdf}%
+     % CR-REPLACED: \includegraphics[clip,width=0.32\linewidth]{Figs/cores_allocation_stacked.pdf}%
+     \includegraphics[clip,width=0.32\linewidth]{Figs/cr/cores_allocation_stacked.pdf}%
     \label{Fig:cores_allocation_stacked}
     }
     \hfill
     \subfloat[End to end latency comparison]% over all designs and devices]
     {%
-    \includegraphics[clip,width=0.32\linewidth]{Figs/MainLatencyResults2.pdf}%
+    % CR-REPLACED: \includegraphics[clip,width=0.32\linewidth]{Figs/MainLatencyResults2.pdf}%
+    \includegraphics[clip,width=0.32\linewidth]{Figs/cr/MainLatencyResults2.pdf}%
     \label{Fig:MainLatencyResults2}
     }
     \hfill
     \subfloat[Throughput comparison]% over all designs and devices]
     {%
-    \includegraphics[clip,width=0.32\linewidth] {Figs/ThroughputResults.pdf}%
+    % CR-REPLACED: \includegraphics[clip,width=0.32\linewidth] {Figs/ThroughputResults.pdf}%
+    \includegraphics[clip,width=0.32\linewidth]{Figs/cr/ThroughputResults.pdf}%
     \label{Fig:ThroughputResults}
     }
     \caption{Key findings: (a) The adaptive worker allocation technique often results in better resource partitioning combinations to achieve the same latency/throughput. (b) End-to-end latency comparison for configurations selected by the adaptive worker allocator. (c) Throughput comparison for configurations selected by the adaptive worker allocator.}

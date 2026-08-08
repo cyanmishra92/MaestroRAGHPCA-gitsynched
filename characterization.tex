@@ -2,37 +2,43 @@
  \begin{figure*}[h] 
     \subfloat[Stage-wise breakdown]
     {
-    \includegraphics[clip,width=0.3\linewidth, height=1in]{Figs/stacked_graph.pdf}%
+    % CR-REPLACED: \includegraphics[clip,width=0.3\linewidth, height=1in]{Figs/stacked_graph.pdf}%
+    \includegraphics[clip,width=0.3\linewidth]{Figs/cr/stacked_graph.pdf}%
     \label{Fig:stacked_graph}
     }
     \hfill
     \subfloat[Encoding latency vs batch size scaling]
     {%
-    \includegraphics[clip,width=0.3\linewidth, height=1in]{Figs/forwardpass_8cores.pdf}%
+    % CR-REPLACED: \includegraphics[clip,width=0.3\linewidth, height=1in]{Figs/forwardpass_8cores.pdf}%
+    \includegraphics[clip,width=0.3\linewidth]{Figs/cr/forwardpass_8cores.pdf}%
     \label{Fig:forwardpass_8cores}
     }
     \hfill
     \subfloat[Encode latency vs core scaling]
-    { \includegraphics[clip,width=0.3\linewidth, height=1in]{Figs/forwardpass_bs16_range_discrete.pdf}%
+    % CR-REPLACED: { \includegraphics[clip,width=0.3\linewidth, height=1in]{Figs/forwardpass_bs16_range_discrete.pdf}%
+    {\includegraphics[clip,width=0.3\linewidth]{Figs/cr/forwardpass_bs16_range_discrete.pdf}%
     \label{Fig:forwardpass_bs16_range_discrete}
     }
 
     
     \subfloat[Batch Size vs Latency in RTX 4090]
     {%
-    \includegraphics[clip,width=0.3\linewidth, height=1in]{Figs/batchsize_stacked_linear_labeled.pdf}%
+    % CR-REPLACED: \includegraphics[clip,width=0.3\linewidth, height=1in]{Figs/batchsize_stacked_linear_labeled.pdf}%
+    \includegraphics[clip,width=0.3\linewidth]{Figs/cr/batchsize_stacked_linear_labeled.pdf}%
     \label{Fig:batchsize_stacked_linear_labeled}
     }
     \hfill
     \subfloat[\# Cores vs Latency in RTX-4090]
     {%
-    \includegraphics[clip,width=0.3\linewidth, height=1in]{Figs/latency_cores.pdf}%
+    % CR-REPLACED: \includegraphics[clip,width=0.3\linewidth, height=1in]{Figs/latency_cores.pdf}%
+    \includegraphics[clip,width=0.3\linewidth]{Figs/cr/latency_cores.pdf}%
     \label{Fig:latency_cores}
     }
     \hfill
     \subfloat[DB Size vs Latency in RTX 4090]
     {%
-     \includegraphics[clip,width=0.3\linewidth, height=1in]{Figs/latency_dbsize.pdf}
+     % CR-REPLACED: \includegraphics[clip,width=0.3\linewidth, height=1in]{Figs/latency_dbsize.pdf}
+     \includegraphics[clip,width=0.3\linewidth]{Figs/cr/latency_dbsize.pdf}
     \label{Fig:latency_dbsize}
     }
     \caption{Characterizations: 
