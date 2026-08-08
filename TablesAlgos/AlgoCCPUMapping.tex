@@ -1,0 +1,17 @@
+\begin{algorithm}[t]
+\caption{Quick-Profiling and Adaptation}
+\label{alg:profiling}
+\begin{algorithmic}[1]
+\State \textbf{Input:} \# of P-cores $N_P$, E-cores $N_E$, set of stage-latency tests,
+       objective type (latency or throughput), optional SLO $L_{\max}$.
+\State \textbf{Output:} A feasible mapping $(x_s,y_s)$ (or multi-worker $\tilde{x}_s,\tilde{y}_s,w_s$).
+
+\State \textbf{Step\,1.} Profile each CPU stage $s$ to measure $T_s(x,y)$ on $(x,y)$ pairs and record $T_G$.
+\State \textbf{Step\,2.} Determine whether to solve for latency-critical \eqref{eq:LC-objective} 
+      or throughput-critical \eqref{eq:TC-objective} demands. 
+\State \textbf{Step\,3.} Solve the respective integer problem subject to $x_s,y_s \ge 0$ and
+      $x_E+x_{RA}\ \le N_P$, $\,y_E+y_{RA} \le N_E$ (or the multi-worker constraints).
+\State \textbf{Step\,4.} Pin CPU threads for each stage to the chosen (P,\,E) cores and confirm
+      end-to-end pipeline metrics meet the target SLO or throughput objective.
+\end{algorithmic}
+\end{algorithm}

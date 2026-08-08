@@ -1,0 +1,515 @@
+ \documentclass[10pt,letterpaper,compsoc,conference]{iiswc26}
+%%%%%%%% ICML 2026 EXAMPLE LATEX SUBMISSION FILE %%%%%%%%%%%%%%%%%
+
+%\documentclass{article}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CORE PACKAGES (Recommended by ICML template)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \usepackage{microtype}          % microtypography
+% \usepackage{graphicx}           % graphics support
+\usepackage{subcaption}         % subfigures
+\usepackage{booktabs}           % professional tables
+% \usepackage{cite}
+\usepackage{hyperref}
+
+% hyperref makes hyperlinks in the resulting PDF.
+% If your build breaks (sometimes temporarily if a hyperlink spans a page)
+% please comment out the following usepackage line and replace
+% \usepackage{icml2026} with \usepackage[nohyperref]{icml2026} above.
+
+
+% Attempt to make hyperref and algorithmic work together better:
+%\newcommand{\theHalgorithm}{\arabic{algorithm}}
+
+% Use the following line for the initial blind version submitted for review:
+%\usepackage{icml2026}
+
+% For preprint, use
+% \usepackage[preprint]{icml2026}
+
+% If accepted, instead use the following line for the camera-ready submission:
+% \usepackage[accepted]{icml2026}
+
+%% INCLUDED PACKAGES: DO NOT REMOVE ANY OF THESE
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[final]{microtype}
+\usepackage[italic]{mathastext}
+\usepackage{libertine}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage[varqu,varl]{zi4}
+\usepackage[all]{nowidow}
+%\usepackage[auth-lg,affil-it]{authblk}
+\usepackage[keeplastbox]{flushend}
+\usepackage{fancyhdr}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MATH PACKAGES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{bm}                 % bold math symbols
+\usepackage{nicefrac}           % compact symbols for 1/2, etc.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TEXT AND FORMATTING PACKAGES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\usepackage[utf8]{inputenc}     % allow utf-8 input
+%\usepackage[T1]{fontenc}        % use 8-bit T1 fonts
+%\usepackage{cite}
+\usepackage{textcomp}
+\usepackage{xcolor}
+%\usepackage[hyphens]{url}
+\usepackage{soul}               % strikethrough, highlighting
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TABLE AND FIGURE PACKAGES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{wrapfig}
+\usepackage{makecell}           % multi-line cells
+\usepackage{tabularray}
+\usepackage{colortbl}
+\usepackage[table]{xcolor}      % cell coloring (loaded with table option)
+\usepackage{pifont}             % tick and cross marks
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ALGORITHM PACKAGES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \usepackage{algorithm}
+% \usepackage{algpseudocode}
+\usepackage{float}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TIKZ AND DRAWING
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows}
+\usepackage{circuitikz}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% LIST AND ENUMERATION
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[inline]{enumitem}
+\usepackage[subfigure]{tocloft}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CROSS-REFERENCING (load after hyperref)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{hyperref}
+\usepackage{ifthen}
+\usepackage[capitalise,nameinlink]{cleveref}
+%\usepackage{cleveref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% DEVELOPMENT TOOLS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Todonotes is useful during development; simply uncomment the next line
+%    and comment out the line below the next line to turn off comments
+%\usepackage[disable,textsize=tiny]{todonotes}
+\usepackage[textsize=tiny]{todonotes}
+\usepackage{comment}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CLEVEREF CUSTOMIZATION
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Customize figures
+% \crefname{figure}{fig.}{figs.}   % for \cref (mid-sentence, lowercase "fig.")
+% \Crefname{figure}{Fig.}{Figs.}   % for \Cref (sentence case "Fig.")
+\crefname{figure}{Figure}{Figures}
+\Crefname{figure}{Figure}{Figures}
+
+% Customize tables
+\Crefname{table}{TABLE}{TABLES}  % \Cref{tab:...} -> TABLE <number>
+\crefname{table}{table}{tables}  % \cref{tab:...} -> table <number>
+
+% Always call subsections "Section" (not "subsection")
+\crefname{subsection}{section}{sections}
+\Crefname{subsection}{Section}{Sections}
+
+% Insert the section sign before the label (number) for sections & subsections
+\creflabelformat{section}{\S#2#1#3}
+\creflabelformat{subsection}{\S#2#1#3}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% THEOREMS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CUSTOM COMMANDS - COMMENTS AND TODOS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newboolean{showcomments}
+\setboolean{showcomments}{true} % Change to false to hide the text
+
+\newcommand{\fixme}[1]{\textcolor{red}{#1}}
+%\newcommand\todo[1]{\textcolor{red}{TODO: #1}}
+
+\newcommand{\rishabh}[1]{%
+  \ifthenelse{\boolean{showcomments}}%
+    {\textcolor{blue}{RJ: #1}}%
+    {\phantom{\textcolor{blue}{RJ: #1}}}%
+}
+
+\newcommand{\cyan}[1]{%
+  \ifthenelse{\boolean{showcomments}}%
+    {\textcolor{cyan}{TODO Cyan: #1}}%
+    {\phantom{\textcolor{cyan}{todo Cyan: #1}}}%
+}
+
+\newboolean{makeRed}
+\setboolean{makeRed}{false} % change to true to enable red color
+
+\newcommand{\red}[1]{%
+  \ifthenelse{\boolean{makeRed}}%
+    {\textcolor{red}{#1}}%
+    {#1}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CUSTOM COMMANDS - PAPER-SPECIFIC
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Circled numbers
+\DeclareRobustCommand*\circled[1]{\tikz[baseline=(char.base)]{
+          \node[shape=circle,draw,fill=black,text=white,font=\bf,inner sep=1pt] (char)
+            {\normalsize#1};}}
+
+% Section reference shorthand
+\newcommand{\xref}[1]{\S\ref{#1}}
+
+% Tick and cross marks
+\newcommand{\cmark}{\ding{51}}
+\newcommand{\xmark}{\ding{55}}
+
+% Top-k and BA shortcuts
+\newcommand{\topk}{\texttt{top-k }}
+\newcommand{\RA}{\texttt{BA}}
+
+% Design name
+\newcommand\design[1]{\textcolor{black}{MaestroRAG}}
+\newcommand\MR[1]{{MaestroRAG}}
+
+% Related work citations
+\newcommand{\flashRAG}{FlashRAG~\cite{jin2024flashrag}}
+\newcommand{\edgeRAG}{EdgeRAG~\cite{EdgeRAG}}
+\newcommand{\pipeRAG}{PipeRAG~\cite{jiang2024piperag}}
+
+% Short versions
+\newcommand{\FR}{FlashRAG~\cite{jin2024flashrag}}
+\newcommand{\ER}{EdgeRAG~\cite{EdgeRAG}}
+\newcommand{\PR}{PipeRAG~\cite{jiang2024piperag}}
+
+% Strikethrough color
+\setstcolor{red}
+
+%% ADD YOUR OTHER PACKAGES ABOVE THIS LINE
+
+%%%%%%%%%%% ---SETME-----%%%%%%%%%%%%%
+\newcommand{\iiswcsubmissionnumber}{216}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\fancypagestyle{firstpage}{
+  \fancyhf{}
+  \renewcommand{\headrulewidth}{0pt}
+  \fancyhead[C]{\vspace{10pt}\normalsize{IISWC 2026 Submission
+      \textbf{\#\iiswcsubmissionnumber} -- Confidential Draft -- Do
+      NOT Distribute!!} \\\vspace{-25pt}} 
+  \fancyfoot[C]{\thepage}
+}
+
+
+\begin{document}
+%% EDIT TITLE BELOW
+
+\title{Regular-MaestroRAG: Orchestrated Pipeline Architecture for Efficient RAG on Edge Devices\vspace{-20pt}}
+
+
+%% DO NOT EDIT THE FOLLOWING
+
+%\renewcommand\Authsep{\qquad}
+%\renewcommand\Authand{\qquad}
+%\renewcommand\Authands{\qquad}
+
+
+%% EDIT AUTHOR LIST BELOW
+
+%\author{Author1 Name}
+%\author{Author2 Name}
+%\author{Author3 Name}
+%\affil{Full Name of Awesome School}
+
+
+
+%%% ALTERNATIVE FORMAT FOR MULTIPLE SCHOOLS:
+%%% 
+% \author[1]{Author1 Name}
+% \author[2]{Author2 Name}
+% \author[2]{Author3 Name}
+% \author[1]{Author4 Name}
+% \affil[1]{Full Name of Awesome School}
+% \affil[2]{Full Name of Awesomer School}
+
+
+
+\maketitle
+\thispagestyle{firstpage}
+\pagestyle{plain}% 
+%\documentclass[10pt,conference]{IEEEtran}
+% \usepackage{cite}
+% \usepackage{amsmath,amssymb,amsfonts}
+% %\usepackage{algorithmic}
+% \usepackage{graphicx}
+% \usepackage{textcomp}
+% \usepackage{xcolor}
+% \usepackage[hyphens]{url}
+% \usepackage{fancyhdr}
+% %\usepackage{hyperref}
+
+% %%%% %%%% %%%% %%%%
+% %%%%% Packages and Commands %%%%%
+
+% \usepackage[utf8]{inputenc} % allow utf-8 input
+% \usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+% %\usepackage{hyperref}       % hyperlinks
+% \usepackage{url}            % simple URL typesetting
+% \usepackage{booktabs}       % professional-quality tables
+% \usepackage{amsfonts}       % blackboard math symbols
+% \usepackage{nicefrac}       % compact symbols for 1/2, etc.
+% \usepackage{microtype}      % microtypography
+% \usepackage{xcolor}         % colors
+
+
+% \usepackage{multirow}
+% \usepackage{wrapfig}
+
+% \usepackage{graphics}
+% \usepackage{graphicx}
+% \usepackage{amsmath}
+% \usepackage{wrapfig}
+% \usepackage[subfigure]{tocloft}
+% \usepackage{subcaption}
+% \usepackage{amsfonts,bm}
+% %\usepackage{natbib} 
+% \usepackage{makecell}
+% %\usepackage{macros}
+% % \usepackage{algorithm}
+% % \usepackage{algorithmic}
+% % \usepackage{float} 
+% \usepackage{algorithm}
+
+% %\usepackage{algorithmic}
+
+% \usepackage{algpseudocode}
+% \usepackage{amsmath}
+% \usepackage{float}
+% \usepackage{multicol}
+% \usepackage{setspace}
+
+% \usepackage{tikz}
+% \usetikzlibrary{shapes.geometric, arrows}
+% \usepackage{circuitikz}
+%  \usepackage{tabularray}
+%  \usepackage{multirow}
+% \usepackage{colortbl}
+% %\usepackage{cleveref}
+% %\usepackage[capitalise,nameinlink]{cleveref}
+% \usepackage{ifthen}
+% \usepackage{soul}
+% %\usepackage[hidelinks]{hyperref}
+% \usepackage{hyperref}
+% \usepackage[capitalise,nameinlink]{cleveref}
+
+
+% \usepackage[inline]{enumitem}
+
+% %%%% Commands %%%%
+% % FIXME
+% \newcommand{\fixme}[1]{\textcolor{red}{#1}}
+% % CIRCLED
+% \DeclareRobustCommand*\circled[1]{\tikz[baseline=(char.base)]{
+%           \node[shape=circle,draw,fill=black,text=white,font=\bf,inner sep=1pt] (char)
+%             {\normalsize#1};}}
+% % % TOPK
+% % \newcommand{\topk}{\texttt{top-k }}
+% % % R+A
+% % \newcommand{\RA}{\texttt{BA}}
+
+% %s Section ref
+% \newcommand{\xref}[1]{\S\ref{#1}}
+% % Rishabh's macro
+% %\newcommand\rishabh[1]{\textcolor{blue}{RJ: #1}}
+% \newboolean{showcomments}
+% \setboolean{showcomments}{true} % Change to false to hide the text
+
+% \newcommand{\rishabh}[1]{%
+%   \ifthenelse{\boolean{showcomments}}%
+%     {\textcolor{blue}{RJ: #1}}%  % if true, print normally
+%     {\phantom{\textcolor{blue}{RJ: #1}}}% % if false, print an invisible copy (space preserved)
+% }
+
+% \newcommand{\cyan}[1]{%
+%   \ifthenelse{\boolean{showcomments}}%
+%     {\textcolor{cyan}{TODO Cyan: #1}}%  % if true, print normally
+%     {\phantom{\textcolor{cyan}{todo Cyan: #1}}}% % if false, print an invisible copy (space preserved)
+% }
+
+% %\newcommand\design[1]{\textcolor{black}{MaestroRAG}}
+
+% \newcommand\todo[1]{\textcolor{red}{TODO: #1}}
+% % \renewcommand\rishabh[1]{}
+% % table needs
+% \usepackage[table]{xcolor} % For cell coloring
+% \usepackage{makecell} % For multi-line cells
+% \usepackage{pifont} % For tick and cross marks
+% \usepackage{booktabs} % For better table styling
+% \usepackage{comment}
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%% Cref change
+% % Customize only figures
+% \crefname{figure}{fig.}{figs.}   % for \cref (mid‑sentence, lowercase “fig.”)
+% \Crefname{figure}{Fig.}{Figs.}   % for \Cref (sentence case “Fig.”)
+
+% \Crefname{table}{TABLE}{TABLES}   % \Cref{tab:...} -> TABLE <number>
+% \crefname{table}{table}{tables}   % \cref{tab:...} -> table <number>
+
+% % Always call subsections "Section" (not "subsection")
+% \crefname{subsection}{section}{sections}
+% \Crefname{subsection}{Section}{Sections}
+
+% % Insert the section sign before the label (number) for sections & subsections
+% \creflabelformat{section}{\S#2#1#3}
+% \creflabelformat{subsection}{\S#2#1#3}
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \newcommand{\cmark}{\ding{51}} % Tick mark
+% \newcommand{\xmark}{\ding{55}} % Cross mark
+
+% % \newcommand{\flashRAG}{FlashRAG~\cite{jin2024flashrag}}
+% % \newcommand{\edgeRAG}{EdgeRAG~\cite{EdgeRAG}}
+% % \newcommand{\pipeRAG}{PipeRAG~\cite{jiang2024piperag}}
+
+% \newcommand\design[1]{\textcolor{black}{MaestroRAG}}
+
+% \newcommand{\flashRAG}{FlashRAG~\cite{jin2024flashrag}}
+% \newcommand{\edgeRAG}{EdgeRAG~\cite{EdgeRAG}}
+% \newcommand{\pipeRAG}{PipeRAG~\cite{jiang2024piperag}}
+
+% \newcommand\MR[1]{{MaestroRAG}}
+
+% \newcommand{\FR}{FlashRAG~\cite{jin2024flashrag}}
+% \newcommand{\ER}{EdgeRAG~\cite{EdgeRAG}}
+% \newcommand{\PR}{PipeRAG~\cite{jiang2024piperag}}
+
+% % TOPK
+% \newcommand{\topk}{\texttt{top-k }}
+% % R+A
+% \newcommand{\RA}{\texttt{BA}}
+
+% \setstcolor{red}
+
+
+
+% \newboolean{makeRed}
+% %\setboolean{makeRed}{true} % change to false to disable red color
+% \setboolean{makeRed}{false} % change to false to disable red color
+
+% % Define the command
+% \newcommand{\red}[1]{%
+%   \ifthenelse{\boolean{makeRed}}%
+%     {\textcolor{red}{#1}}% if true
+%     {#1}% if false
+% }
+% %%%%%%%%%%%%%%%%%%
+
+
+% % Ensure letter paper
+% \pdfpagewidth=8.5in
+% \pdfpageheight=11in
+
+% \newcommand{\hpcayear}{2026}
+
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%% -- UPDATE -- %%%%%%%%%%%%%%%
+% \newcommand{\hpcasubmissionnumber}{839}
+% \title{MaestroRAG: Orchestrated Pipeline Architecture for Efficient RAG on Edge Devices}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%% -- ONLY FOR CAMERA READY -- %%%%%%%%
+% %\def\hpcacameraready{} % Uncomment to build camera-ready version
+% \newcommand{\hpcapubid}{0000--0000/00\$00.00}
+% \newcommand\hpcaauthors{First Author$\dagger$ and Second Author$\ddagger$}
+% \newcommand\hpcaaffiliation{First Affiliation$\dagger$, Second Affiliation$\ddagger$}
+% \newcommand\hpcaemail{Email(s)}
+
+
+% %%%%% -- ARTEFACT EVALUATION RESULTS -- %%%%%%
+% % Uncomment the following based on the badges that were awarded to this paper
+% %\def\aeopen{}           % The artifact is publically available
+% %\def\aereviewed{}     % The artefact has been reviewed
+% %\def\aereproduced{} % The results have been reproduced
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \input{hpca-template}
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% -- PAPER CONTENT STARTS -- %%%%%%%%%
+
+\begin{abstract}
+
+\input{abstract}
+
+\end{abstract}
+
+\input{introduction}
+
+\input{background&motivation}
+
+\input{characterization}
+
+\input{design}
+
+\input{implementation&eval}
+
+\input{related_work}
+
+\input{conclusion}
+
+%\input{rebuttal_text}
+
+%%%%%%% -- PAPER CONTENT ENDS -- %%%%%%%%
+
+
+%%%%%%%%% -- BIB STYLE AND FILE -- %%%%%%%%
+\bibliographystyle{IEEEtranS}
+\bibliography{refs}
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \appendix
+% \input{rebuttal_text}
+
+\end{document}

@@ -1,0 +1,20 @@
+\begin{table}[]
+%\vspace{-4pt}
+\centering
+\caption{Latency with caching. \design{}: MR; EdgeRAG: ER}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lcccccc}
+\toprule
+& \multicolumn{2}{c}{2 mil} & \multicolumn{2}{c}{4 mil} & \multicolumn{2}{c}{8 mil} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+\textbf{Method} & \textbf{ER} & \textbf{MR} & \textbf{ER} & \textbf{MR} & \textbf{ER} & \textbf{MR} \\
+\midrule
+Exact & 2.033s  & 0.87s   & 2.0326s & 0.92s   & 2.0335s & 0.887s \\
+Sim   & 2.047s  & 3.116s  & 2.003s  & 3.061s  & 2.138s  & 3.089s \\
+\bottomrule
+\end{tabular}%
+}
+%\caption{Latency with caching. \design{}: MR; EdgeRAG: ER}
+\vspace{-10pt}
+\label{tab:cache_results}
+\end{table}

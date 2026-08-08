@@ -1,0 +1,228 @@
+%%%%%%%%%% %%%%%%%%%% %%%%%%%%%% %%%%%%%%%% 
+\section{Demystifying RAG Computation}
+\label{sec:02BGnMotivation}
+% Text matter begin
+%%%%%%%%%% %%%%%%%%%% %%%%%%%%%% %%%%%%%%%% 
+%%%%%%%%%% 
+%\input{TablesAlgos/FeatureTable}
+%%%%%%%%%% 
+
+%\subsection{Overview of the RAG Pipeline}
+% The RAG pipeline endows LLMs with enhanced personalization, use-case specificity, and customization, while ensuring robust data security for users. At its core, a compact generative language model produces responses to user prompts, using a set of \topk relevant knowledge items for augmentation.
+% As depicted in \Cref{fig:RAG_background}, the process begins when a user query is fed into the encoding model. This model transforms the natural language input into high-dimensional embedding vectors in the tensor domain. Subsequently, a retriever component performs a similarity search across the user's local database, extracting the \topk most pertinent entries. These retrieved outputs are then integrated with the original query and passed to the LLM, which generates the final response. We will further provide a detailed discussion of the retrieval, augmentation, and generation stages.
+The RAG pipeline enables LLMs to deliver enhanced personalization, use-case specificity, and customization, while preserving user data security. At its core, a compact generative model produces responses augmented with a set of \topk{} relevant knowledge items. As shown in \Cref{fig:RAG_background}, the pipeline begins by encoding the user query into high-dimensional embeddings. A retriever then performs a similarity search over the user’s local database to extract the \topk{} pertinent entries, which are combined with the original query and passed to the LLM to generate the final response. We next discuss the retrieval, augmentation, and generation stages in detail.
+
+
+\subsection{Encoding}
+\label{sec:BG:Encoding}
+A RAG pipeline begins with \emph{encoding}, where a natural-language query is tokenized into subword units and passed through a neural encoder (e.g., \texttt{BERT}~\cite{devlin2019bert}, \texttt{RoBERTa}~\cite{liu2019roberta}, \texttt{T5}~\cite{raffel2020exploring}, or more compact variants like
+\texttt{DistilBERT}~\cite{sanh2019distilbert}, \texttt{e5-base-v2}~\cite{wang2022text}) to generate high dimensional embeddings. Although specific architectures differ in size and efficiency, they all aim to map textual input into a vector space, capturing syntactic and semantic nuances. The forward pass dominates the encoder’s runtime, involving operations such as multi-head attention and fully connected layers. Once the query is encoded, the pipeline proceeds to retrieval, matching these embeddings against a database of candidate knowledge elements.
+
+
+% \subsection{Encoding}
+% \label{sec:BG:Encoding}
+% Although referred to as Retrieval-Augmented Generation, the pipeline actually begins with an \emph{encoding} step rather than retrieval. Before searching for relevant knowledge in any database, a query expressed in natural language is transformed into a higher-dimensional embedding space so that the system can effectively correlate and process the underlying content. In practice, the query is first tokenized into subword units according to the encoder’s vocabulary; this tokenized input is then passed through layers of neural network operations (e.g., attention, fully connected layers) to generate embeddings. Although all layers play a role in refining the representation, the forwardpass typically dominates execution time.
+% A variety of encoder architectures are employed in modern RAG systems, ranging from large-scale Transformers (e.g., \texttt{BERT}, \texttt{RoBERTa}, \texttt{T5}) to more lightweight counterparts (e.g., \texttt{DistilBERT}, \texttt{e5-base-v2}), each striking a different balance among accuracy, computational overhead, and memory footprint. Some encoders prioritize speed and parameter efficiency for edge deployment, whereas others are designed to maximize linguistic and contextual fidelity on more capable hardware. Despite these architectural differences, all encoders share the fundamental objective of mapping natural language text into high-dimensional embeddings that capture both syntactic and semantic nuances. With these encoded queries in hand, the system can proceed to the retrieval stage, searching for relevant knowledge elements that align with the embedded features of the query.
+
+
+\subsection{Retrieval}
+\label{sec:BG:Retrieval}
+Following the encoder’s output, the system must locate the most relevant entries in a \emph{vector database}---itself constructed by encoding each knowledge item using the same model that processed the user’s query. 
+This shared embedding space ensures alignment in similarity comparisons. Because database construction is typically computationally intensive, it is often performed offline or during idle periods.
+
+Once embeddings for all items exist, the system builds an index for efficient lookup. 
+Indexing strategies range from hierarchical (tree-based) structures, which offer sublinear search time but greater memory overhead, to flat indices, which provide exhaustive searches at the cost of higher time complexity.
+During retrieval, a similarity metric (cosine or L2 distance~\cite{l2}) 
+is computed between the query embedding and each database entry, returning the \topk{}matches. 
+\red{Depending on resource availability, similarity computation can run on either the CPU or an accelerator, though CPUs often outperform accelerators for retrieval tasks involving large, I/O-intensive indices.
+}
+%On resource-constrained edge devices, this task is often CPU-centric due to the  frequent I/O operations required to load and scan large indices. 
+%Although GPU-based retrieval can accelerate very large databases, data-transfer costs may offset its benefits in low-memory environments. 
+Ultimately, the system identifies a small set of highly relevant entries, which are then passed on to the \emph{augmentation} stage for prompt composition and subsequent generation.
+
+% \subsection{Retrieval}
+% \label{sec:BG:Retrieval}
+% Building on the embeddings generated in the previous encoding stage (\Cref{sec:BG:Encoding}), the next step is to identify the knowledge entries that align the most closely with the user's query. To facilitate this, the application must first construct a \emph{vector database} by encoding each knowledge item (e.g., documents, articles, user calendar entries, images) using the \emph{same} encoder model used for the user's query. This design choice ensures that both the user query and the database items reside in a consistent high-dimensional embedding space, allowing for meaningful similarity comparisons. This stage is typically computationally intensive in nature and thus does not need to occur in real time; it can be done during the idle periods of the device.
+
+% Once the database embeddings are in place, suitable indexing schemes are used to organize the data and enable rapid search in this collection. An index serves as a reference structure that points to the location of each embedding in the database. Among the many indexing strategies (e.g., tree-based and flat), the selection often depends on constraints such as memory capacity, search accuracy, and update overhead. Hierarchical (tree-based) indices typically offer lower search complexity (sublinear in database size), but can consume considerable memory and incur higher overhead when adding or removing items. In contrast, a \emph{flat index} stores all embeddings contiguously and compares incoming queries exhaustively against every entry, providing high search accuracy while simplifying index updates. 
+
+% The retrieval itself generally involves computing a similarity measure (often cosine or L2 distance) between the query embedding and each database embedding; those items scoring highest are selected as the \topk candidates. 
+% %\rishabh{Highlight that databases can't be stored in main memory by citing database sizes vs. main memory capacity. This implies indices are loaded on-demand which can be very expensive.}
+% In practice, this similarity search is frequently performed on the CPU, as it is an I/O-intensive task that involves reading index data from storage and scanning through numerous embeddings. Offloading the operation to the GPU can be beneficial for extremely large databases but also introduces data-transfer overheads between the CPU and GPU, which can become prohibitive on memory-constrained edge platforms. By the end of this stage, a small set of highly relevant knowledge entries is identified. In the next step, \emph{augmentation}, the retrieved items are integrated with the user’s query to guide the generation model in producing the final response.
+
+\subsection{Augmentation}
+\label{sec:BG:Augmentation}
+Following retrieval, the augmentation stage constructs a fully contextualized prompt for the generation model. First, the system looks up each of the \topk retrieved embeddings to locate the original natural-language text or data from the underlying documents. These excerpts are then merged with the user’s query, forming a single coherent prompt. Additionally, users may specify stylistic or verbosity preferences (e.g., concise, detailed, formal, casual), which are appended to the prompt as further instructions. This augmented input enables the subsequent generation phase to produce outputs that are both accurate and personalized, leveraging the retrieved knowledge in tandem with the user’s specific requests.
+
+\subsection{Generation}
+\label{sec:BG:Generation}
+The generation stage is the final stage in the RAG pipeline and aims to create the relevant output in natural language format. Generally, popular off-the-shelf LLMs like Llama 8B~\cite{llama_3_1_8b_instruct} are leveraged for the generative functionality. Furthermore, since this stage contains numerous parallel operations including matrix multiplication and self-attention, GPUs are commonly used to achieve efficient execution~\cite{attention_gpu}. However, towards edge and consumer-grade devices, the GPUs not only have smaller VRAM, but are also responsible for execution of tasks like graphics and video rendering, and machine learning tasks like computational photography. Thus, the generative model used for RAG/LLM applications is chosen to not be always resident on the GPU. Instead, it resides on the device storage and is only loaded onto the GPU main memory as and when needed, thus avoiding hogging of GPU VRAM and ensuring efficient resource utilization. 
+
+\subsection{System Considerations}
+\label{sec:classical_pipeline}
+
+The fundamental RAG stages---encoding, retrieval, augmentation, and generation---remain consistent across datacenter servers, desktops, and edge devices. However, their execution can differ significantly based on the available hardware resources and constraints.
+
+A typical pipeline loads the encoder model from storage into CPU memory, which is often a substantial overhead for large models and limited memory budgets. Although servers usually keep both encoder and generative models fully resident in memory to accommodate large batches~\cite{jiang2024piperag, jin2024flashrag, jiang2024megascale}, desktops may partially swap model segments, and edge devices typically employ smaller models or more aggressive offloading strategies~\cite{EdgeRAG,NanoLLM}.
+Once loaded, the encoder processes tokenized inputs, often leveraging GPUs for parallel speedups. For smaller models or moderate workloads, multicore CPUs with vectorization can suffice. Data transfers between CPU and GPU must be carefully managed to balance throughput gains against transfer overheads. Retrieval then loads an index in CPU memory to locate the \topk matches. This step is typically I/O- and memory-bound, growing more expensive as the database scales or updates frequently.
+Augmentation merges the retrieved items with the user's query and style preferences, forming a prompt for the generative model. This step is relatively lightweight. Finally, the augmented prompt goes to a larger LLM (usually on a GPU). While edge platforms with unified memory~\cite{ying2022exploiting} can streamline pointer sharing, they also risk contention when large inputs must be processed~\cite{kim2020batch, dashti2017analyzing, cavicchioli2017memory, jeong2012qos}.
+
+Batching is widely used to amortize overhead by grouping multiple queries, to boost throughput.
+%on GPUs and multicore CPUs. 
+Yet large batches can inflate memory requirements and trigger thermal throttling on edge devices~\cite{na2021scalable, stojkovic2025tapas}. Concurrent execution across stages may reduce latency but risks back-pressure or idle cycles if the pipeline is imbalanced.
+Combined with the aforementioned, RAG entails a delicate interplay of computation, I/O, and memory. An efficient system must account for which stages are CPU- or GPU-bound and which are dominated by I/O or memory usage, all while respecting power and thermal caps.
+\Cref{sec:03Characterization} delves deeper into these trade-offs, guiding resource allocation in practical deployments.
+
+% \subsection{System Considerations}
+% \label{sec:classical_pipeline}
+% Having laid out the fundamental RAG stages (encoding, retrieval, augmentation, and generation), we now consider how the stages are typically executed in real systems and the key resource demands that shape performance. Although these stages remain the same across datacenter servers, desktops, and edge devices (e.g., Jetsons or smartphones), the underlying hardware resources and constraints vary significantly.
+
+% A typical pipeline loads the encoder model from persistent storage into CPU memory, which can be a major overhead if the model is large and memory is limited. On servers, both the encoder and the generative model often remain fully resident in memory to support large batches. Desktops may partially swap model segments, while edge devices frequently rely on smaller models or more aggressive offloading to stay within tight memory and power budgets.
+
+% Once the encoder is in memory, tokenized inputs are passed through the model, commonly on GPUs for parallel speedups, though multicore CPUs with vectorization can suffice for smaller models or moderate workloads. Data transfers between CPU and GPU for embedding outputs must be balanced against the potential gains in throughput. The retrieval stage then loads an index into the CPU memory to identify the \topk similar embeddings. This process is typically I/O- and memory-bound, as larger or more dynamic databases intensify the cost of index loading and searching.
+
+% Augmentation merges the retrieved knowledge elements with the user query and any style preferences, preparing a prompt for the generative model. This step is computationally lighter in nature. Finally, the prompt is dispatched to a larger LLM -- usually on a GPU, if resources allow. Edge platforms with unified memory can simplify pointer sharing, but may face data contention when handling large inputs.
+
+% Batching is commonly used to amortize overheads by processing multiple queries together, improving throughput on GPUs and multicore CPUs. However, large batches can also increase memory demands and risk thermal or power throttling on edge devices. Concurrent execution across stages can mitigate some latencies, but may introduce back-pressure or idle cycles if the pipeline becomes imbalanced.
+
+% In general, every stage of this pipeline involves a complex interplay of computation, I/O, and memory transfers. An efficient design must account for which stages are compute-intensive (e.g., encoding, generation) and which are constrained by I/O or memory (e.g., retrieval), while also considering CPU–GPU data transfers and thermal limitations. To further refine these design decisions, \Cref{sec:03Characterization} characterizes the behavior of the pipeline on real systems to guide optimal allocation of resources.
+
+
+\subsection{State-of-the-art RAG Systems}
+\label{sec:rag-sota}
+Contemporary RAG pipelines typically place prompt encoding and retrieval on either a CPU or a GPU, followed by CPU-based augmentation, then GPU-based generation~\cite{jin2024flashrag, jiang2024piperag, EdgeRAG}. 
+FlashRAG~\cite{jin2024flashrag} represents a well-known design emphasizing GPU usage for encoding and retrieval. While suitable in large-scale deployments, where bulk data transfers and model loads are amortized, its heavy reliance on GPU compute is less effective on personal or edge devices, where request rates are lower. 
+\pipeRAG{} alleviates some inefficiencies by running CPU-based encoding and retrieval, then batching those results for a one-shot GPU generation. This partially overlaps CPU and GPU stages, raising throughput. However, bubbles arise when the two CPU stages (encoding, retrieval) do not fully overlap with generation, limiting concurrency in edge environments. Moreover, repeatedly loading model parameters and large vector indices on every batch leads to suboptimal I/O usage. 
+%\edgeRAG{} addresses memory constraints by caching only coarse database indices, then generating finer embeddings on the fly. Although this mitigates memory usage, it shifts overheads to extra compute and power, which remain scarce resources on edge devices. Furthermore,\edgeRAG{} trades off in accuracy because of the usage of the IVF vector database (see tree-based databqse in Section\S~\ref{sec:BG:Retrieval}).
+\edgeRAG{} mitigates memory usage by caching only coarse indices and generating finer embeddings on demand. However, this reduces available compute and power—both scarce on edge devices—and relies on the (tree based) IVF database (\Cref{sec:BG:Retrieval}), sacrificing some accuracy compared to the flat indices.
+%\textcolor{red}{There have been recent efforts in the direction of optimizing RAG pipeline mostly focused towards server-scale computing~\cite{cacheblend, hermes, rago} or building custom solutions for accelerating search and retrieval by implementing near-storage~\cite{RAGAS, reis} or in-memory computation~\cite{HETERag, drex, accelRAG}}
+
+%\vspace{-8pt}
+%The features and capabilities of these works have been presented in Table~\ref{tab:rag_comparison}, along with the desired features which \design{} support.
+
+% \subsection{State-of-the-art RAG Systems}
+% The modern RAG systems consist of a heterogeneous pipeline in which prompt encoding and retrieval occur on the CPU or GPU, followed by augmentation, which is typically performed on the CPU. The generation stage is unanimously done on GPU owing to its inherent parallel nature. Prior works like \flashRAG{} provide us with RAG execution and evaluation framework where encoding and retrieval are done on GPU followed by augmentation on CPU. This method, although quite performant for large-scale industry deployments, where data transfer and model loading costs are amortized by the speedup that GPU brings over CPU for encoding and retrieval stages, is not applicable as-is to edge/personal computing devices where requests might not be very high. There are works, such as \pipeRAG{}, to alleviate this bottleneck where encoding and retrieval can take place on the CPU and the processed data are transferred only once for a batch to the GPU for generation. This also makes sure that resource idleness is minimized and throughput is increased by overlapping CPU's encoding and retrieval stage of one batch with generation stage on GPU of the prior batch. Although this scheme reaps good benefits over \flashRAG{}, the two-stage processing on CPU, encoding, and retrieval, are {\em not} fully overlapped with generation on GPU. This leads to the formation of bubbles in pipeline, which reduces the resource utilization which are already scarce on edge devices. Also, loading model parameters and huge vector indices repeatedly over CPU main memory for every batch is an under-utilization of the IO resources. A possible workaround can be to increase the number of requests being served in parallel, if the computational resources allow,  to amortize the data loading costs or retain the most accessed data persistent in the memory to be used across batches. \edgeRAG{} attempts to bridge this gap by keeping the coarse indices of the database cached and then generate the embeddings for that part of the database on the fly whose centroids are most similar to the incoming query. This definitely saves the memory required to store the indices but at the costly expense of compute and power which the edge devices already struggle with.
+%%%%%%%%%% %%%%%%%%%% %%%%%%%%%% %%%%%%%%%%
+% Text matter end
+
+
+%%%%%%%%%% %%%%%%%%%% %%%%%%%%%% %%%%%%%%%%
+%%%%%%%%%% %%%%%%%%%% %%%%%%%%%% %%%%%%%%%%
+%%%%%%%%%% %%%%%%%%%% %%%%%%%%%% %%%%%%%%%%
+% \subsection{System Considerations}
+% \label{sec:classical_pipeline}
+% Having laid out the fundamental RAG stages (encoding, retrieval, augmentation, and generation), we now consider how they typically execute in real systems, along with the resource demands and data transfers that determine their performance. Although the core steps of a RAG pipeline remain consistent across datacenter servers, desktops, and edge devices such as smartphones or Jetsons, the underlying hardware capabilities and constraints can vary substantially.
+
+% A conventional RAG pipeline begins by loading the encoder model weights from persistent storage into CPU memory. This step can be especially significant on devices that cannot accommodate the entire model in memory at once, as frequent loading or swapping can occur whenever an encoder module is required. On server-grade machines, it is common for both the encoder and the generative model to remain fully resident in memory, ensuring minimal reloading overheads and allowing large batches to be processed efficiently. In contrast, desktop-class devices may partially load or dynamically swap models, while edge systems often rely on more aggressive offloading or smaller-scale models to operate within stringent memory and power budgets.
+
+% Once the encoder is available in memory, the input query (already tokenized) is passed through the model to generate high-dimensional embeddings. This encoding process is frequently executed on GPUs to leverage parallel matrix operations, although smaller models can still run efficiently on multi-core CPUs with vectorization support (e.g., AVX or NEON). The choice of processor for encoding depends on factors such as model size, batch size etc. High levels of GPU parallelism can be beneficial for larger embeddings and batched inputs, but repeated data transfers between CPU and GPU must also be weighed. At this point, the system moves into the retrieval stage, which typically loads an indexing structure for the vector database from the device’s local storage into CPU memory. As these databases grow, the overhead associated with reading the index and scanning its contents to find the \topk most similar embeddings can become a major latency contributor. Whether the index is a tree-based or a flat structure influences both the memory footprint and the complexity of updates.
+% %whenever new data is added. Larger or more dynamic databases often incur additional indexing overhead, which may be acceptable on high-end server hardware but can overwhelm the limited memory bandwidth of edge devices.
+
+% Augmentation follows, merging the retrieved knowledge elements with the user’s query and any style or verbosity directives into a cohesive prompt. Although computational overhead here is relatively modest, frequent lookups and additional I/O—such as retrieving full documents corresponding to selected embeddings—can still raise latency. The final generation step typically offloads the constructed prompt to a larger LLM that executes on a GPU if memory resources permit. Desktop or server GPUs often have sufficient memory to run these models continuously, but edge devices, such as Jetsons, must juggle generation workloads within tighter GPU memory budgets. Unified memory on some systems can simplify data sharing between CPU and GPU, yet it does not eliminate the possibility of data contention or thrashing if the pipeline handles large inputs.
+
+% Batching strategies frequently help amortize overheads in a classical RAG pipeline by grouping multiple queries together. Larger batches improve throughput and exploit parallelism for both encoding and generation, but they also magnify memory footprints and can introduce significant I/O pressure for retrieval. On resource-limited edge devices subject to thermal and power constraints, extremely large batches might trigger performance throttling or memory oversubscription, necessitating careful tuning. When constructing such pipelines, one must also account for the queues linking the different stages: once the encoder finishes embedding a batch of queries, those embeddings transition into a retrieval queue, potentially overlapping with further encoding tasks in a producer–consumer fashion. Although concurrency can mitigate some latencies by keeping each hardware unit busy, misalignment between the demands of encoding, retrieval, and generation can still create bottlenecks or idle cycles.
+
+% Overall, from the initial model load to the final text generation, every stage involves a complex interplay of computation, I/O operations, and memory transfers. Designing an efficient RAG pipeline demands understanding which stages are compute-bound (e.g., encoding and generation), which are I/O- or memory-bound (e.g., retrieval), and how hardware resources such as CPU core counts, GPU memory, storage bandwidth, and power headroom interact. These considerations strongly motivate a detailed characterization of each pipeline stage. Such a study highlights the importance of questions like whether encoding must always run on the GPU or can be done on specialized CPU cores, how many CPU cores to devote to retrieval in order to reduce I/O stalls, and how best to schedule batches to optimize both latency and throughput. In Section (\S\ref{sec:03Characterization}) we characterize the RAG pipeline execution to optimize our design choices. 
+
+%\fixme{Cyan's text end here..........}
+%%%%%%%%%% %%%%%%%%%% %%%%%%%%%% %%%%%%%%%%
+% Text matter end
+
+%%%%%%%%%% %%%%%%%%%% %%%%%%%%%% %%%%%%%%%% BKP
+
+% \todo{
+% \begin{itemize}
+%     \item RAG Application Flow: purpose of each stage and associated compute/memory/storage requirement, truncate current draft
+%     \item Hardware constraints in edge devices -- truncate current draft, emphasize more about resource constraints with some example
+%     \item Limitations of prior state-of-the-art approaches --> point to pipeline representation diagram
+%     \item Detailed characterizations of RAG: (1) end-to-end latency breakdown (2) multi-core usage for encode and retrieval stage (3) data transfer overheads like slow disk reads in the retrieval stage 
+% \end{itemize}
+% }
+
+
+% \rishabh{Explanation for Figure~\ref{fig:pipeline_comparison_schematic} --  Figure~\ref{fig:pipeline_comparison_schematic} visualizes the execution of RAG applications on CPU and GPU and compares our approach with previous works. For the stream of input batches, while both FlashRAG and EdgeRAG leverage CPU and GPU, the serial execution incurs idleness at multiple time steps. To reduce idleness, PipeRAG executes multiple batches to keep both the CPU and GPU busy. However, it faces two issues: (1) CPU starts to process the next batch only after GPU consumes the intermediate output of the previous batch, leaving the CPU idle in between (2) all the CPU cores leveraged to execute the encoding or retrieval stage. However, as we later realize in Section~\ref{??}, it is inefficient for multicore utilization.}
+
+% In this section, we first give an overview of the Retrieval-Augmentation Generation (RAG) application and describe the resource constraints in edge and consumer devices. Then, we discuss the limitations of prior state-of-the-art works. Finally, we characterize RAG applications by exploring the following questions: (1) How does multi-core scaling happen in encoding and retrieval stage? (2) \todo{put other relevant questions here}
+
+
+% \subsection{Overview of RAG Application}
+% % \todo{could we only describe the RAG execution here? -- decouple the application details from system aspects}
+
+%\todo{Need to define batching}
+
+% As illustrated in Figure~\ref{fig:RAG_background}, an user's query is input into an encoding model, which seamlessly transitions the query from the natural language domain to the tensor domain, representing it as high-dimensional embedding vectors. The input query (in the natural text format) is transformed to an embedding representation by tokenizing each individual word in the natural text. Considering the parallel nature of the task, it is typically offloaded to the GPU~\cite{jin2024flashrag}.
+
+% The retriever does a similarity search for these embedding vectors over a local database and outputs \texttt{\topk} retrieved embeddings having the highest similarity. 
+% Specifically, it uses the L2 distance comparison~\cite{l2} to check the similarity to all data base entries and the \topk entries are fed to the augmentation stage.The database creation is tailored to the user's history. To efficiently search the database, both flat indexing and hierarchical indexing are commonly used. 
+% %The former is more accurate, while the latter is faster. 
+% %The retrieval stage performs a similarity search in the vector database. Specifically, it uses the L2 distance comparison~\cite{l2} to check the similarity to all data base entries. Using this, the \topk entries are fed to the augmentation stage.
+
+% The augmentation stage combines the input embedding with the retrieved \topk entries and feeds this to the generation stage. The generation stage creates the relevant output in natural language. Generally, popular off-the-shelf LLMs like Llama 8B~\cite{llama_3_1_8b_instruct} are leveraged for the generative functionality. Furthermore, since this stage contains numerous parallel operations including matrix multiplication and self-attention, GPUs are commonly used to achieve efficient execution~\cite{attention_gpu}.  
+
+% and augments with \texttt{\topk} retrieved outputs and feeds to the LLM. The LLM then generates corresponding response to the user query. Typically, a small generative language model capable of being housed in GPU memory of an edge device is used to generate responses for user prompts augmented with the \texttt{\topk} relevant knowledge items. Note that the retrieval stage can be further broken down into two parts with distinct computational and I/O characteristics: \textit{Encode} and \textit{Retrieve}. The following section discusses these encoding, retrieval, augmentation and generation steps in detail:
+
+
+% \begin{figure}
+% \centering
+% \includegraphics[width=0.6\columnwidth]{figs/model_loading.pdf}
+% \caption{Model loading time on RTX 4090 GPU for various LLMs.}
+% \label{fig:model_loading} 
+% \end{figure}
+
+% \noindent{\bf Encoding:} The first step is to transform the 
+
+% \noindent{\bf Retrieval:} The main goal of this stage is to obtain a certain number of knowledge entries from database having high similarity with the input embedding. Towards this, the retrieval stage selects the \topk relevant knowledge items from the database against each query asked by the user. The database creation is tailored to the user's history. To efficiently search the database, both flat indexing and hierarchical indexing are commonly used. The former is more accurate, while the latter is faster. The retrieve stage performs a similarity search on the vector database. It uses L2 distance comparison~\cite{l2} to establish similarity with all the database entries. Using this, the \topk entries having highest similarity are picked and are fed to the augmentation stage.
+
+%The database can be indexed in different ways depending upon the size of it and the accuracy of the results required. Indices are pointers or references for knowledge items and their relative locations in the entire database. There are different types of indexing schemes like hierarchical (tree based), flat, etc. 
+% \begin{figure}[!h]
+% \centering
+% \includegraphics[width=0.8\columnwidth]{figs/rag_choiceofhw.pdf}
+% \caption{Representation of the RAG pipeline and the choice of hardware for running the individual stages.}
+% \label{fig:hwchoice} 
+% %\vspace{-5mm}
+% \end{figure}
+
+
+
+
+
+% Given our work targets RAG deployment in personal computing device scenarios, where not only memory capacity is limited compared to workstation or data-center deployments, but also the size of the database is prone to constant change, we use flat indexing to ensure high similarity of the \topk retrieved elements with user's input query. This also facilitates towards minimizing overhead in new index creation for potentially newly added files by the user. The databases and its indices are typically stored in the device storage which means that reading the indices and accessing the corresponding data points are IO-heavy tasks.
+%\rishabh{describe a bit more: input query is in natural language, how the tokenization process works and why this process is compute intensive by mentioning about the parallelization it uses?}. 
+
+
+
+% \noindent{\bf Augmentation:} The augmentation stage combines the input embedding with the retrieved \topk entries and feds this to the generation stage.
+
+% \noindent{\bf Generation:} The generation stage is the final stage in the RAG pipeline and aims to create the relevant output in natural language. Generally, popular off-the-shelf LLMs like Llama 8B~\cite{llama_3_1_8b_instruct} are leveraged for the generative functionality. Further, as this stage contains numerous parallel operations including matrix multiplication and self-attention, GPUs are commonly used for achieving efficient execution~\cite{attention_gpu}.  
+
+% \todo{MOVE THE SYSTEM ASPECTS TO OTHER SECTION: this and next para -----------The prompts which are user queries followed by the retrieved \textit{top-k} knowledge elements are arranged in batches of appropriate size to be fed to the smaller generative model. This task, owing to its inherent parallel compute pattern, is performed on GPU. The number of prompts to be packed in a batch depends on the size of the GPU main memory, the latency constraints on the generation stage, the length of the prompt and the desired generation length of the output.}
+
+%\rishabh{this paragraph can be moved to later section The prompts which are user queries followed by the retrieved \textit{top-k} knowledge elements are arranged in batches of appropriate size to be fed to the smaller generative model. This task, owing to its inherent parallel compute pattern, is performed on GPU. The number of prompts to be packed in a batch depends on the size of the GPU main memory, the latency constraints on the generation stage, the length of the input prompt and the desired generation length of the output.}
+
+% \begin{figure}[]
+% \centering
+% \includegraphics[width=1\columnwidth]{figs/pipeline.pdf}
+% \caption{Representation of communication overheads in RAG pipeline. \circled{1}represents intra-batch communication and \circled{2} represents inter-batch communication.}% across successive batches.}
+% \label{fig:pipeline} 
+% %\vspace{-5mm}
+% \end{figure}
+
+%\rishabh{I think we can move this paragraph to the beginning of this subsection. After this paragraph, we can discuss each stage in detail.}
+% \todo{As shown in Fig. \ref{fig:RAG_background}, the RAG pipeline starts with the user asking a query typically in their natural language. 
+% A batch is formed from these input queries. This batch of query is fed to an encoder model which converts text to a higher dimensional embedding vector that closely represents the text query. Since the encoder model has highly parallel computation pattern on the input data, traditionally it is performed on the GPUs. The embeddings are then transferred to the CPU where each embedding vector is compared exhaustively against all the vector database embeddings and similarity is calculated. After comparing the similarity, the \topk indices are chosen and fed to the augmentation stage where post-processing of the prompt takes place to the user's liking and constraints associated and both the query and the retrieved elements are put in a template. The processed prompt is then ready for the generation stage for which first the generation model is loaded followed by the batch of the input prompts and corresponding response is generated.}
+
+
+%\subsection{RAG Inference using CPUs and GPU:}
+%\rishabh{could we give a reference to this design steps -- because one could ask why is the LLM model being loaded for each batch? Also, could we actually move this section into characterization since we are sharing some insights about pipelined execution, and this can be well connected with the breakdown of execution.}
+%Figure\ref{fig:pipeline} depicts the sequence of events in pipeline diagram for the cases of intra-batch \circled{1} and inter-batch \circled{2}. As mentioned earlier, GPU is used for executing two stages: encoding and generation. When processing an input batch, we note three key communication  between the CPU and the GPU: (1) loading of the LLM on GPU (2) after encoding stage, there is transfer of intermediate embedding vectors from GPU to CPU (3) for generation stage, the augmented prompt is transferred from CPU to GPU. Across batches, each encoding in a batch is preceded by loading the model. Fig.~\ref{fig:model_loading} shows the time taken to load and initialize different models. Our profiling shows that it takes a long time of 2.27 seconds for initializing the Llama3 8B model. Also, due to resource constraints and contention on personal computing platforms having a single GPU, it is not possible to fully overlap computations across batches in a pipelined manner. With a mix of compute intensive and high IO operations happening within and between both CPU and GPU with different hierarchies of memory involved, RAG presents itself as a complete architectural problem waiting to be understood. Since the architectural level implications of this application have been explored sparsely, we start with breaking down the pipeline and study each stage in detail.Thus, we explore the hidden architectural implications that these different stages of RAG pipeline have in detail to find an optimal pipeline orchestration strategy which would reduce the costly IO at the same time have lesser penalty towards latency.
+
+%\input{TablesAlgos/Jetson4090A100}
+
+% \subsection{Hardware Constraints}% in Edge and Consumer Devices}
+% \todo{could we describe the system aspects of RAG execution here? -- decouple the application details from system aspects}
+% Edge and consumer-grade devices, such as laptops, tablets, smartphones, smart TVs, and personal computers, operate under significant hardware constraints compared to datacenter- and workstation-grade platforms. In particular, computing power, memory capacity, and storage capacity are highly constrained. In addition, area, power, and energy budgets are limited. For example, commercial LLM inferences  leverage multiple Nvidia H100 GPUs~\cite{nvidia_h100_datasheet} to generate timely responses. Instead, in edge platforms like a laptop, the complete end-to-end application must run with limited resources, and yet achieve a reasonable quality-of-service (QoS). Table~\ref{tab:spec_comparison} compares the hardware configuration of typical edge and datacenter platforms. We note that an edge platform is clearly limited with number of CPU cores, memory and storage capacity and type as well as TDP, and is only supported with a maximum of one GPU. Given these challenges, our work attempts to propose an optimized design for running RAG applications on edge platforms. 
+
+% \rishabh{ a subsection on the properties of the consumer and edge devices, and how they differ from data-center grade devices}
+
+
+%%%%%%%%%% %%%%%%%%%% %%%%%%%%%% %%%%%%%%%% 

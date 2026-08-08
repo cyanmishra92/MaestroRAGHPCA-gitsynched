@@ -1,0 +1,112 @@
+% \documentclass{article}
+% \usepackage[table]{xcolor} % For cell coloring
+% \usepackage{makecell} % For multi-line cells
+% \usepackage{pifont} % For tick and cross marks
+% \usepackage{graphicx} % For rotating text
+% \usepackage{booktabs} % For better table styling
+
+% \newcommand{\cmark}{\ding{51}} % Tick mark (✓)
+% \newcommand{\xmark}{\ding{55}} % Cross mark (✗)
+
+
+
+\begin{table}[]
+\centering
+\small
+\renewcommand{\arraystretch}{1.2} % Adjust row height
+\setlength{\tabcolsep}{5pt} % Adjust column spacing
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Features} & 
+% \rotatebox{90}{\textbf{FlashRAG~\cite{jin2024flashrag}}} & 
+% \rotatebox{90}{\textbf{EdgeRAG~\cite{EdgeRAG}}} & 
+% \rotatebox{90}{\textbf{PipeRAG~\cite{jiang2024piperag}}} & 
+% \rotatebox{90}{\textbf{MaestroRAG}} \\\hline
+\rotatebox{0}{\textbf{FR}} & 
+\rotatebox{0}{\textbf{ER}} & 
+\rotatebox{0}{\textbf{PR}} & 
+\rotatebox{0}{\textbf{MR}} \\\hline
+
+\textbf{Heterogeneous platform usage} & \cellcolor{green!20} \cmark & \cellcolor{green!20} \cmark & \cellcolor{green!20} \cmark & \cellcolor{green!20} \cmark \\\hline
+\textbf{Caching in retrieval} & \cellcolor{red!20} \xmark & \cellcolor{green!20} \cmark & \cellcolor{red!20} \xmark & \cellcolor{green!20} \cmark \\\hline
+\textbf{Pipelining CPU-GPU} & \cellcolor{red!20} \xmark & \cellcolor{red!20} \xmark & \cellcolor{green!20} \cmark & \cellcolor{green!20} \cmark \\\hline
+\textbf{Concurrent encoding/retrieval} & \cellcolor{red!20} \xmark & \cellcolor{red!20} \xmark & \cellcolor{red!20} \xmark & \cellcolor{green!20} \cmark \\\hline
+\textbf{Multiple CPU workers} & \cellcolor{red!20} \xmark & \cellcolor{red!20} \xmark & \cellcolor{red!20} \xmark & \cellcolor{green!20} \cmark \\\hline
+\textbf{Async worker execution} & \cellcolor{red!20} \xmark & \cellcolor{red!20} \xmark & \cellcolor{red!20} \xmark & \cellcolor{green!20} \cmark \\\hline
+\textbf{Input-sensitive caching} & \cellcolor{red!20} \xmark & \cellcolor{red!20} \xmark & \cellcolor{red!20} \xmark & \cellcolor{green!20} \cmark \\\hline
+\end{tabular}
+\caption{Comparison of \design{} with state-of-the-art resource management techniques. FR=\flashRAG{}, ER=\edgeRAG{}, PR=\pipeRAG, MR=\design{}}
+\label{tab:rag_comparison}
+%\vspace*{-0.3in}
+\end{table}
+
+
+% \usepackage[table]{xcolor} % For cell coloring
+% \usepackage{makecell} % For multi-line cells
+% \usepackage{pifont} % For tick and cross marks
+
+% \newcommand{\cmark}{\ding{51}} % Tick mark
+% \newcommand{\xmark}{\ding{55}} % Cross mark
+
+%
+
+% \begin{table}[!ht]
+% \caption{Comparison of our work with state-of-the-art resource management approaches.}
+% \centering
+% \scriptsize
+% \renewcommand{\arraystretch}{1.2} % Adjust row height
+% \setlength{\tabcolsep}{5pt} % Adjust column spacing
+
+% \begin{tabular}{|p{4.2cm}|c|c|c|c|}
+% \hline
+% \textbf{List of Optimizations} & \textbf{FlashRAG} & \textbf{EdgeRAG} & \textbf{PipeRAG} & \textbf{Ours} \\\hline
+% \textbf{Heterogeneous platform usage} & \cellcolor{green!20} \cmark & \cellcolor{green!20} \cmark & \cellcolor{green!20} \cmark & \cellcolor{green!20} \cmark \\\hline
+% \textbf{Caching in retrieval} & \cellcolor{red!20} \xmark & \cellcolor{green!20} \cmark & \cellcolor{red!20} \xmark & \cellcolor{green!20} \cmark \\\hline
+% \textbf{Pipelining CPU and GPU} & \cellcolor{red!20} \xmark & \cellcolor{red!20} \xmark & \cellcolor{green!20} \cmark & \cellcolor{green!20} \cmark \\\hline
+% \makecell{\textbf{Concurrent execution of} \\ \textbf{encoding and retrieval}} & \cellcolor{red!20} \xmark & \cellcolor{red!20} \xmark & \cellcolor{red!20} \xmark & \cellcolor{green!20} \cmark \\\hline
+% \textbf{Multiple workers on CPU} & \cellcolor{red!20} \xmark & \cellcolor{red!20} \xmark & \cellcolor{red!20} \xmark & \cellcolor{green!20} \cmark \\\hline
+% \textbf{Async worker execution} & \cellcolor{red!20} \xmark & \cellcolor{red!20} \xmark & \cellcolor{red!20} \xmark & \cellcolor{green!20} \cmark \\\hline
+% \textbf{Input-sensitive caching} & \cellcolor{red!20} \xmark & \cellcolor{red!20} \xmark & \cellcolor{red!20} \xmark & \cellcolor{green!20} \cmark \\\hline
+% \end{tabular}
+% \label{tab:rag_comparison}
+% \end{table}
+
+% \usepackage[table]{xcolor} % For cell coloring
+% \usepackage{makecell} % For multi-line cells
+% \usepackage{pifont} % For tick and cross marks
+% \usepackage{graphicx} % For rotating text
+
+% \newcommand{\cmark}{\ding{51}} % Tick mark
+% \newcommand{\xmark}{\ding{55}} % Cross mark
+
+% \begin{document}
+
+% \begin{table}[!ht]
+% \caption{Comparison of our approach with state-of-the-art resource management techniques.}
+% \centering
+% \small
+% \renewcommand{\arraystretch}{1.2} % Adjust row height
+% \setlength{\tabcolsep}{3pt} % Reduce column spacing
+
+% \begin{tabular}{|p{6cm}|c|c|c|c|}
+% \hline
+% \textbf{Optimization} & 
+% \rotatebox{90}{\textbf{FlashRAG~\cite{jin2024flashrag}}} & 
+% \rotatebox{90}{\textbf{EdgeRAG~\cite{EdgeRAG}}} & 
+% \rotatebox{90}{\textbf{PipeRAG\cite{jiang2024piperag}}} & 
+% \rotatebox{90}{\textbf{Ours}} \\\hline
+
+% Heterogeneous platform usage & \cellcolor{green!20} \cmark & \cellcolor{green!20} \cmark & \cellcolor{green!20} \cmark & \cellcolor{green!20} \cmark \\\hline
+% Caching in retrieval & \cellcolor{red!20} \xmark & \cellcolor{green!20} \cmark & \cellcolor{red!20} \xmark & \cellcolor{green!20} \cmark \\\hline
+% Pipelining CPU-GPU & \cellcolor{red!20} \xmark & \cellcolor{red!20} \xmark & \cellcolor{green!20} \cmark & \cellcolor{green!20} \cmark \\\hline
+% Concurrent execution (encoding \& retrieval) & \cellcolor{red!20} \xmark & \cellcolor{red!20} \xmark & \cellcolor{red!20} \xmark & \cellcolor{green!20} \cmark \\\hline
+% Multiple CPU workers & \cellcolor{red!20} \xmark & \cellcolor{red!20} \xmark & \cellcolor{red!20} \xmark & \cellcolor{green!20} \cmark \\\hline
+% Async worker execution & \cellcolor{red!20} \xmark & \cellcolor{red!20} \xmark & \cellcolor{red!20} \xmark & \cellcolor{green!20} \cmark \\\hline
+% Input-sensitive caching & \cellcolor{red!20} \xmark & \cellcolor{red!20} \xmark & \cellcolor{red!20} \xmark & \cellcolor{green!20} \cmark \\\hline
+% \end{tabular}
+% \label{tab:rag_comparison}
+% \end{table}
+
+
+

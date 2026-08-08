@@ -1,0 +1,48 @@
+\section*{Rebuttal text}
+We thank reviewers for their constructive feedback. We address the common-concerns followed by the individual-concerns. 
+
+Common Concerns:
+
+\textbf{Novelty(Rev-B,C,D,E):}
+Prior works target primarily server-class hardware, while MaestoRAG focuses on orchestration of RAG pipeline on edge devices. We observe that replicating prior solutions on edge is insufficient. 
+We investigate RAG pipeline through the lens of edge devices and propose a coordinated orchestration strategy. As acknowledged by several reviewers, this is  a timely topic as RAGs are becoming pervasive in edge devices.  
+Our fine-grained profiling of RAG-pipeline exposes an optimal-flow(E,RA,G). It also reveals a structural-hazard for pipelining: encoding and generation compete for the GPU. Further, though ‘E’ is compute-bound and given that batch sizes are small, multiple CPU-cores can be deployed for efficient deployment. ‘RA’ is memory-bound and leaves CPU under-utilized. Off-loading ‘RA’ and ‘E’-stages to modern vectorized CPUs removes the hazard and increases utilization. Our adaptive analytical model augments the characterizatization..
+Our edge-specific optimizations (aggressive caching, memap’ed indices, shared encoder) reduces working-set size, speeds retrieval, and exploits temporal-locality, yielding gains the baseline doesn’t achieve.
+
+\textbf{Orchestration:
+Why encoding-on-CPU?(Rev-B,C,E):} On typical tight-power edge SoCs, the GPU performs encoding and generation, and idles during retrieval. If encoding monopolizes it, subsequent batches must wait for both encoding and generation to finish, minimizing stage-overlap. Worse, keeping separate encoder and generator models resident causes repetitive model swaps within and across batches increases overheads.
+
+\textbf{Throughput-critical vs Latency-Critical(Rev-C):} We note that fixed CPU budget forces a choice: scatter cores across many micro-workers or pack them into a single heavy worker per stage(Section-4.2). Profiling shows extra cores quickly hit diminishing returns for encoding and retrieval, so latency-critical runs use fewer, fatter workers, sacrificing duplicates to shave last milliseconds. 
+
+\textbf{Query-length effect(Rev-B):} With all other hyper-parameters frozen, encoding latency rises just 0.6\% from 10 to 20 tokens and only 1.2\% at 100 tokens; generation is unchanged at 20 tokens and increases 12\% at 100 tokens. (The total input to generation stage is top-5 passages + input query. So system is still getting 500+ tokens.)
+
+\textbf{Scalability(Rev-C,D,E):} We propose a lightweight,  profiling that extracts fine-grained insights and best practices(Section:3-4). Coupled with MaestroRAG’s simple analytical model, the framework can scale to any hardware.
+
+\textbf{Indexing(Rev-A,E):}
+\st{We used flat-indexing for accuracy and benchmarked three popular alternatives—IVF-Flat, IVF-PQ, and HNSW—observing performance gains of 29.27\%, 28.15\%, and 32.18\%, respectively, wrt flat-indexing.}
+We assume a fixed embedding corpus. Full re-indexing is pushed to low-traffic windows. For new documents, we create delta-indices and query them in parallel. MaestroRAG auto-scales to corpus size, and workload; so any latency is tightly bound. Even mid-merge, end-to-end latency beats PipeRAG’s single-worker setup, and other baselines(Sec:5.1).
+
+\textbf{Platform and Application(Rev-A,C,D):}
+Edge-definition: Edge is any battery-powered, user-owned device: phones, tablets, laptops. We model these with Jetson-Orin and low-power desktop PCs. MaestroRAG is built for discrete CPU-GPU machines—zero-copy transfers, aggressive resource allocation, caching, mmap’ed indices—then ported to Jetson’s unified memory, where the optimizations still hold, but gains diminish. Yet it validates the framework’s breadth.
+Why wiki-corpus? We target text-only retrieval; combining Wiki-Corpus with the Azure trace gives a  diverse workload that dwarfs on-device data and stress-tests the system. A multimodal, app-centric corpus is future work, but Wiki-Corpus+Azure-trace are sufficient for our use-case.
+
+
+\textbf{Evaluation:
+Accuracy and Caching(Rev-A,B,C):} Supported by many prior works( https://arxiv.org/pdf/2505.11271, https://arxiv.org/pdf/2503.05530 https://arxiv.org/pdf/2502.03771v3, https://arxiv.org/pdf/2406.00025), we enforce a 0.9 semantic-similarity threshold. This retains the factual correctness of the query along with imparting acceleration. Retrieval relies on exact flat-indexing, maximizing recall. Each cache entry carries a user-configurable time-to-live. Both the similarity-threshold and TTL can be tuned.
+
+\textbf{Power(Rev-A):} We conducted power measurements and found MaestroRAG to be more efficient than FlashRAG in terms of average power, peak power and total energy consumed. MaestroRAG consumes 253.3J/query vs 791.8J(+212.6\%) of FlashRAG. We also observed FlashRAG has 16.45\% more peak CPU-power.
+
+\textbf{Ablation(Rev-B,E):}  We observe: Communication latency: 3.36s; No optimization:15.12s, +Adaptive-batching and core allocation:11.79s, +Software optimizations: 6.497s, +Caching: 2.003s.
+Cold-start costs(Rev-B): MaestroRAG’s cold-start is ~7s: 0.36s for encoder-load, 3.04s to build vector-indices, and 3.36s to move the generation-model to the GPU. This overhead is one-time before the first batch; FlashRAG re-incurs cold-start with every batch.
+
+\textbf{Individual-Concerns:}
+
+\textbf{Refining writing and plots(Rev-C-E):} Thanks for the specific pointers. We will address said concerns in the camera-ready version if the paper is accepted. 
+
+\textbf{Security implications(Rev-A):} MaestroRAG is agnostic to storage back-ends. For highly sensitive domains, we foresee adopting Differential Privacy-noise or quantised codes to make embeddings themselves non-invertible. But the pipeline orchestration would remain the same.
+
+\textbf{Applicability to other tasks(Rev-A):} Because every stage exchanges only dense embeddings, MaestroRAG is intrinsically task- and language-agnostic. To support retrieval-augmented classification, one simply replaces the generative decoder with a lightweight classifier; for extractive QA, the top-k passages are routed to a span-extraction model such as BERT-QA. In both cases the encoding, retrieval, caching, and scheduling subsystems remain unchanged—and even gain additional headroom. Multilingual deployment is equally straightforward: substitute a cross-lingual encoder (LaBSE or mContriever) and a multilingual generator (mT5 or XGLM). The profiler then re-estimates throughput, and the scheduler  re-allocates CPU/GPU resources, obviating any manual retuning.
+
+\textbf{Memory-constrained environment(Rev-C):} Cache-size is an adjustable hyper-parameter: environments with ample DRAM and high request reuse can provision a large cache, whereas memory-constrained or low-reuse deployments may disable caching entirely. Because SoTA models and their vector stores can saturate main memory, we employ memory-mapped indices to shift most index data to secondary storage, freeing DRAM that can be reassigned for caching. 
+
+\textbf{SOTA Comparison(Rev-D):} While applying elementary optimizations (e.g., fine-grained pipelining) to SoTA systems would be informative, our study purposefully benchmarks each model in its released form to expose the absence of such optimizations. Not every baseline is identical: PipeRAG offers a coarse-grained pipeline that under-utilizes hardware, whereas EdgeRAG builds approximate indices on demand. These contrasts demonstrate that even a well-targeted optimization can outperform more intricate architectures.
