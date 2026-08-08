@@ -26,7 +26,7 @@ tabs:
   unlisted: ["CachingResults4090"]
 
 # The .tex files reached from main.tex.  Numeric-literal extraction runs over these only.
-tex_sources: ["abstract.tex", "introduction.tex", "background&motivation.tex", "characterization.tex", "design.tex", "implementation&eval.tex", "related_work.tex", "conclusion.tex", "TablesAlgos/CachingTable.tex", "TablesAlgos/Jetson4090A100.tex"]
+tex_sources: ["abstract.tex", "introduction.tex", "background&motivation.tex", "characterization.tex", "design.tex", "implementation&eval.tex", "related_work.tex", "conclusion.tex", "TablesAlgos/CachingTable.tex", "TablesAlgos/Jetson4090A100.tex", "TablesAlgos/LatencyBreakdown.tex"]
 
 checks:
 
@@ -751,3 +751,258 @@ checks:
       file: TablesAlgos/CachingTable.tex
       regex: 'Sim\s*&[^&]*&\s*([0-9.]+)s'
       note: "Sim row, MR column, 2 mil"
+
+  # ============ TASK 5: stage-level breakdown (Item 1) and ported-optimization ========
+  # PROVENANCE: these measurements exist ONLY in the rebuttal. No authorised workbook tab
+  # carries them, and none ever will unless the runs are re-exported. Each check is
+  # therefore anchored to the rebuttal file itself, so the paper's number and the number
+  # the authors gave the reviewers cannot drift apart. `origin: rebuttal` marks them.
+  # The breakdown excludes generation by the rebuttal's own framing, so there is no total
+  # to check and none is encoded here.
+
+  - id: breakdown_maestro_encode
+    origin: rebuttal
+    description: "Breakdown: MaestroRAG encode"
+    kind: value
+    claimed: 0.2
+    locations: ["TablesAlgos/LatencyBreakdown.tex:10", "implementation&eval.tex:72"]
+    tolerance: 0.0
+    expect: PASS
+    source:
+      file: docs/Untitled document.md
+      regex: 'MaestroRAG \| E=([0-9.]+)s'
+      note: "rebuttal breakdown table, MaestroRAG row, E"
+
+  - id: breakdown_maestro_ra
+    origin: rebuttal
+    description: "Breakdown: MaestroRAG fused retrieve+augment"
+    kind: value
+    claimed: 1.6
+    locations: ["TablesAlgos/LatencyBreakdown.tex:10", "implementation&eval.tex:72"]
+    tolerance: 0.0
+    expect: PASS
+    source:
+      file: docs/Untitled document.md
+      regex: 'MaestroRAG \| E=[0-9.]+s \| RA=([0-9.]+)s'
+      note: "rebuttal breakdown table, MaestroRAG row, RA"
+
+  - id: breakdown_maestro_sched
+    origin: rebuttal
+    description: "Breakdown: MaestroRAG scheduler"
+    kind: value
+    claimed: 0.2
+    locations: ["TablesAlgos/LatencyBreakdown.tex:10", "implementation&eval.tex:72"]
+    tolerance: 0.0
+    expect: PASS
+    source:
+      file: docs/Untitled document.md
+      regex: 'scheduler=([0-9.]+)s'
+      note: "rebuttal breakdown table, MaestroRAG row, scheduler"
+
+  - id: breakdown_edgerag_encode
+    origin: rebuttal
+    description: "Breakdown: EdgeRAG encode"
+    kind: value
+    claimed: 0.28
+    locations: ["TablesAlgos/LatencyBreakdown.tex:11"]
+    tolerance: 0.0
+    expect: PASS
+    source:
+      file: docs/Untitled document.md
+      regex: 'EdgeRAG \| E=([0-9.]+)s'
+      note: "rebuttal breakdown table, EdgeRAG row, E"
+
+  - id: breakdown_edgerag_ra
+    origin: rebuttal
+    description: "Breakdown: EdgeRAG fused retrieve+augment, the on-demand embedding cost"
+    kind: value
+    claimed: 25.19
+    locations: ["TablesAlgos/LatencyBreakdown.tex:11", "implementation&eval.tex:72"]
+    tolerance: 0.0
+    expect: PASS
+    source:
+      file: docs/Untitled document.md
+      regex: 'EdgeRAG \| E=[0-9.]+s \| RA=([0-9.]+)s'
+      note: "rebuttal breakdown table, EdgeRAG row, RA"
+
+  - id: breakdown_flashrag_er
+    origin: rebuttal
+    description: "Breakdown: FlashRAG fused encode+retrieve"
+    kind: value
+    claimed: 7.26
+    locations: ["TablesAlgos/LatencyBreakdown.tex:12"]
+    tolerance: 0.0
+    expect: PASS
+    source:
+      file: docs/Untitled document.md
+      regex: 'E\+R=([0-9.]+)s'
+      note: "rebuttal breakdown table, FlashRAG row, E+R"
+
+  - id: breakdown_flashrag_augment
+    origin: rebuttal
+    description: "Breakdown: FlashRAG augment"
+    kind: value
+    claimed: 0.1
+    locations: ["TablesAlgos/LatencyBreakdown.tex:12"]
+    tolerance: 0.0
+    expect: PASS
+    source:
+      file: docs/Untitled document.md
+      regex: 'FlashRAG \| E\+R=[0-9.]+s \| \\- \| A=([0-9.]+)s'
+      note: "rebuttal breakdown table, FlashRAG row, A"
+
+  - id: breakdown_flashrag_encload
+    origin: rebuttal
+    description: "Breakdown: FlashRAG encoder load"
+    kind: value
+    claimed: 0.73
+    locations: ["TablesAlgos/LatencyBreakdown.tex:12", "implementation&eval.tex:72"]
+    tolerance: 0.0
+    expect: PASS
+    source:
+      file: docs/Untitled document.md
+      regex: 'encoder-load=([0-9.]+)s'
+      note: "rebuttal breakdown table, FlashRAG row, encoder-load"
+
+  - id: breakdown_flashrag_llmload
+    origin: rebuttal
+    description: "Breakdown: FlashRAG LLM load"
+    kind: value
+    claimed: 2.2
+    locations: ["TablesAlgos/LatencyBreakdown.tex:12", "implementation&eval.tex:72"]
+    tolerance: 0.0
+    expect: PASS
+    source:
+      file: docs/Untitled document.md
+      regex: 'LLM-load=([0-9.]+)s'
+      note: "rebuttal breakdown table, FlashRAG row, LLM-load"
+
+  - id: breakdown_piperag_encode
+    origin: rebuttal
+    description: "Breakdown: PipeRAG encode"
+    kind: value
+    claimed: 6.2
+    locations: ["TablesAlgos/LatencyBreakdown.tex:13"]
+    tolerance: 0.0
+    expect: PASS
+    source:
+      file: docs/Untitled document.md
+      regex: 'PipeRAG \| E=([0-9.]+)s'
+      note: "rebuttal breakdown table, PipeRAG row, E"
+
+  - id: breakdown_piperag_retrieve
+    origin: rebuttal
+    description: "Breakdown: PipeRAG retrieve"
+    kind: value
+    claimed: 5.2
+    locations: ["TablesAlgos/LatencyBreakdown.tex:13"]
+    tolerance: 0.0
+    expect: PASS
+    source:
+      file: docs/Untitled document.md
+      regex: 'PipeRAG \| E=[0-9.]+s \| R=([0-9.]+)s'
+      note: "rebuttal breakdown table, PipeRAG row, R"
+
+  - id: breakdown_piperag_augment
+    origin: rebuttal
+    description: "Breakdown: PipeRAG augment"
+    kind: value
+    claimed: 0.1
+    locations: ["TablesAlgos/LatencyBreakdown.tex:13"]
+    tolerance: 0.0
+    expect: PASS
+    source:
+      file: docs/Untitled document.md
+      regex: 'PipeRAG \| E=[0-9.]+s \| R=[0-9.]+s \| A=([0-9.]+)s'
+      note: "rebuttal breakdown table, PipeRAG row, A"
+
+  - id: breakdown_piperag_sync
+    origin: rebuttal
+    description: "Breakdown: PipeRAG synchronization ceiling"
+    kind: value
+    claimed: 2
+    locations: ["TablesAlgos/LatencyBreakdown.tex:13", "implementation&eval.tex:72"]
+    tolerance: 0.0
+    expect: PASS
+    source:
+      file: docs/Untitled document.md
+      regex: '\\<=([0-9.]+)s synchronization'
+      note: "rebuttal breakdown table, PipeRAG row, sync/serialization/timeout"
+
+  - id: ported_piperag_encode
+    origin: rebuttal
+    description: "Ported optimizations: optimized PipeRAG encode at BS=1"
+    kind: value
+    claimed: 0.22
+    locations: ["implementation&eval.tex:322"]
+    tolerance: 0.0
+    expect: PASS
+    source:
+      file: docs/Untitled document.md
+      regex: 'reaches E=([0-9.]+)s'
+      note: "rebuttal, Common Concerns, ported-optimization experiment"
+
+  - id: ported_piperag_retrieve
+    origin: rebuttal
+    description: "Ported optimizations: optimized PipeRAG retrieve at BS=1"
+    kind: value
+    claimed: 1.55
+    locations: ["implementation&eval.tex:322"]
+    tolerance: 0.0
+    expect: PASS
+    source:
+      file: docs/Untitled document.md
+      regex: 'reaches E=[0-9.]+s, R=([0-9.]+)s'
+      note: "rebuttal, Common Concerns, ported-optimization experiment"
+
+  - id: ported_piperag_augment
+    origin: rebuttal
+    description: "Ported optimizations: optimized PipeRAG augment at BS=1"
+    kind: value
+    claimed: 0.1
+    locations: ["implementation&eval.tex:322"]
+    tolerance: 0.0
+    expect: PASS
+    source:
+      file: docs/Untitled document.md
+      regex: 'reaches E=[0-9.]+s, R=[0-9.]+s, A=([0-9.]+)s'
+      note: "rebuttal, Common Concerns, ported-optimization experiment"
+
+  - id: ported_piperag_qps
+    origin: rebuttal
+    description: "Ported optimizations: optimized PipeRAG steady-state throughput"
+    kind: value
+    claimed: 1.38
+    locations: ["implementation&eval.tex:322"]
+    tolerance: 0.0
+    expect: PASS
+    source:
+      file: docs/Untitled document.md
+      regex: 'achieves ([0-9.]+)QPS'
+      note: "rebuttal, Common Concerns, ported-optimization experiment"
+
+  - id: ported_maestro_qps
+    origin: rebuttal
+    description: "Ported optimizations: MaestroRAG throughput quoted alongside it, consistent with Section 5.6"
+    kind: value
+    claimed: 1.6
+    locations: ["implementation&eval.tex:322"]
+    tolerance: 0.0
+    expect: PASS
+    source:
+      file: docs/Untitled document.md
+      regex: 'versus our ([0-9.]+)QPS'
+      note: "rebuttal, Common Concerns; matches ThroughputResult!E4 independently"
+
+  - id: ported_piperag_oom_bs
+    origin: rebuttal
+    description: "Ported optimizations: batch size at which optimized PipeRAG still runs out of memory"
+    kind: value
+    claimed: 16
+    locations: ["implementation&eval.tex:322"]
+    tolerance: 0.0
+    expect: PASS
+    source:
+      file: docs/Untitled document.md
+      regex: 'OOMs at BS=([0-9]+)'
+      note: "rebuttal, Common Concerns, ported-optimization experiment"

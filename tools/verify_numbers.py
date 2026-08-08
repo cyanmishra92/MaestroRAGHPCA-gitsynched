@@ -428,16 +428,24 @@ def resolve_cells(wb: Workbook, sheet: str, cells: dict):
     return values, missing
 
 
-def tex_source_value(source: dict):
-    """Pull one number out of a .tex file with an anchored regex.
+def file_source_value(source: dict):
+    """Pull one number out of a text file with an anchored regex.
 
-    Used for paper-internal consistency: a value quoted in prose against the same
-    value printed in a table, where no workbook cell backs either side. The regex is
-    anchored on row content rather than a line number so it survives the file moving.
+    Two uses, both for values no authorised workbook tab carries:
+
+      * paper-internal consistency, e.g. a value quoted in prose against the same
+        value printed in the table it describes (Task 4, Table 1 caching values);
+      * rebuttal-anchored provenance, e.g. a measurement the authors reported to the
+        reviewers but that has no sheet behind it (Task 5, the stage-level breakdown
+        and the ported-optimization experiment). The check then ties the paper's
+        number to the rebuttal sentence it came from, so neither can drift silently.
+
+    The regex is anchored on surrounding content rather than a line number so it
+    survives the file moving, and it must match exactly once.
     """
     path = os.path.join(REPO_ROOT, source["file"])
     if not os.path.exists(path):
-        return None, f"tex source not found: {source['file']}"
+        return None, f"source file not found: {source['file']}"
     with open(path, encoding="utf-8", errors="replace") as fh:
         text = fh.read()
     matches = re.findall(source["regex"], text)
@@ -462,14 +470,14 @@ def evaluate(check: dict, wb: Workbook):
     source = check.get("source") or {}
 
     if source.get("file"):
-        expected, err = tex_source_value(source)
+        expected, err = file_source_value(source)
         if err:
             return "UNVERIFIABLE", None, None, err
         claimed = float(check["claimed"])
         delta = claimed - expected
         ok = abs(delta) <= tol + 1e-12
         return ("PASS" if ok else "FAIL"), expected, delta, (
-            f"prose {claimed:g} vs {source['file']} {expected:.6g}; "
+            f"paper {claimed:g} vs {source['file']} {expected:.6g}; "
             f"|delta| = {abs(delta):.6g} vs tolerance {tol:g}"
         )
 
