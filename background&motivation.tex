@@ -9,6 +9,14 @@
 
 The RAG pipeline enables LLMs to deliver enhanced personalization, use-case specificity, and customization, while preserving user data security. At its core, a compact generative model produces responses augmented with a set of \topk{} relevant knowledge items. As shown in \Cref{fig:maestroRAG}, the pipeline begins by encoding the user query into high-dimensional embeddings. A retriever then performs a similarity search over the user’s local database to extract the \topk{} pertinent entries, which are combined with the original query and passed to the LLM to generate the final response. We next discuss the retrieval, augmentation, and generation stages in detail.
 
+\subsection{\texorpdfstring{\new{Deployment Scope}}{Deployment Scope}}
+\label{sec:BG:Scope}
+\begin{newtext}
+We use \emph{edge} to denote a deployment constraint rather than a form factor. A platform is an edge target in this work if it satisfies four conditions: (i)~a \emph{single} accelerator is shared by every pipeline stage, making contention structural rather than a scheduling choice; (ii)~no cloud offload is available, so the entire pipeline is resident locally for privacy and latency; (iii)~the power and thermal budget is fixed and non-elastic; and (iv)~memory is provisioned for one model, not a model zoo. Two tiers satisfy all four and differ in scale, not in kind: \emph{local/personal-compute} platforms---our \mbox{i9-14900K} desktops paired with an RTX\,4090 or RTX\,4080---and \emph{embedded} platforms, represented here by a Jetson~AGX~Orin held at a 15\,W cap. \Cref{tab:spec_comparison} contrasts both tiers with a datacenter A100, which fails (i), (iii), and (iv). Unified memory does not exempt the embedded tier from our motivation: it removes the PCIe copy, but neither the structural hazard of a single GPU that cannot encode and generate concurrently, nor the contention among encoder weights, the retrieval working set, and the KV cache inside one memory and power budget. That budget binds tightly---at the 15\,W cap the Orin exposes 4 of its 12 CPU cores (\Cref{subsec:implementation}).
+\end{newtext}
+
+\input{TablesAlgos/Jetson4090A100}
+
 \subsection{Different Stages of a RAG System}
 \label{sec:BG:RAGstage}
 %\subsection{Encoding}

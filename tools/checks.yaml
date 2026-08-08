@@ -26,7 +26,7 @@ tabs:
   unlisted: ["CachingResults4090"]
 
 # The .tex files reached from main.tex.  Numeric-literal extraction runs over these only.
-tex_sources: ["abstract.tex", "introduction.tex", "background&motivation.tex", "characterization.tex", "design.tex", "implementation&eval.tex", "related_work.tex", "conclusion.tex", "TablesAlgos/CachingTable.tex"]
+tex_sources: ["abstract.tex", "introduction.tex", "background&motivation.tex", "characterization.tex", "design.tex", "implementation&eval.tex", "related_work.tex", "conclusion.tex", "TablesAlgos/CachingTable.tex", "TablesAlgos/Jetson4090A100.tex"]
 
 checks:
 
@@ -558,4 +558,132 @@ checks:
     source:
       sheet: mainLatencyResults
       cells: {v: C5}
+      derivation: "v"
+
+  # ================== TASK 2: hardware table (TablesAlgos/Jetson4090A100.tex) =========
+  # Every cell of the constraint-contrast table in Section 2.1, anchored to the
+  # `edge vs. server` tab so a later edit to either side shows up as DRIFT.
+  # The Jetson main-memory and VRAM cells are deliberately the SAME printed literal:
+  # the table merges them into one "64 (unified)" cell, and both workbook cells (F16,
+  # F18) independently hold 64. That is the point of the merge.
+  # The four text rows (CPU model, RAM Type, VRAM Type) are not encoded here: the
+  # harness compares numbers, and the workbook spells the CPU parts out in full
+  # ("Arm(R) Cortex(R)-A78AE", "AMD Rome 7742") where the table abbreviates them.
+  # Those two rows were checked by inspection in Task 2, not by this script.
+
+  - id: hwtable_cores_jetson
+    origin: task02
+    description: "Hardware table: Jetson Orin CPU core count"
+    kind: value
+    claimed: 12
+    locations: ["TablesAlgos/Jetson4090A100.tex:11"]
+    tolerance: 0.0
+    expect: PASS
+    source:
+      sheet: edge vs. server
+      cells: {v: F15}
+      derivation: "v"
+
+  - id: hwtable_cores_4090
+    origin: task02
+    description: "Hardware table: RTX 4090 host CPU core count"
+    kind: value
+    claimed: 24
+    locations: ["TablesAlgos/Jetson4090A100.tex:11"]
+    tolerance: 0.0
+    expect: PASS
+    source:
+      sheet: edge vs. server
+      cells: {v: G15}
+      derivation: "v"
+
+  - id: hwtable_cores_a100
+    origin: task02
+    description: "Hardware table: A100 host CPU core count (contrast column)"
+    kind: value
+    claimed: 128
+    locations: ["TablesAlgos/Jetson4090A100.tex:11"]
+    tolerance: 0.0
+    expect: PASS
+    source:
+      sheet: edge vs. server
+      cells: {v: H15}
+      derivation: "v"
+
+  - id: hwtable_mainmem_jetson
+    origin: task02
+    description: "Hardware table: Jetson Orin main memory, GB (the unified pool)"
+    kind: value
+    claimed: 64
+    locations: ["TablesAlgos/Jetson4090A100.tex:12"]
+    tolerance: 0.0
+    expect: PASS
+    source:
+      sheet: edge vs. server
+      cells: {v: F16}
+      derivation: "v"
+
+  - id: hwtable_mainmem_4090
+    origin: task02
+    description: "Hardware table: RTX 4090 desktop main memory, GB"
+    kind: value
+    claimed: 128
+    locations: ["TablesAlgos/Jetson4090A100.tex:12"]
+    tolerance: 0.0
+    expect: PASS
+    source:
+      sheet: edge vs. server
+      cells: {v: G16}
+      derivation: "v"
+
+  - id: hwtable_mainmem_a100
+    origin: task02
+    description: "Hardware table: A100 host main memory, GB (contrast column)"
+    kind: value
+    claimed: 2048
+    locations: ["TablesAlgos/Jetson4090A100.tex:12"]
+    tolerance: 0.0
+    expect: PASS
+    source:
+      sheet: edge vs. server
+      cells: {v: H16}
+      derivation: "v"
+
+  - id: hwtable_vram_jetson
+    origin: task02
+    description: "Hardware table: Jetson Orin GPU memory, GB -- same unified 64 GB as main memory"
+    kind: value
+    claimed: 64
+    locations: ["TablesAlgos/Jetson4090A100.tex:12"]
+    tolerance: 0.0
+    expect: PASS
+    source:
+      sheet: edge vs. server
+      cells: {v: F18}
+      derivation: "v"
+
+  - id: hwtable_vram_4090
+    origin: task02
+    description: "Hardware table: RTX 4090 VRAM, GB"
+    kind: value
+    claimed: 24
+    locations: ["TablesAlgos/Jetson4090A100.tex:13"]
+    tolerance: 0.0
+    expect: PASS
+    source:
+      sheet: edge vs. server
+      cells: {v: G18}
+      derivation: "v"
+
+  - id: hwtable_vram_a100
+    origin: task02
+    description: "Hardware table: A100 VRAM, GB (contrast column)"
+    kind: value
+    claimed: 80
+    locations: ["TablesAlgos/Jetson4090A100.tex:13"]
+    tolerance: 0.0
+    expect: PASS
+    source:
+      sheet: edge vs. server
+      cells: {v: H18}
       derivation: "v"
