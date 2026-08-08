@@ -329,25 +329,25 @@ so nothing is dropped. Only the `claim` bucket is treated as needing attention.
 | `characterization.tex:86` | 16 | However, pushing \texttt{BS} beyond 16 inflates the working-set footprint, increasing cache evictions and risking DRAM t |
 | `design.tex:65` | 8 | The computationally bound encoding stage strongly correlates its latency with the amount of core provisioning and batch  |
 | `design.tex:65` | 16 | The computationally bound encoding stage strongly correlates its latency with the amount of core provisioning and batch  |
-| `design.tex:131` | 0 | for balanced performance. In our experiments, we treat all CPU cores uniformly (i.e.,\ $y=0$), but this design naturally |
-| `design.tex:136` | 8 | As an example, applying the above equations to our desktop-grade CPU platform, we determine the optimal core allocation  |
-| `design.tex:136` | 22 | As an example, applying the above equations to our desktop-grade CPU platform, we determine the optimal core allocation  |
-| `design.tex:136` | 1 | As an example, applying the above equations to our desktop-grade CPU platform, we determine the optimal core allocation  |
-| `design.tex:136` | 2 | As an example, applying the above equations to our desktop-grade CPU platform, we determine the optimal core allocation  |
-| `design.tex:136` | 1 | As an example, applying the above equations to our desktop-grade CPU platform, we determine the optimal core allocation  |
-| `design.tex:136` | 1 | As an example, applying the above equations to our desktop-grade CPU platform, we determine the optimal core allocation  |
-| `design.tex:136` | 1.178 | As an example, applying the above equations to our desktop-grade CPU platform, we determine the optimal core allocation  |
-| `design.tex:136` | 1.448 | As an example, applying the above equations to our desktop-grade CPU platform, we determine the optimal core allocation  |
-| `design.tex:137` | 22 | Notably, our three-stage pipeline delivers an approximate $22\%$ improvement over the four-stage approach, primarily due |
-| `design.tex:137` | 9.5 | Notably, our three-stage pipeline delivers an approximate $22\%$ improvement over the four-stage approach, primarily due |
-| `design.tex:137` | 8.06 | Notably, our three-stage pipeline delivers an approximate $22\%$ improvement over the four-stage approach, primarily due |
-| `design.tex:143` | 2 | \red{For instance, as depicted in \Cref{fig:latency_oriented_pipeline}, allocating 8 cores per worker for stage E, 22 co |
-| `design.tex:143` | 3 | \red{For instance, as depicted in \Cref{fig:latency_oriented_pipeline}, allocating 8 cores per worker for stage E, 22 co |
-| `design.tex:143` | 1 | \red{For instance, as depicted in \Cref{fig:latency_oriented_pipeline}, allocating 8 cores per worker for stage E, 22 co |
-| `design.tex:143` | 3 | \red{For instance, as depicted in \Cref{fig:latency_oriented_pipeline}, allocating 8 cores per worker for stage E, 22 co |
-| `design.tex:337` | 8 | Caching was disabled during all evaluations to emulate random query patterns that lack spatio-temporal locality, represe |
-| `design.tex:337` | 22 | Caching was disabled during all evaluations to emulate random query patterns that lack spatio-temporal locality, represe |
-| `design.tex:337` | 1 | Caching was disabled during all evaluations to emulate random query patterns that lack spatio-temporal locality, represe |
+| `design.tex:132` | 0 | for balanced performance. In our experiments, we treat all CPU cores uniformly (i.e.,\ $y=0$), but this design naturally |
+| `design.tex:137` | 8 | As an example, applying the above equations to our desktop-grade CPU platform, we determine the optimal core allocation  |
+| `design.tex:137` | 22 | As an example, applying the above equations to our desktop-grade CPU platform, we determine the optimal core allocation  |
+| `design.tex:137` | 1 | As an example, applying the above equations to our desktop-grade CPU platform, we determine the optimal core allocation  |
+| `design.tex:137` | 2 | As an example, applying the above equations to our desktop-grade CPU platform, we determine the optimal core allocation  |
+| `design.tex:137` | 1 | As an example, applying the above equations to our desktop-grade CPU platform, we determine the optimal core allocation  |
+| `design.tex:137` | 1 | As an example, applying the above equations to our desktop-grade CPU platform, we determine the optimal core allocation  |
+| `design.tex:137` | 1.178 | As an example, applying the above equations to our desktop-grade CPU platform, we determine the optimal core allocation  |
+| `design.tex:137` | 1.448 | As an example, applying the above equations to our desktop-grade CPU platform, we determine the optimal core allocation  |
+| `design.tex:138` | 22 | Notably, our three-stage pipeline delivers an approximate $22\%$ improvement over the four-stage approach, primarily due |
+| `design.tex:138` | 9.5 | Notably, our three-stage pipeline delivers an approximate $22\%$ improvement over the four-stage approach, primarily due |
+| `design.tex:138` | 8.06 | Notably, our three-stage pipeline delivers an approximate $22\%$ improvement over the four-stage approach, primarily due |
+| `design.tex:144` | 2 | \red{For instance, as depicted in \Cref{fig:latency_oriented_pipeline}, allocating 8 cores per worker for stage E, 22 co |
+| `design.tex:144` | 3 | \red{For instance, as depicted in \Cref{fig:latency_oriented_pipeline}, allocating 8 cores per worker for stage E, 22 co |
+| `design.tex:144` | 1 | \red{For instance, as depicted in \Cref{fig:latency_oriented_pipeline}, allocating 8 cores per worker for stage E, 22 co |
+| `design.tex:144` | 3 | \red{For instance, as depicted in \Cref{fig:latency_oriented_pipeline}, allocating 8 cores per worker for stage E, 22 co |
+| `design.tex:338` | 8 | Caching was disabled during all evaluations to emulate random query patterns that lack spatio-temporal locality, represe |
+| `design.tex:338` | 22 | Caching was disabled during all evaluations to emulate random query patterns that lack spatio-temporal locality, represe |
+| `design.tex:338` | 1 | Caching was disabled during all evaluations to emulate random query patterns that lack spatio-temporal locality, represe |
 | `implementation&eval.tex:9` | 70 | We implement \design{} in Python (about 6,000 lines of code), mainly using PyTorch for ML operations and FAISS for high- |
 | `implementation&eval.tex:11` | 32 | \noindent\textbf{Deployment System:} \new{Following \Cref{sec:BG:Scope}, our evaluations span two local/personal-computi |
 | `implementation&eval.tex:11` | 8 | \noindent\textbf{Deployment System:} \new{Following \Cref{sec:BG:Scope}, our evaluations span two local/personal-computi |
@@ -423,12 +423,12 @@ so nothing is dropped. Only the `claim` bucket is treated as needing attention.
 | `characterization.tex:90` | 1 | setup | \Cref{Fig:latency_dbsize} shows nearly linear latency growth as the vector store expands from 1 M to |
 | `characterization.tex:90` | 8 | setup | \Cref{Fig:latency_dbsize} shows nearly linear latency growth as the vector store expands from 1 M to |
 | `characterization.tex:90` | 16 | setup | \Cref{Fig:latency_dbsize} shows nearly linear latency growth as the vector store expands from 1 M to |
-| `design.tex:136` | 4 | setup | As an example, applying the above equations to our desktop-grade CPU platform, we determine the opti |
-| `design.tex:143` | 22 | setup | \red{For instance, as depicted in \Cref{fig:latency_oriented_pipeline}, allocating 8 cores per worke |
-| `design.tex:143` | 1 | setup | \red{For instance, as depicted in \Cref{fig:latency_oriented_pipeline}, allocating 8 cores per worke |
-| `design.tex:143` | 4 | setup | \red{For instance, as depicted in \Cref{fig:latency_oriented_pipeline}, allocating 8 cores per worke |
-| `design.tex:143` | 6 | setup | \red{For instance, as depicted in \Cref{fig:latency_oriented_pipeline}, allocating 8 cores per worke |
-| `design.tex:143` | 1 | setup | \red{For instance, as depicted in \Cref{fig:latency_oriented_pipeline}, allocating 8 cores per worke |
+| `design.tex:137` | 4 | setup | As an example, applying the above equations to our desktop-grade CPU platform, we determine the opti |
+| `design.tex:144` | 22 | setup | \red{For instance, as depicted in \Cref{fig:latency_oriented_pipeline}, allocating 8 cores per worke |
+| `design.tex:144` | 1 | setup | \red{For instance, as depicted in \Cref{fig:latency_oriented_pipeline}, allocating 8 cores per worke |
+| `design.tex:144` | 4 | setup | \red{For instance, as depicted in \Cref{fig:latency_oriented_pipeline}, allocating 8 cores per worke |
+| `design.tex:144` | 6 | setup | \red{For instance, as depicted in \Cref{fig:latency_oriented_pipeline}, allocating 8 cores per worke |
+| `design.tex:144` | 1 | setup | \red{For instance, as depicted in \Cref{fig:latency_oriented_pipeline}, allocating 8 cores per worke |
 | `implementation&eval.tex:9` | 6,000 | setup | We implement \design{} in Python (about 6,000 lines of code), mainly using PyTorch for ML operations |
 | `implementation&eval.tex:11` | 128 | setup | \noindent\textbf{Deployment System:} \new{Following \Cref{sec:BG:Scope}, our evaluations span two lo |
 | `implementation&eval.tex:11` | 24 | setup | \noindent\textbf{Deployment System:} \new{Following \Cref{sec:BG:Scope}, our evaluations span two lo |
@@ -455,7 +455,7 @@ so nothing is dropped. Only the `claim` bucket is treated as needing attention.
 | `TablesAlgos/CachingTable.tex:8` | 2 | setup | & \multicolumn{2}{c}{2 mil} & \multicolumn{2}{c}{4 mil} & \multicolumn{2}{c}{8 mil} \\ |
 | `TablesAlgos/CachingTable.tex:8` | 4 | setup | & \multicolumn{2}{c}{2 mil} & \multicolumn{2}{c}{4 mil} & \multicolumn{2}{c}{8 mil} \\ |
 | `TablesAlgos/CachingTable.tex:8` | 8 | setup | & \multicolumn{2}{c}{2 mil} & \multicolumn{2}{c}{4 mil} & \multicolumn{2}{c}{8 mil} \\ |
-| `TablesAlgos/Jetson4090A100.tex:3` | 64 | setup | \caption{\new{The personal-computing edge platforms we evaluate---a local/personal-computing desktop |
+| `TablesAlgos/Jetson4090A100.tex:3` | 64 | setup | \caption{\new{Platform specifications for a local/personal-computing desktop (RTX\,4090), an embedde |
 | `characterization.tex:43` | 16 | config | (c) Encode latency at batch size 16 as we vary the number of CPU cores. |
 | `characterization.tex:48` | 2 | config | (e) Retrieval latency as the number of CPU cores increases (DB size = 2\,M, batch size = 8). |
 | `characterization.tex:48` | 8 | config | (e) Retrieval latency as the number of CPU cores increases (DB size = 2\,M, batch size = 8). |
@@ -463,9 +463,9 @@ so nothing is dropped. Only the `claim` bucket is treated as needing attention.
 | `characterization.tex:72` | 32 | config | The retrieval stage performs a similarity search over a vector database to identify the \topk releva |
 | `characterization.tex:80` | 8 | config | \Cref{Fig:latency_cores} shows that adding CPU cores shortens retrieval latency up to 8 cores, after |
 | `design.tex:48` | 128 | config | Separating out augment and retrieval stages, although brings cache hit benefits in their respective  |
-| `design.tex:136` | 2 | config | As an example, applying the above equations to our desktop-grade CPU platform, we determine the opti |
-| `design.tex:136` | 8 | config | As an example, applying the above equations to our desktop-grade CPU platform, we determine the opti |
-| `design.tex:143` | 8 | config | \red{For instance, as depicted in \Cref{fig:latency_oriented_pipeline}, allocating 8 cores per worke |
+| `design.tex:137` | 2 | config | As an example, applying the above equations to our desktop-grade CPU platform, we determine the opti |
+| `design.tex:137` | 8 | config | As an example, applying the above equations to our desktop-grade CPU platform, we determine the opti |
+| `design.tex:144` | 8 | config | \red{For instance, as depicted in \Cref{fig:latency_oriented_pipeline}, allocating 8 cores per worke |
 | `implementation&eval.tex:71` | 16 | config | \Cref{Fig:OurLatencyE2E4090} plots the end-to-end latency of our design on an \mbox{RTX\,4090} acros |
 | `implementation&eval.tex:71` | 8 | config | \Cref{Fig:OurLatencyE2E4090} plots the end-to-end latency of our design on an \mbox{RTX\,4090} acros |
 | `implementation&eval.tex:71` | 8 | config | \Cref{Fig:OurLatencyE2E4090} plots the end-to-end latency of our design on an \mbox{RTX\,4090} acros |
@@ -505,9 +505,9 @@ so nothing is dropped. Only the `claim` bucket is treated as needing attention.
 | `background&motivation.tex:15` | 4 | hardware | We use \emph{edge} in this paper to mean \emph{personal-computing edge}: a local compute node runnin |
 | `background&motivation.tex:15` | 12 | hardware | We use \emph{edge} in this paper to mean \emph{personal-computing edge}: a local compute node runnin |
 | `characterization.tex:64` | 4090 | hardware | This section characterizes the performance of a RAG pipeline on a desktop-class machine, highlightin |
-| `design.tex:143` | 4090 | hardware | \red{For instance, as depicted in \Cref{fig:latency_oriented_pipeline}, allocating 8 cores per worke |
-| `design.tex:334` | 4090 | hardware | \caption{Speedup of \design{} relative to state-of-the-art RAG frameworks on consumer-grade systems  |
-| `design.tex:334` | 4080 | hardware | \caption{Speedup of \design{} relative to state-of-the-art RAG frameworks on consumer-grade systems  |
+| `design.tex:144` | 4090 | hardware | \red{For instance, as depicted in \Cref{fig:latency_oriented_pipeline}, allocating 8 cores per worke |
+| `design.tex:335` | 4090 | hardware | \caption{Speedup of \design{} relative to state-of-the-art RAG frameworks on consumer-grade systems  |
+| `design.tex:335` | 4080 | hardware | \caption{Speedup of \design{} relative to state-of-the-art RAG frameworks on consumer-grade systems  |
 | `implementation&eval.tex:11` | 4090 | hardware | \noindent\textbf{Deployment System:} \new{Following \Cref{sec:BG:Scope}, our evaluations span two lo |
 | `implementation&eval.tex:11` | 4080 | hardware | \noindent\textbf{Deployment System:} \new{Following \Cref{sec:BG:Scope}, our evaluations span two lo |
 | `implementation&eval.tex:11` | 16 | hardware | \noindent\textbf{Deployment System:} \new{Following \Cref{sec:BG:Scope}, our evaluations span two lo |
@@ -535,7 +535,7 @@ so nothing is dropped. Only the `claim` bucket is treated as needing attention.
 | `implementation&eval.tex:263` | 5 | hardware | All experiments use TTL of 300\,s and cache capacity of 32 entries, each storing 5 retrieved documen |
 | `implementation&eval.tex:274` | 4090 | hardware | \Cref{Fig:MainLatencyResults2} (purple stacked bar) showcases a pathological best-case exact match e |
 | `implementation&eval.tex:308` | 4090 | hardware | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
-| `TablesAlgos/Jetson4090A100.tex:3` | 4090 | hardware | \caption{\new{The personal-computing edge platforms we evaluate---a local/personal-computing desktop |
+| `TablesAlgos/Jetson4090A100.tex:3` | 4090 | hardware | \caption{\new{Platform specifications for a local/personal-computing desktop (RTX\,4090), an embedde |
 | `TablesAlgos/Jetson4090A100.tex:8` | 4090 | hardware | \textbf{Specification} & \textbf{Jetson Orin} & \textbf{RTX 4090} & \textbf{A100} \\ |
 | `implementation&eval.tex:11` | 1 | enumerator | \noindent\textbf{Deployment System:} \new{Following \Cref{sec:BG:Scope}, our evaluations span two lo |
 | `implementation&eval.tex:11` | 2 | enumerator | \noindent\textbf{Deployment System:} \new{Following \Cref{sec:BG:Scope}, our evaluations span two lo |

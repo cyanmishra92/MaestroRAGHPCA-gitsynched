@@ -159,7 +159,7 @@
 \label{sec:intro}
 
 Retrieval-Augmented Generation (RAG) combines compact language models with external knowledge retrieval, enabling personalized responses without embedding all knowledge in model parameters~\cite{rag_neurips}. This decoupling makes RAG attractive for edge deployment, where privacy constraints favor local processing and limited resources preclude large models. In particular, users increasingly prefer on-device or edge-based AI systems because sensitive personal data can remain local, reducing exposure to centralized cloud services and improving data privacy guarantees. At the same time, service providers and corporations are also motivated to shift inference workloads toward the edge, as offloading computation to user devices reduces datacenter resource consumption, lowers operational and energy costs, and decreases token-generation overhead associated with cloud-hosted inference.
-However, deploying RAG efficiently on edge devices, which typically have a single GPU shared for all  tasks, remains challenging\new{---\Cref{sec:BG:Scope} defines the personal-computing edge setting we target}.
+However, deploying RAG efficiently on edge devices, which typically have a single GPU shared for all  tasks, remains challenging\new{; \Cref{sec:BG:Scope} defines the personal-computing edge setting we target}.
 
 % \begin{figure}
 %     \centering

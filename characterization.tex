@@ -116,6 +116,7 @@ Thus, while larger batches amortize per-query overheads and improve throughput, 
 %%%%%%%%%% %%%%%%%%%% %%%%%%%%%% %%%%%%%%%%
 
 \subsection{Key Observations and Motivation for Design}
+\label{sec:char:keyobs}
 Encoding remains mostly compute-bound and scales with moderate core counts, whereas retrieval is tightly coupled to memory bandwidth and database footprint, exhibiting diminishing returns from both batching and additional cores.  
 Augmentation is lightweight and benefits from being fused with retrieval to avoid extra copies.  
 Generation is GPU-bound but stable unless models are frequently reloaded or prompts become excessively long.  
@@ -124,6 +125,11 @@ Therefore, effective pipeline orchestration requires:
 (ii) batch sizing that maximizes utilization without breaching cache/DRAM limits, and  
 (iii) selective offloading, only stages whose compute time exceeds transfer overheads, should migrate to the GPU.  
 These insights inform the multi-stage scheduling strategy introduced in \Cref{sec:04Design}.
+
+\begin{newtext}
+\noindent\textbf{Portability of these trends to embedded platforms:}
+The characterization above was performed on the local/personal-computing platform of \Cref{sec:BG:Scope}. Because the optimizations we derive from it target CPU-side encoding and retrieval, the same trends hold on embedded platforms such as the Jetson AGX Orin. The primary difference there is the elimination of PCIe transfer overhead in unified memory systems. A similar trend is observed across SKUs and vendors.
+\end{newtext}
 
 %%%%%%%%%% %%%%%%%%%% %%%%%%%%%% %%%%%%%%%%
 % \noindent\textbf{Execution Breakdown Across Stages:} 
