@@ -26,7 +26,7 @@ tabs:
   unlisted: ["CachingResults4090"]
 
 # The .tex files reached from main.tex.  Numeric-literal extraction runs over these only.
-tex_sources: ["abstract.tex", "introduction.tex", "background&motivation.tex", "characterization.tex", "design.tex", "implementation&eval.tex", "related_work.tex", "conclusion.tex", "TablesAlgos/CachingTable.tex", "TablesAlgos/Jetson4090A100.tex", "TablesAlgos/LatencyBreakdown.tex"]
+tex_sources: ["abstract.tex", "introduction.tex", "background&motivation.tex", "characterization.tex", "design.tex", "implementation&eval.tex", "related_work.tex", "conclusion.tex", "TablesAlgos/CachingTable.tex", "TablesAlgos/Jetson4090A100.tex", "TablesAlgos/LatencyBreakdown.tex", "TablesAlgos/PowerEnergy.tex"]
 
 checks:
 
@@ -1015,11 +1015,10 @@ checks:
 
   - id: fig6_avgpower_cpu_flashrag
     origin: task06
-    description: "Figure 6 panel 1: average CPU power, flashrag"
+    description: "Table 3, power: average CPU power, flashrag"
     kind: value
     claimed: 48.3
-    locations: []
-    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    locations: ["TablesAlgos/PowerEnergy.tex:12"]
     tolerance: 0.0
     expect: PASS
     source:
@@ -1029,11 +1028,10 @@ checks:
 
   - id: fig6_avgpower_gpu_flashrag
     origin: task06
-    description: "Figure 6 panel 1: average GPU power, flashrag"
+    description: "Table 3, power: average GPU power, flashrag"
     kind: value
     claimed: 83.67
-    locations: []
-    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    locations: ["TablesAlgos/PowerEnergy.tex:13"]
     tolerance: 0.0
     expect: PASS
     source:
@@ -1043,11 +1041,10 @@ checks:
 
   - id: fig6_peakpower_cpu_flashrag
     origin: task06
-    description: "Figure 6 panel 2: peak CPU power, flashrag"
+    description: "Table 3, power: peak CPU power, flashrag"
     kind: value
     claimed: 184.2
-    locations: []
-    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    locations: ["TablesAlgos/PowerEnergy.tex:14"]
     tolerance: 0.0
     expect: PASS
     source:
@@ -1057,11 +1054,10 @@ checks:
 
   - id: fig6_peakpower_gpu_flashrag
     origin: task06
-    description: "Figure 6 panel 2: peak GPU power, flashrag"
+    description: "Table 3, power: peak GPU power, flashrag"
     kind: value
     claimed: 244.8
-    locations: []
-    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    locations: ["TablesAlgos/PowerEnergy.tex:15"]
     tolerance: 0.0
     expect: PASS
     source:
@@ -1071,11 +1067,10 @@ checks:
 
   - id: fig6_energy_cpu_flashrag
     origin: task06
-    description: "Figure 6 panel 3: CPU energy per query, flashrag"
+    description: "Table 3, energy per query: CPU energy per query, flashrag"
     kind: value
     claimed: 289.8
-    locations: []
-    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    locations: ["TablesAlgos/PowerEnergy.tex:18"]
     tolerance: 0.005
     expect: PASS
     source:
@@ -1085,11 +1080,10 @@ checks:
 
   - id: fig6_energy_gpu_flashrag
     origin: task06
-    description: "Figure 6 panel 3: GPU energy per query, flashrag"
+    description: "Table 3, energy per query: GPU energy per query, flashrag"
     kind: value
     claimed: 502.2
-    locations: []
-    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    locations: ["TablesAlgos/PowerEnergy.tex:19"]
     tolerance: 0.005
     expect: PASS
     source:
@@ -1099,11 +1093,10 @@ checks:
 
   - id: fig6_avgpower_cpu_piperag
     origin: task06
-    description: "Figure 6 panel 1: average CPU power, piperag"
+    description: "Table 3, power: average CPU power, piperag"
     kind: value
     claimed: 62.72
-    locations: []
-    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    locations: ["TablesAlgos/PowerEnergy.tex:12"]
     tolerance: 0.0
     expect: PASS
     source:
@@ -1113,11 +1106,10 @@ checks:
 
   - id: fig6_avgpower_gpu_piperag
     origin: task06
-    description: "Figure 6 panel 1: average GPU power, piperag"
+    description: "Table 3, power: average GPU power, piperag"
     kind: value
     claimed: 58.48
-    locations: []
-    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    locations: ["TablesAlgos/PowerEnergy.tex:13"]
     tolerance: 0.0
     expect: PASS
     source:
@@ -1127,11 +1119,10 @@ checks:
 
   - id: fig6_peakpower_cpu_piperag
     origin: task06
-    description: "Figure 6 panel 2: peak CPU power, piperag"
+    description: "Table 3, power: peak CPU power, piperag"
     kind: value
     claimed: 171.09
-    locations: []
-    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    locations: ["TablesAlgos/PowerEnergy.tex:14"]
     tolerance: 0.0
     expect: PASS
     source:
@@ -1141,11 +1132,10 @@ checks:
 
   - id: fig6_peakpower_gpu_piperag
     origin: task06
-    description: "Figure 6 panel 2: peak GPU power, piperag"
+    description: "Table 3, power: peak GPU power, piperag"
     kind: value
     claimed: 252.43
-    locations: []
-    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    locations: ["TablesAlgos/PowerEnergy.tex:15"]
     tolerance: 0.0
     expect: PASS
     source:
@@ -1155,11 +1145,10 @@ checks:
 
   - id: fig6_energy_cpu_piperag
     origin: task06
-    description: "Figure 6 panel 3: CPU energy per query, piperag"
+    description: "Table 3, energy per query: CPU energy per query, piperag"
     kind: value
     claimed: 407.62
-    locations: []
-    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    locations: ["TablesAlgos/PowerEnergy.tex:18"]
     tolerance: 0.005
     expect: PASS
     source:
@@ -1169,11 +1158,10 @@ checks:
 
   - id: fig6_energy_gpu_piperag
     origin: task06
-    description: "Figure 6 panel 3: GPU energy per query, piperag"
+    description: "Table 3, energy per query: GPU energy per query, piperag"
     kind: value
     claimed: 373.305
-    locations: []
-    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    locations: ["TablesAlgos/PowerEnergy.tex:19"]
     tolerance: 0.005
     expect: PASS
     source:
@@ -1183,11 +1171,10 @@ checks:
 
   - id: fig6_avgpower_cpu_maestrorag
     origin: task06
-    description: "Figure 6 panel 1: average CPU power, maestrorag"
+    description: "Table 3, power: average CPU power, maestrorag"
     kind: value
     claimed: 42.37
-    locations: []
-    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    locations: ["TablesAlgos/PowerEnergy.tex:12"]
     tolerance: 0.0
     expect: PASS
     source:
@@ -1197,11 +1184,10 @@ checks:
 
   - id: fig6_avgpower_gpu_maestrorag
     origin: task06
-    description: "Figure 6 panel 1: average GPU power, maestrorag"
+    description: "Table 3, power: average GPU power, maestrorag"
     kind: value
     claimed: 42.06
-    locations: []
-    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    locations: ["TablesAlgos/PowerEnergy.tex:13"]
     tolerance: 0.0
     expect: PASS
     source:
@@ -1211,11 +1197,10 @@ checks:
 
   - id: fig6_peakpower_cpu_maestrorag
     origin: task06
-    description: "Figure 6 panel 2: peak CPU power, maestrorag"
+    description: "Table 3, power: peak CPU power, maestrorag"
     kind: value
     claimed: 158.3
-    locations: []
-    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    locations: ["TablesAlgos/PowerEnergy.tex:14"]
     tolerance: 0.0
     expect: PASS
     source:
@@ -1225,11 +1210,10 @@ checks:
 
   - id: fig6_peakpower_gpu_maestrorag
     origin: task06
-    description: "Figure 6 panel 2: peak GPU power, maestrorag"
+    description: "Table 3, power: peak GPU power, maestrorag"
     kind: value
     claimed: 244.4
-    locations: []
-    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    locations: ["TablesAlgos/PowerEnergy.tex:15"]
     tolerance: 0.0
     expect: PASS
     source:
@@ -1239,11 +1223,10 @@ checks:
 
   - id: fig6_energy_cpu_maestrorag
     origin: task06
-    description: "Figure 6 panel 3: CPU energy per query, maestrorag"
+    description: "Table 3, energy per query: CPU energy per query, maestrorag"
     kind: value
     claimed: 127.1
-    locations: []
-    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    locations: ["TablesAlgos/PowerEnergy.tex:18"]
     tolerance: 0.005
     expect: PASS
     source:
@@ -1253,11 +1236,10 @@ checks:
 
   - id: fig6_energy_gpu_maestrorag
     origin: task06
-    description: "Figure 6 panel 3: GPU energy per query, maestrorag"
+    description: "Table 3, energy per query: GPU energy per query, maestrorag"
     kind: value
     claimed: 126.18
-    locations: []
-    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
+    locations: ["TablesAlgos/PowerEnergy.tex:19"]
     tolerance: 0.005
     expect: PASS
     source:
@@ -1267,11 +1249,10 @@ checks:
 
   - id: fig6_share_flashrag_ra
     origin: rebuttal
-    description: "Figure 6 panel 4: FlashRAG retrieval+augmentation share, share of idle-subtracted CPU energy"
+    description: "Table 3, stage share: FlashRAG retrieval+augmentation share, share of idle-subtracted CPU energy"
     kind: value
     claimed: 79.2
     locations: ["implementation&eval.tex:174"]
-    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
     tolerance: 0.0
     expect: PASS
     source:
@@ -1281,11 +1262,10 @@ checks:
 
   - id: fig6_share_flashrag_gen
     origin: rebuttal
-    description: "Figure 6 panel 4: FlashRAG generation-driving share, share of idle-subtracted CPU energy"
+    description: "Table 3, stage share: FlashRAG generation-driving share, share of idle-subtracted CPU energy"
     kind: value
     claimed: 19.1
     locations: ["implementation&eval.tex:174"]
-    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
     tolerance: 0.0
     expect: PASS
     source:
@@ -1295,11 +1275,10 @@ checks:
 
   - id: fig6_share_flashrag_other
     origin: rebuttal
-    description: "Figure 6 panel 4: FlashRAG other share, share of idle-subtracted CPU energy"
+    description: "Table 3, stage share: FlashRAG other share, share of idle-subtracted CPU energy"
     kind: value
     claimed: 1.8
     locations: ["implementation&eval.tex:174"]
-    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
     tolerance: 0.0
     expect: PASS
     source:
@@ -1309,11 +1288,10 @@ checks:
 
   - id: fig6_share_piperag_encode
     origin: rebuttal
-    description: "Figure 6 panel 4: PipeRAG encode share, share of idle-subtracted CPU energy"
+    description: "Table 3, stage share: PipeRAG encode share, share of idle-subtracted CPU energy"
     kind: value
     claimed: 20.4
     locations: ["implementation&eval.tex:174"]
-    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
     tolerance: 0.0
     expect: PASS
     source:
@@ -1323,11 +1301,10 @@ checks:
 
   - id: fig6_share_piperag_retrieve
     origin: rebuttal
-    description: "Figure 6 panel 4: PipeRAG retrieve share, share of idle-subtracted CPU energy"
+    description: "Table 3, stage share: PipeRAG retrieve share, share of idle-subtracted CPU energy"
     kind: value
     claimed: 64.5
     locations: ["implementation&eval.tex:174"]
-    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
     tolerance: 0.0
     expect: PASS
     source:
@@ -1337,11 +1314,10 @@ checks:
 
   - id: fig6_share_piperag_augment
     origin: rebuttal
-    description: "Figure 6 panel 4: PipeRAG augment share, share of idle-subtracted CPU energy"
+    description: "Table 3, stage share: PipeRAG augment share, share of idle-subtracted CPU energy"
     kind: value
     claimed: 0
     locations: ["implementation&eval.tex:174"]
-    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
     tolerance: 0.0
     expect: PASS
     source:
@@ -1351,11 +1327,10 @@ checks:
 
   - id: fig6_share_piperag_gen
     origin: rebuttal
-    description: "Figure 6 panel 4: PipeRAG generation share, share of idle-subtracted CPU energy"
+    description: "Table 3, stage share: PipeRAG generation share, share of idle-subtracted CPU energy"
     kind: value
     claimed: 15.6
     locations: ["implementation&eval.tex:174"]
-    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
     tolerance: 0.0
     expect: PASS
     source:
@@ -1365,11 +1340,10 @@ checks:
 
   - id: fig6_share_maestro_encode
     origin: rebuttal
-    description: "Figure 6 panel 4: MaestroRAG encode share, share of idle-subtracted CPU energy"
+    description: "Table 3, stage share: MaestroRAG encode share, share of idle-subtracted CPU energy"
     kind: value
     claimed: 5.5
     locations: ["implementation&eval.tex:174"]
-    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
     tolerance: 0.0
     expect: PASS
     source:
@@ -1379,11 +1353,10 @@ checks:
 
   - id: fig6_share_maestro_ra
     origin: rebuttal
-    description: "Figure 6 panel 4: MaestroRAG fused retrieve+augment share, share of idle-subtracted CPU energy"
+    description: "Table 3, stage share: MaestroRAG fused retrieve+augment share, share of idle-subtracted CPU energy"
     kind: value
     claimed: 83.2
     locations: ["implementation&eval.tex:174"]
-    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
     tolerance: 0.0
     expect: PASS
     source:
@@ -1393,14 +1366,55 @@ checks:
 
   - id: fig6_share_maestro_gen
     origin: rebuttal
-    description: "Figure 6 panel 4: MaestroRAG generation share, share of idle-subtracted CPU energy"
+    description: "Table 3, stage share: MaestroRAG generation share, share of idle-subtracted CPU energy"
     kind: value
     claimed: 11.2
     locations: ["implementation&eval.tex:174"]
-    figure_only: "Figure 6 (Figs/cr/fig6_power_energy_breakdown.pdf), plotted by plots/cr/fig6_power_energy.py"
     tolerance: 0.0
     expect: PASS
     source:
       file: docs/Untitled document.md
       regex: 'MaestroRAG:[0-9.]+%E, [0-9.]+%RA, ([0-9.]+)%G'
       note: "rebuttal, Reviewer-B power breakdown"
+
+  - id: table3_energy_total_flashrag
+    origin: task07
+    description: "Table 3: total energy per query, the sum of the CPU and GPU rows above it"
+    kind: value
+    claimed: 792.0
+    locations: ["TablesAlgos/PowerEnergy.tex:20"]
+    tolerance: 0.005
+    tolerance_rationale: "table prints 2 dp"
+    expect: PASS
+    source:
+      sheet: PowerComp
+      cells: {cpu: C6, gpu: C7}
+      derivation: "(cpu + gpu) / 2"
+
+  - id: table3_energy_total_piperag
+    origin: task07
+    description: "Table 3: total energy per query, the sum of the CPU and GPU rows above it"
+    kind: value
+    claimed: 780.92
+    locations: ["TablesAlgos/PowerEnergy.tex:20"]
+    tolerance: 0.005
+    tolerance_rationale: "table prints 2 dp"
+    expect: PASS
+    source:
+      sheet: PowerComp
+      cells: {cpu: D6, gpu: D7}
+      derivation: "(cpu + gpu) / 2"
+
+  - id: table3_energy_total_maestro
+    origin: task07
+    description: "Table 3: total energy per query, the sum of the CPU and GPU rows above it"
+    kind: value
+    claimed: 253.28
+    locations: ["TablesAlgos/PowerEnergy.tex:20"]
+    tolerance: 0.005
+    tolerance_rationale: "table prints 2 dp"
+    expect: PASS
+    source:
+      sheet: PowerComp
+      cells: {cpu: E6, gpu: E7}
+      derivation: "(cpu + gpu) / 2"

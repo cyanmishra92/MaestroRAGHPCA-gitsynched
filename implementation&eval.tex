@@ -127,14 +127,15 @@ By confining encoding and retrieval to the CPU and using memory-mapped indices,
 \end{wrapfigure}
 we eliminate large data copies and cut overhead relative to EdgeRAG by 25\%--35\%. Although gains are smaller than on larger GPUs, they illustrate that our pipeline and data-sharing optimizations still yield meaningful benefits on edge devices.
 
-\begin{figure*}[t]
-    \centering
-% CR-REPLACED: \includegraphics[width=0.8\linewidth]{Figs/power_energy_comparison.pdf}
-    \includegraphics[width=\linewidth]{Figs/cr/fig6_power_energy_breakdown.pdf}
-    \caption{\new{Power and energy on the Intel i9-14900K platform with an RTX\,4090 GPU at \texttt{BS=2}, \texttt{DB=4\,M}, and \texttt{top-k=5}. Left of the rule, average and peak power for the CPU and the GPU. Right of the rule, energy per query and the composition of CPU energy by pipeline stage. Power and energy are measured at the CPU package and at the GPU board. The composition is a share of idle-subtracted CPU package energy with DRAM excluded, so it is drawn on its own normalized axis rather than stacked onto the absolute joules beside it. \edgeRAG{} is excluded throughout.}}
-    \label{fig:powerEnergyPlot}
-    \vspace{-10pt}
-\end{figure*}
+% CR-REPLACED: \begin{figure*}[t]
+% CR-REPLACED:     \centering
+% CR-REPLACED: % CR-REPLACED: \includegraphics[width=0.8\linewidth]{Figs/power_energy_comparison.pdf}
+% CR-REPLACED:     \includegraphics[width=\linewidth]{Figs/cr/fig6_power_energy_breakdown.pdf}
+% CR-REPLACED:     \caption{\new{Power and energy on the Intel i9-14900K platform with an RTX\,4090 GPU at \texttt{BS=2}, \texttt{DB=4\,M}, and \texttt{top-k=5}. Left of the rule, average and peak power for the CPU and the GPU. Right of the rule, energy per query and the composition of CPU energy by pipeline stage. Power and energy are measured at the CPU package and at the GPU board. The composition is a share of idle-subtracted CPU package energy with DRAM excluded, so it is drawn on its own normalized axis rather than stacked onto the absolute joules beside it. \edgeRAG{} is excluded throughout.}}
+% CR-REPLACED:     \label{fig:powerEnergyPlot}
+% CR-REPLACED:     \vspace{-10pt}
+% CR-REPLACED: \end{figure*}
+\input{TablesAlgos/PowerEnergy}
 
 % %%%%%%%%%%%%%%%%%%%%%% OLD LATENCY RESULT %%%%%%%%%%%%%%%%%%%%%%
 % \subsection{Main Latency Results}
@@ -171,7 +172,7 @@ For CPU
 %\red{(socket only, as it is difficult to measure exact DRAM power) }
 power measurement, we employ \texttt{turbostat} utility~\cite{turbostat}, which provides hardware-based power consumption data by accessing Model-Specific Registers and Running Average Power Limit counters. This approach delivers package- and core-level power measurements with sampling at a 10Hz frequency.  GPU power consumption is measured using the \texttt{nvidia-smi}, which queries on-board power sensors to obtain instantaneous power draw at \emph{20Hz} sampling frequency. For the Jetson platform, we cap the power to $15W$ only, which is the lowest power setting offered on the particular platform representative of the handheld mobile devices used everyday.
 
-The power and energy measurement results are plotted in \Cref{fig:powerEnergyPlot}. MaestroRAG significantly outperforms FlashRAG and PipeRAG in energy efficiency, only consuming $253.3J/query$, compared to \new{$792.00J$} and $780.92J/query$ for FlashRAG and PipeRAG, respectively. Moreover, FlashRAG and PipeRAG exhibit \new{$16.36\%$} and \new{$8.08\%$} higher peak CPU power usage, respectively.
+The power and energy measurement results are reported in \Cref{tab:power_energy}. MaestroRAG significantly outperforms FlashRAG and PipeRAG in energy efficiency, only consuming $253.3J/query$, compared to \new{$792.00J$} and $780.92J/query$ for FlashRAG and PipeRAG, respectively. Moreover, FlashRAG and PipeRAG exhibit \new{$16.36\%$} and \new{$8.08\%$} higher peak CPU power usage, respectively.
 \new{Attributing CPU package energy to pipeline stages, after subtracting idle package power and with DRAM excluded, gives $79.2\%$ retrieval and augmentation, $19.1\%$ generation-driving, and $1.8\%$ other for FlashRAG; $20.4\%$ encoding, $64.5\%$ retrieval, $0\%$ augmentation, and $15.6\%$ generation for PipeRAG; and $5.5\%$ encoding, $83.2\%$ fused retrieval and augmentation, and $11.2\%$ generation for MaestroRAG. These shares are of idle-subtracted energy, so they are reported as proportions rather than as a decomposition of the absolute totals above.}
 %These findings confirm the efficiency advantages introduced by our design. 
 The power consumption results for EdgeRAG are excluded from our evaluation due to implementation differences that preclude a fair comparison. EdgeRAG employs an on-demand embedding generation strategy that computes target cluster embeddings during cache misses, introducing additional computational overhead that substantially increases the system's power profile compared to MaestroRAG. \new{Because that path performs additional, non-equivalent work, a per-stage energy attribution for \edgeRAG{} would not be comparable with the other three systems.}

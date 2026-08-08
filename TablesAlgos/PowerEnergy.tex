@@ -1,0 +1,31 @@
+\begin{table}[t]
+\centering
+\caption{\new{Power and energy on the Intel i9-14900K platform with an RTX\,4090 GPU at \texttt{BS=2}, \texttt{DB=4\,M}, and \texttt{top-k=5}. \flashRAG{}: FR; \pipeRAG{}: PR; \design{}: MR. Power and energy are measured at the CPU package and at the GPU board. The stage shares are of idle-subtracted CPU package energy with DRAM excluded, and may not sum to exactly 100\% because of rounding. A spanned cell marks stages a system reports together. \emph{n/r}: not separately reported. \edgeRAG{} is excluded throughout.}}
+\label{tab:power_energy}
+{\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Metric} & \textbf{FR} & \textbf{PR} & \textbf{MR} \\
+\midrule
+\multicolumn{4}{l}{\emph{Power (W)}} \\
+\quad Average, CPU & 48.30 & 62.72 & 42.37 \\
+\quad Average, GPU & 83.67 & 58.48 & 42.06 \\
+\quad Peak, CPU & 184.20 & 171.09 & 158.30 \\
+\quad Peak, GPU & 244.80 & 252.43 & 244.40 \\
+\midrule
+\multicolumn{4}{l}{\emph{Energy per query (J)}} \\
+\quad CPU & 289.80 & 407.62 & 127.10 \\
+\quad GPU & 502.20 & 373.31 & 126.18 \\
+\quad Total & 792.00 & 780.92 & 253.28 \\
+\midrule
+\multicolumn{4}{l}{\emph{Share of attributed CPU energy (\%)}} \\
+\quad Encode & \emph{n/r} & 20.4 & 5.5 \\
+\quad Retrieve & \multirow{2}{*}{79.2} & 64.5 & \multirow{2}{*}{83.2} \\
+\quad Augment & & 0.0 & \\
+\quad Generation-driving & 19.1 & 15.6 & 11.2 \\
+\quad Other & 1.8 & \emph{n/r} & \emph{n/r} \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
