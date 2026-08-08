@@ -1,0 +1,26 @@
+# LaTeX build artifacts
+# The built PDF is ignored because the repo has never tracked it. Delete the next
+# line if the camera-ready PDF should be versioned alongside the sources.
+main.pdf
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.spl
+
+# Office lock/owner files
+~$*
+
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc

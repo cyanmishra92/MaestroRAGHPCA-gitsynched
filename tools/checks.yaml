@@ -1,0 +1,561 @@
+# checks.yaml -- quantitative claim checks for the MaestroRAG IISWC 2026 camera-ready.
+#
+# Consumed by tools/verify_numbers.py.  Every entry states, explicitly:
+#   claimed      what the PAPER prints (or, for figure-only values, what the figure shows)
+#   locations    where in the .tex that literal lives ("file:line"); [] means figure-only
+#   source       which WORKBOOK cells back it, and how they combine
+#   tolerance    how far claimed may sit from the workbook-derived value
+#   expect       the status this check is KNOWN to have today
+#
+# `expect` is the regression anchor.  When the observed status differs from `expect`,
+# the script reports DRIFT and (with --strict) exits non-zero.  A check whose expect is
+# FAIL is a known, unfixed defect awaiting its own task -- not something to silently
+# repair here.
+#
+# Cell references are 1-based A1 notation into the named sheet.
+
+workbook: data/MaestroRAGResults.xlsx
+
+tabs:
+  # The ONLY tabs verify_numbers.py is permitted to read.
+  allowed: ["Motivation", "Breakdown", "PowerComp", "mainLatencyResults", "Mapping", "ThroughputResult", "LatencyResults-NoCache4090", "LatencyResults-NoCache4080", "LatencyResults-NoCacheJetson", "edge vs. server"]
+  # Known-stale tabs.  Never read for evidence.  If a paper literal matches a value that
+  # appears ONLY in one of these, the script raises a stale-source warning.
+  stale: ["Encode", "Retrieval", "Comparison"]
+  # Present in the workbook but outside the authorised set; neither read nor scanned.
+  unlisted: ["CachingResults4090"]
+
+# The .tex files reached from main.tex.  Numeric-literal extraction runs over these only.
+tex_sources: ["abstract.tex", "introduction.tex", "background&motivation.tex", "characterization.tex", "design.tex", "implementation&eval.tex", "related_work.tex", "conclusion.tex", "TablesAlgos/CachingTable.tex"]
+
+checks:
+
+  # ---------------------------------------------------------------- seed: main latency
+  - id: main_latency_4090
+    origin: seed
+    description: "End-to-end latency, RTX 4090, BS=8, DB=4M"
+    kind: value
+    claimed: 6.50
+    locations: ["implementation&eval.tex:145"]
+    tolerance: 0.005
+    tolerance_rationale: "paper prints 2 dp; half of last displayed digit"
+    expect: PASS
+    source:
+      sheet: mainLatencyResults
+      cells: {ours_4090: C5}
+      derivation: "ours_4090"
+
+  - id: main_latency_4080
+    origin: seed
+    description: "End-to-end latency, RTX 4080, BS=8, DB=4M"
+    kind: value
+    claimed: 3.96
+    locations: ["implementation&eval.tex:146"]
+    tolerance: 0.005
+    tolerance_rationale: "paper prints 2 dp"
+    expect: PASS
+    source:
+      sheet: mainLatencyResults
+      cells: {ours_4080: D5}
+      derivation: "ours_4080"
+
+  - id: main_latency_jetson
+    origin: seed
+    description: "End-to-end latency, Jetson AGX Orin, BS=8, DB=1M"
+    kind: value
+    claimed: 28.56
+    locations: ["implementation&eval.tex:147"]
+    tolerance: 0.005
+    tolerance_rationale: "paper prints the workbook value verbatim"
+    expect: PASS
+    source:
+      sheet: mainLatencyResults
+      cells: {ours_jetson: E5}
+      derivation: "ours_jetson"
+
+  # ------------------------------------------------------------------- seed: speedups
+  - id: speedup_edgerag_bs8_db8m
+    origin: seed
+    description: "Speedup vs EdgeRAG, RTX 4090, BS=8, DB=8M -- the headline 12x"
+    kind: at_least
+    claimed: 12
+    locations: ["abstract.tex:1", "introduction.tex:132", "introduction.tex:184", "conclusion.tex:3", "conclusion.tex:8"]
+    tolerance: 0.0
+    tolerance_rationale: "'up to 12x' is a floor claim; workbook must meet or exceed it"
+    expect: PASS
+    source:
+      sheet: LatencyResults-NoCache4090
+      cells: {sp: M12}
+      derivation: "sp"
+
+  - id: speedup_edgerag_bs16_db8m
+    origin: seed
+    description: "Speedup vs EdgeRAG, RTX 4090, BS=16, DB=8M -- plotted in Fig. 4b only"
+    kind: value
+    claimed: 6.152
+    locations: []
+    figure_only: "Figure 4b (Figs/4090speedupEdgeRAG.pdf)"
+    tolerance: 0.001
+    tolerance_rationale: "figure-value regression anchor against the workbook cell"
+    expect: PASS
+    source:
+      sheet: LatencyResults-NoCache4090
+      cells: {sp: M13}
+      derivation: "sp"
+
+  - id: jetson_speedup_bs8
+    origin: seed
+    description: "Jetson speedup over EdgeRAG at BS=8"
+    kind: value
+    claimed: 1.35
+    locations: ["implementation&eval.tex:109", "implementation&eval.tex:147", "implementation&eval.tex:305"]
+    tolerance: 0.01
+    tolerance_rationale: "paper hedges with 'up to'/'about'; 2 dp plus approximation slack"
+    expect: PASS
+    source:
+      sheet: LatencyResults-NoCacheJetson
+      cells: {sp: F31}
+      derivation: "sp"
+
+  - id: jetson_speedup_bs16
+    origin: seed
+    description: "Jetson speedup over EdgeRAG at BS=16"
+    kind: value
+    claimed: 1.25
+    locations: ["implementation&eval.tex:109"]
+    tolerance: 0.01
+    tolerance_rationale: "paper says 'about 1.25x'"
+    expect: PASS
+    source:
+      sheet: LatencyResults-NoCacheJetson
+      cells: {sp: F32}
+      derivation: "sp"
+
+  # ----------------------------------------------------------------- seed: throughput
+  - id: throughput_4090_maestro
+    origin: seed
+    description: "Throughput, RTX 4090, MaestroRAG (QPS)"
+    kind: value
+    claimed: 1.60
+    locations: ["implementation&eval.tex:154"]
+    tolerance: 0.005
+    expect: PASS
+    source:
+      sheet: ThroughputResult
+      cells: {v: E4}
+      derivation: "v"
+
+  - id: throughput_4090_edgerag
+    origin: seed
+    description: "Throughput, RTX 4090, EdgeRAG (QPS)"
+    kind: value
+    claimed: 0.29
+    locations: ["implementation&eval.tex:154"]
+    tolerance: 0.005
+    expect: PASS
+    source:
+      sheet: ThroughputResult
+      cells: {v: E5}
+      derivation: "v"
+
+  - id: throughput_4090_flashrag
+    origin: seed
+    description: "Throughput, RTX 4090, FlashRAG (QPS)"
+    kind: value
+    claimed: 0.68
+    locations: ["implementation&eval.tex:154"]
+    tolerance: 0.005
+    expect: PASS
+    source:
+      sheet: ThroughputResult
+      cells: {v: E6}
+      derivation: "v"
+
+  - id: throughput_4090_piperag
+    origin: seed
+    description: "Throughput, RTX 4090, PipeRAG (QPS)"
+    kind: value
+    claimed: 1.19
+    locations: ["implementation&eval.tex:154"]
+    tolerance: 0.005
+    expect: PASS
+    source:
+      sheet: ThroughputResult
+      cells: {v: E7}
+      derivation: "v"
+
+  - id: throughput_jetson_maestro
+    origin: seed
+    description: "Throughput, Jetson, MaestroRAG (QPS)"
+    kind: value
+    claimed: 0.43
+    locations: ["implementation&eval.tex:154"]
+    tolerance: 0.005
+    expect: PASS
+    source:
+      sheet: ThroughputResult
+      cells: {v: H4}
+      derivation: "v"
+
+  - id: throughput_jetson_edgerag
+    origin: seed
+    description: "Throughput, Jetson, EdgeRAG (QPS)"
+    kind: value
+    claimed: 0.064
+    locations: ["implementation&eval.tex:154"]
+    tolerance: 0.001
+    tolerance_rationale: "paper truncates 0.0645 to 0.064 rather than rounding"
+    expect: PASS
+    source:
+      sheet: ThroughputResult
+      cells: {v: H5}
+      derivation: "v"
+
+  - id: throughput_jetson_flashrag_absent
+    origin: seed
+    description: "Throughput, Jetson, FlashRAG -- must have NO number (vLLM unsupported on Jetson)"
+    kind: absent
+    claimed: null
+    locations: []
+    tolerance: 0.0
+    expect: PASS
+    source:
+      sheet: ThroughputResult
+      cells: {v: H6}
+      derivation: "v"
+
+  - id: throughput_jetson_piperag
+    origin: seed
+    description: "Throughput, Jetson, PipeRAG (QPS)"
+    kind: value
+    claimed: 0.37
+    locations: ["implementation&eval.tex:154"]
+    tolerance: 0.005
+    expect: PASS
+    source:
+      sheet: ThroughputResult
+      cells: {v: H7}
+      derivation: "v"
+
+  # --------------------------------------------------------------- seed: energy/power
+  - id: energy_per_query_maestro
+    origin: seed
+    description: "Energy per query, MaestroRAG, BS=2 -- mean of CPU and GPU energy"
+    kind: value
+    claimed: 253.3
+    locations: ["implementation&eval.tex:164"]
+    tolerance: 0.05
+    tolerance_rationale: "paper prints 1 dp"
+    expect: PASS
+    source:
+      sheet: PowerComp
+      cells: {cpu: E6, gpu: E7}
+      derivation: "(cpu + gpu) / 2"
+
+  - id: energy_per_query_flashrag
+    origin: seed
+    description: "Energy per query, FlashRAG, BS=2 -- mean of CPU and GPU energy"
+    kind: value
+    claimed: 791.8
+    locations: ["implementation&eval.tex:164"]
+    tolerance: 0.05
+    tolerance_rationale: "paper prints 1 dp; workbook gives 792.00, so 791.8 is not a rounding of it"
+    expect: FAIL
+    known_defect: "Paper prints 791.8 J; (579.6 + 1004.4)/2 = 792.00 J. Off by 0.2 J."
+    source:
+      sheet: PowerComp
+      cells: {cpu: C6, gpu: C7}
+      derivation: "(cpu + gpu) / 2"
+
+  - id: energy_per_query_piperag
+    origin: seed
+    description: "Energy per query, PipeRAG, BS=2 -- mean of CPU and GPU energy"
+    kind: value
+    claimed: 780.92
+    locations: ["implementation&eval.tex:164"]
+    tolerance: 0.01
+    tolerance_rationale: "paper prints 2 dp"
+    expect: PASS
+    source:
+      sheet: PowerComp
+      cells: {cpu: D6, gpu: D7}
+      derivation: "(cpu + gpu) / 2"
+
+  - id: peak_cpu_power_delta_flashrag
+    origin: seed
+    description: "FlashRAG peak CPU power excess over MaestroRAG, percent"
+    kind: value
+    claimed: 16.45
+    locations: ["implementation&eval.tex:164"]
+    tolerance: 0.05
+    tolerance_rationale: "paper prints 2 dp"
+    expect: FAIL
+    known_defect: "Paper says 16.45%; (184.2 - 158.3)/158.3 = 16.36%. Awaiting its own task."
+    source:
+      sheet: PowerComp
+      cells: {flash: C4, ours: E4}
+      derivation: "(flash - ours) / ours * 100"
+
+  - id: peak_cpu_power_delta_piperag
+    origin: seed
+    description: "PipeRAG peak CPU power excess over MaestroRAG, percent"
+    kind: value
+    claimed: 8.22
+    locations: ["implementation&eval.tex:164"]
+    tolerance: 0.05
+    tolerance_rationale: "paper prints 2 dp"
+    expect: FAIL
+    known_defect: "Paper says 8.22%; (171.09 - 158.3)/158.3 = 8.08%. Awaiting its own task."
+    source:
+      sheet: PowerComp
+      cells: {pipe: D4, ours: E4}
+      derivation: "(pipe - ours) / ours * 100"
+
+  # ---------------------------------------------------------- seed: Fig. 2a breakdown
+  - id: fig2a_encode
+    origin: seed
+    description: "Fig. 2a Encode stage total (startup + execution)"
+    kind: value
+    claimed: 0.718
+    locations: []
+    figure_only: "Figure 2a (Figs/stacked_graph.pdf)"
+    tolerance: 0.001
+    expect: PASS
+    source:
+      sheet: Breakdown
+      cells: {startup: C3, execution: D3}
+      derivation: "startup + execution"
+
+  - id: fig2a_retrieve
+    origin: seed
+    description: "Fig. 2a Retrieve stage total (startup + execution)"
+    kind: value
+    claimed: 7.738
+    locations: []
+    figure_only: "Figure 2a (Figs/stacked_graph.pdf)"
+    tolerance: 0.001
+    expect: PASS
+    source:
+      sheet: Breakdown
+      cells: {startup: C4, execution: D4}
+      derivation: "startup + execution"
+
+  - id: fig2a_augment
+    origin: seed
+    description: "Fig. 2a Augment stage total"
+    kind: value
+    claimed: 0.100
+    locations: []
+    figure_only: "Figure 2a (Figs/stacked_graph.pdf)"
+    tolerance: 0.001
+    expect: PASS
+    source:
+      sheet: Breakdown
+      cells: {startup: C5, execution: D5}
+      derivation: "startup + execution"
+
+  - id: fig2a_generate
+    origin: seed
+    description: "Fig. 2a Generate stage total"
+    kind: value
+    claimed: 3.410
+    locations: []
+    figure_only: "Figure 2a (Figs/stacked_graph.pdf)"
+    tolerance: 0.001
+    expect: PASS
+    source:
+      sheet: Breakdown
+      cells: {startup: C6, execution: D6}
+      derivation: "startup + execution"
+
+  - id: fig2a_grand_total
+    origin: seed
+    description: "Fig. 2a grand total across all four stages"
+    kind: value
+    claimed: 11.9659
+    locations: []
+    figure_only: "Figure 2a (Figs/stacked_graph.pdf)"
+    tolerance: 0.0001
+    expect: PASS
+    source:
+      sheet: Breakdown
+      cells: {total: C8}
+      derivation: "total"
+
+  # -------------------------------------------------- seed: Jetson overhead reduction
+  - id: jetson_overhead_reduction_band
+    origin: seed
+    description: "Claimed 25-35% latency reduction vs EdgeRAG on Jetson, all batch sizes"
+    kind: range
+    claimed: [25, 35]
+    locations: ["implementation&eval.tex:119"]
+    tolerance: 0.0
+    expect: FAIL
+    known_defect: "Workbook gives 8.6 / 23.8 / 26.0 / 20.4 % for BS=2/4/8/16. Only BS=8 lands in the band; the claimed range is wrong. Awaiting its own task."
+    source:
+      sheet: LatencyResults-NoCacheJetson
+      cells: {e2: D29, o2: E29, e4: D30, o4: E30, e8: D31, o8: E31, e16: D32, o16: E32}
+      derivation: "[(e2-o2)/e2*100, (e4-o4)/e4*100, (e8-o8)/e8*100, (e16-o16)/e16*100]"
+
+  # ------------------------------------------------------------- seed: cold-start cost
+  - id: cold_start_total
+    origin: seed
+    description: "Cold-start total: paper says ~7 s; its own components sum to 6.76 s"
+    kind: unverifiable
+    claimed: 7
+    locations: ["implementation&eval.tex:315"]
+    tolerance: 0.0
+    expect: UNVERIFIABLE
+    reason: "No authorised tab records cold-start timings. Components 0.36 + 3.04 + 3.36 = 6.76 s, which is 0.24 s short of the stated 7 s; this is a paper-internal arithmetic gap, not a workbook mismatch."
+    source: {}
+
+  # ============================ EXTENDED CHECKS (not in the seed table) ==============
+  # Added in Task 1 because their workbook cells are unambiguous. Same rules apply.
+
+  - id: baseline_latency_4090_flashrag
+    origin: extended
+    description: "FlashRAG end-to-end latency, RTX 4090"
+    kind: value
+    claimed: 16.39
+    locations: ["implementation&eval.tex:145"]
+    tolerance: 0.005
+    expect: PASS
+    source:
+      sheet: mainLatencyResults
+      cells: {v: C8}
+      derivation: "v"
+
+  - id: baseline_latency_4090_piperag
+    origin: extended
+    description: "PipeRAG end-to-end latency, RTX 4090"
+    kind: value
+    claimed: 19.80
+    locations: ["implementation&eval.tex:145"]
+    tolerance: 0.005
+    expect: PASS
+    source:
+      sheet: mainLatencyResults
+      cells: {v: C9}
+      derivation: "v"
+
+  - id: baseline_latency_jetson_edgerag
+    origin: extended
+    description: "EdgeRAG end-to-end latency, Jetson"
+    kind: value
+    claimed: 38.62
+    locations: ["implementation&eval.tex:147"]
+    tolerance: 0.005
+    expect: PASS
+    source:
+      sheet: mainLatencyResults
+      cells: {v: E7}
+      derivation: "v"
+
+  - id: speedup_4080_edgerag_bs8
+    origin: extended
+    description: "4080 speedup over EdgeRAG at BS=8, DB=4M"
+    kind: value
+    claimed: 8.8
+    locations: ["implementation&eval.tex:146"]
+    tolerance: 0.05
+    tolerance_rationale: "paper prints 1 dp"
+    expect: PASS
+    source:
+      sheet: LatencyResults-NoCache4080
+      cells: {v: D32}
+      derivation: "v"
+
+  - id: speedup_4080_flashrag_bs8
+    origin: extended
+    description: "4080 speedup over FlashRAG at BS=8, DB=4M"
+    kind: value
+    claimed: 1.9
+    locations: ["implementation&eval.tex:146"]
+    tolerance: 0.05
+    tolerance_rationale: "paper prints 1 dp; 1.96 should display as 2.0, not 1.9"
+    expect: FAIL
+    known_defect: "Paper says 1.9x; workbook gives 1.96x. Truncated instead of rounded."
+    source:
+      sheet: LatencyResults-NoCache4080
+      cells: {v: D37}
+      derivation: "v"
+
+  - id: speedup_4080_piperag_bs8
+    origin: extended
+    description: "4080 speedup over PipeRAG at BS=8, DB=4M"
+    kind: value
+    claimed: 5.4
+    locations: ["implementation&eval.tex:146"]
+    tolerance: 0.05
+    expect: PASS
+    source:
+      sheet: LatencyResults-NoCache4080
+      cells: {v: D42}
+      derivation: "v"
+
+  - id: throughput_speedup_jetson_edgerag
+    origin: extended
+    description: "Jetson throughput advantage over EdgeRAG"
+    kind: value
+    claimed: 6.7
+    locations: ["implementation&eval.tex:154"]
+    tolerance: 0.05
+    expect: PASS
+    source:
+      sheet: ThroughputResult
+      cells: {ours: H4, theirs: H5}
+      derivation: "ours / theirs"
+
+  - id: throughput_speedup_jetson_piperag
+    origin: extended
+    description: "Jetson throughput advantage over PipeRAG"
+    kind: value
+    claimed: 1.16
+    locations: ["implementation&eval.tex:154"]
+    tolerance: 0.01
+    tolerance_rationale: "paper says 'about 1.16x'"
+    expect: PASS
+    source:
+      sheet: ThroughputResult
+      cells: {ours: H4, theirs: H7}
+      derivation: "ours / theirs"
+
+  - id: headline_throughput_5_6x
+    origin: extended
+    description: "Headline 5.6x throughput gain (RTX 4090, vs EdgeRAG)"
+    kind: value
+    claimed: 5.6
+    locations: ["abstract.tex:1", "introduction.tex:132", "introduction.tex:184", "conclusion.tex:3"]
+    tolerance: 0.05
+    expect: PASS
+    source:
+      sheet: ThroughputResult
+      cells: {v: E9}
+      derivation: "v"
+
+  - id: headline_energy_3x
+    origin: extended
+    description: "Headline 3x energy advantage (best case, vs FlashRAG)"
+    kind: at_least
+    claimed: 3
+    locations: ["abstract.tex:1", "introduction.tex:132", "introduction.tex:184"]
+    tolerance: 0.0
+    tolerance_rationale: "'up to 3x' is a floor claim"
+    expect: PASS
+    source:
+      sheet: PowerComp
+      cells: {f_cpu: C6, f_gpu: C7, o_cpu: E6, o_gpu: E7}
+      derivation: "((f_cpu + f_gpu) / 2) / ((o_cpu + o_gpu) / 2)"
+
+  - id: ablation_software_opt_latency
+    origin: extended
+    description: "Ablation: latency after software optimisations equals the headline 4090 number"
+    kind: value
+    claimed: 6.497
+    locations: ["implementation&eval.tex:313"]
+    tolerance: 0.0005
+    expect: PASS
+    source:
+      sheet: mainLatencyResults
+      cells: {v: C5}
+      derivation: "v"

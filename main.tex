@@ -185,6 +185,20 @@
     {#1}%
 }
 
+%%%%% REVISION MODE %%%%%
+% 0 = camera-ready (all text black)
+% 1 = shepherd review (additions in blue)
+% 2 = drafting (additions in blue + margin markers)
+\newcommand{\revmode}{1}
+
+\ifnum\revmode=0
+  \newcommand{\new}[1]{#1}
+  \newenvironment{newtext}{}{}
+\else
+  \newcommand{\new}[1]{\textcolor{blue}{#1}}
+  \newenvironment{newtext}{\begingroup\color{blue}}{\endgroup}
+\fi
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % CUSTOM COMMANDS - PAPER-SPECIFIC
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
