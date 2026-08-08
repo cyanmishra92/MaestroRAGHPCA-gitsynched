@@ -304,15 +304,15 @@ These numbers appear in the paper and match a value found **only** in a stale ta
 
 ## Numeric literals not covered by any check
 
-Extracted **237** numeric literals from the active `.tex` files (a further 353 sit on commented-out lines and are ignored).
-**16** are accounted for by a check above; **221** are not, broken down as:
+Extracted **233** numeric literals from the active `.tex` files (a further 353 sit on commented-out lines and are ignored).
+**16** are accounted for by a check above; **217** are not, broken down as:
 
 | Category | Count | Meaning |
 |---|---:|---|
 | `claim` | 87 | prose numbers that no check covers -- the actionable list |
-| `setup` | 44 | numbers bound to a unit (15 W, 64 GB, 10 Hz, 4 M) |
+| `setup` | 42 | numbers bound to a unit (15 W, 64 GB, 10 Hz, 4 M) |
 | `config` | 43 | experiment knobs (`BS=8`, `DB=4M`, `top-k=5`, core counts) |
-| `hardware` | 40 | device/model numbers (RTX 4090, i9-14900K, Llama-3.1-8B) |
+| `hardware` | 38 | device/model numbers (RTX 4090, i9-14900K, Llama-3.1-8B) |
 | `enumerator` | 7 | list markers -- `(1)`, `(2)`, `(3)` |
 
 Classification is a presentation aid only: every literal is listed somewhere below,
@@ -349,11 +349,11 @@ so nothing is dropped. Only the `claim` bucket is treated as needing attention.
 | `design.tex:337` | 22 | Caching was disabled during all evaluations to emulate random query patterns that lack spatio-temporal locality, represe |
 | `design.tex:337` | 1 | Caching was disabled during all evaluations to emulate random query patterns that lack spatio-temporal locality, represe |
 | `implementation&eval.tex:9` | 70 | We implement \design{} in Python (about 6,000 lines of code), mainly using PyTorch for ML operations and FAISS for high- |
-| `implementation&eval.tex:11` | 32 | \noindent\textbf{Deployment System:} \new{Following \Cref{sec:BG:Scope}, our evaluations span both edge tiers---two loca |
-| `implementation&eval.tex:11` | 8 | \noindent\textbf{Deployment System:} \new{Following \Cref{sec:BG:Scope}, our evaluations span both edge tiers---two loca |
-| `implementation&eval.tex:11` | 16 | \noindent\textbf{Deployment System:} \new{Following \Cref{sec:BG:Scope}, our evaluations span both edge tiers---two loca |
-| `implementation&eval.tex:12` | 4 | \new{All three meet the criteria of \Cref{sec:BG:Scope}. Each provisions a single GPU that every pipeline stage must sha |
-| `implementation&eval.tex:12` | 12 | \new{All three meet the criteria of \Cref{sec:BG:Scope}. Each provisions a single GPU that every pipeline stage must sha |
+| `implementation&eval.tex:11` | 32 | \noindent\textbf{Deployment System:} \new{Following \Cref{sec:BG:Scope}, our evaluations span two local/personal-computi |
+| `implementation&eval.tex:11` | 8 | \noindent\textbf{Deployment System:} \new{Following \Cref{sec:BG:Scope}, our evaluations span two local/personal-computi |
+| `implementation&eval.tex:11` | 16 | \noindent\textbf{Deployment System:} \new{Following \Cref{sec:BG:Scope}, our evaluations span two local/personal-computi |
+| `implementation&eval.tex:12` | 4 | \new{All three are personal-computing edge nodes in the sense of \Cref{sec:BG:Scope}: each runs RAG locally for a single |
+| `implementation&eval.tex:12` | 12 | \new{All three are personal-computing edge nodes in the sense of \Cref{sec:BG:Scope}: each runs RAG locally for a single |
 | `implementation&eval.tex:71` | 1 | \Cref{Fig:OurLatencyE2E4090} plots the end-to-end latency of our design on an \mbox{RTX\,4090} across batch sizes of 2-- |
 | `implementation&eval.tex:71` | 6.15 | \Cref{Fig:OurLatencyE2E4090} plots the end-to-end latency of our design on an \mbox{RTX\,4090} across batch sizes of 2-- |
 | `implementation&eval.tex:71` | 2 | \Cref{Fig:OurLatencyE2E4090} plots the end-to-end latency of our design on an \mbox{RTX\,4090} across batch sizes of 2-- |
@@ -414,7 +414,7 @@ so nothing is dropped. Only the `claim` bucket is treated as needing attention.
 
 | File:line | Literal | Category | Context |
 |---|---:|---|---|
-| `background&motivation.tex:15` | 15 | setup | We use \emph{edge} to denote a deployment constraint rather than a form factor. A platform is an edg |
+| `background&motivation.tex:15` | 15 | setup | We use \emph{edge} in this paper to mean \emph{personal-computing edge}: a local compute node runnin |
 | `characterization.tex:41` | 8 | setup | (b) Encode stage latency for different batch sizes on 8 cores. |
 | `characterization.tex:46` | 4 | setup | (d) Retrieval stage breakdown on 4 cores with different batch sizes (\emph{Index Fetch} vs. \emph{Si |
 | `characterization.tex:64` | 128 | setup | This section characterizes the performance of a RAG pipeline on a desktop-class machine, highlightin |
@@ -430,10 +430,8 @@ so nothing is dropped. Only the `claim` bucket is treated as needing attention.
 | `design.tex:143` | 6 | setup | \red{For instance, as depicted in \Cref{fig:latency_oriented_pipeline}, allocating 8 cores per worke |
 | `design.tex:143` | 1 | setup | \red{For instance, as depicted in \Cref{fig:latency_oriented_pipeline}, allocating 8 cores per worke |
 | `implementation&eval.tex:9` | 6,000 | setup | We implement \design{} in Python (about 6,000 lines of code), mainly using PyTorch for ML operations |
-| `implementation&eval.tex:11` | 128 | setup | \noindent\textbf{Deployment System:} \new{Following \Cref{sec:BG:Scope}, our evaluations span both e |
-| `implementation&eval.tex:11` | 24 | setup | \noindent\textbf{Deployment System:} \new{Following \Cref{sec:BG:Scope}, our evaluations span both e |
-| `implementation&eval.tex:12` | 16 | setup | \new{All three meet the criteria of \Cref{sec:BG:Scope}. Each provisions a single GPU that every pip |
-| `implementation&eval.tex:12` | 64 | setup | \new{All three meet the criteria of \Cref{sec:BG:Scope}. Each provisions a single GPU that every pip |
+| `implementation&eval.tex:11` | 128 | setup | \noindent\textbf{Deployment System:} \new{Following \Cref{sec:BG:Scope}, our evaluations span two lo |
+| `implementation&eval.tex:11` | 24 | setup | \noindent\textbf{Deployment System:} \new{Following \Cref{sec:BG:Scope}, our evaluations span two lo |
 | `implementation&eval.tex:80` | 16 | setup | \Cref{Fig:4080Latency_Ours} shows that, on \mbox{RTX\,4080}, our total latency follows a similar pat |
 | `implementation&eval.tex:144` | 4 | setup | (ii)~an RTX\,4080 also at \texttt{BS=8} and 4\,M, and |
 | `implementation&eval.tex:148` | 1 | setup | On Jetson~AGX~Orin at \texttt{BS=8} and 1\,M, \design{} lowers latency to 28.56\,s, a 1.35$\times$ i |
@@ -457,7 +455,7 @@ so nothing is dropped. Only the `claim` bucket is treated as needing attention.
 | `TablesAlgos/CachingTable.tex:8` | 2 | setup | & \multicolumn{2}{c}{2 mil} & \multicolumn{2}{c}{4 mil} & \multicolumn{2}{c}{8 mil} \\ |
 | `TablesAlgos/CachingTable.tex:8` | 4 | setup | & \multicolumn{2}{c}{2 mil} & \multicolumn{2}{c}{4 mil} & \multicolumn{2}{c}{8 mil} \\ |
 | `TablesAlgos/CachingTable.tex:8` | 8 | setup | & \multicolumn{2}{c}{2 mil} & \multicolumn{2}{c}{4 mil} & \multicolumn{2}{c}{8 mil} \\ |
-| `TablesAlgos/Jetson4090A100.tex:3` | 64 | setup | \caption{\new{Constraint contrast. Both evaluated edge tiers---embedded (Jetson~AGX~Orin) and local/ |
+| `TablesAlgos/Jetson4090A100.tex:3` | 64 | setup | \caption{\new{The personal-computing edge platforms we evaluate---a local/personal-computing desktop |
 | `characterization.tex:43` | 16 | config | (c) Encode latency at batch size 16 as we vary the number of CPU cores. |
 | `characterization.tex:48` | 2 | config | (e) Retrieval latency as the number of CPU cores increases (DB size = 2\,M, batch size = 8). |
 | `characterization.tex:48` | 8 | config | (e) Retrieval latency as the number of CPU cores increases (DB size = 2\,M, batch size = 8). |
@@ -503,19 +501,17 @@ so nothing is dropped. Only the `claim` bucket is treated as needing attention.
 | `implementation&eval.tex:308` | 2 | config | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
 | `introduction.tex:184` | 4090 | hardware | We evaluated MaestroRAG on three platforms—NVIDIA RTX 4090, RTX 4080, and Jetson AGX Orin using real |
 | `introduction.tex:184` | 4080 | hardware | We evaluated MaestroRAG on three platforms—NVIDIA RTX 4090, RTX 4080, and Jetson AGX Orin using real |
-| `background&motivation.tex:15` | 4090 | hardware | We use \emph{edge} to denote a deployment constraint rather than a form factor. A platform is an edg |
-| `background&motivation.tex:15` | 4080 | hardware | We use \emph{edge} to denote a deployment constraint rather than a form factor. A platform is an edg |
-| `background&motivation.tex:15` | 15 | hardware | We use \emph{edge} to denote a deployment constraint rather than a form factor. A platform is an edg |
-| `background&motivation.tex:15` | 4 | hardware | We use \emph{edge} to denote a deployment constraint rather than a form factor. A platform is an edg |
-| `background&motivation.tex:15` | 12 | hardware | We use \emph{edge} to denote a deployment constraint rather than a form factor. A platform is an edg |
+| `background&motivation.tex:15` | 15 | hardware | We use \emph{edge} in this paper to mean \emph{personal-computing edge}: a local compute node runnin |
+| `background&motivation.tex:15` | 4 | hardware | We use \emph{edge} in this paper to mean \emph{personal-computing edge}: a local compute node runnin |
+| `background&motivation.tex:15` | 12 | hardware | We use \emph{edge} in this paper to mean \emph{personal-computing edge}: a local compute node runnin |
 | `characterization.tex:64` | 4090 | hardware | This section characterizes the performance of a RAG pipeline on a desktop-class machine, highlightin |
 | `design.tex:143` | 4090 | hardware | \red{For instance, as depicted in \Cref{fig:latency_oriented_pipeline}, allocating 8 cores per worke |
 | `design.tex:334` | 4090 | hardware | \caption{Speedup of \design{} relative to state-of-the-art RAG frameworks on consumer-grade systems  |
 | `design.tex:334` | 4080 | hardware | \caption{Speedup of \design{} relative to state-of-the-art RAG frameworks on consumer-grade systems  |
-| `implementation&eval.tex:11` | 4090 | hardware | \noindent\textbf{Deployment System:} \new{Following \Cref{sec:BG:Scope}, our evaluations span both e |
-| `implementation&eval.tex:11` | 4080 | hardware | \noindent\textbf{Deployment System:} \new{Following \Cref{sec:BG:Scope}, our evaluations span both e |
-| `implementation&eval.tex:11` | 16 | hardware | \noindent\textbf{Deployment System:} \new{Following \Cref{sec:BG:Scope}, our evaluations span both e |
-| `implementation&eval.tex:11` | 64 | hardware | \noindent\textbf{Deployment System:} \new{Following \Cref{sec:BG:Scope}, our evaluations span both e |
+| `implementation&eval.tex:11` | 4090 | hardware | \noindent\textbf{Deployment System:} \new{Following \Cref{sec:BG:Scope}, our evaluations span two lo |
+| `implementation&eval.tex:11` | 4080 | hardware | \noindent\textbf{Deployment System:} \new{Following \Cref{sec:BG:Scope}, our evaluations span two lo |
+| `implementation&eval.tex:11` | 16 | hardware | \noindent\textbf{Deployment System:} \new{Following \Cref{sec:BG:Scope}, our evaluations span two lo |
+| `implementation&eval.tex:11` | 64 | hardware | \noindent\textbf{Deployment System:} \new{Following \Cref{sec:BG:Scope}, our evaluations span two lo |
 | `implementation&eval.tex:15` | 4090 | hardware | \noindent\textbf{Dataset and Traces:} We used the Wikipedia corpus dump \cite{wikipedia_corpus_dump} |
 | `implementation&eval.tex:15` | 4080 | hardware | \noindent\textbf{Dataset and Traces:} We used the Wikipedia corpus dump \cite{wikipedia_corpus_dump} |
 | `implementation&eval.tex:68` | 4090 | hardware | \subsection{Results on \mbox{RTX\,4090} and \mbox{RTX\,4080} Desktop} |
@@ -539,11 +535,11 @@ so nothing is dropped. Only the `claim` bucket is treated as needing attention.
 | `implementation&eval.tex:263` | 5 | hardware | All experiments use TTL of 300\,s and cache capacity of 32 entries, each storing 5 retrieved documen |
 | `implementation&eval.tex:274` | 4090 | hardware | \Cref{Fig:MainLatencyResults2} (purple stacked bar) showcases a pathological best-case exact match e |
 | `implementation&eval.tex:308` | 4090 | hardware | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
-| `TablesAlgos/Jetson4090A100.tex:3` | 4090 | hardware | \caption{\new{Constraint contrast. Both evaluated edge tiers---embedded (Jetson~AGX~Orin) and local/ |
+| `TablesAlgos/Jetson4090A100.tex:3` | 4090 | hardware | \caption{\new{The personal-computing edge platforms we evaluate---a local/personal-computing desktop |
 | `TablesAlgos/Jetson4090A100.tex:8` | 4090 | hardware | \textbf{Specification} & \textbf{Jetson Orin} & \textbf{RTX 4090} & \textbf{A100} \\ |
-| `implementation&eval.tex:11` | 1 | enumerator | \noindent\textbf{Deployment System:} \new{Following \Cref{sec:BG:Scope}, our evaluations span both e |
-| `implementation&eval.tex:11` | 2 | enumerator | \noindent\textbf{Deployment System:} \new{Following \Cref{sec:BG:Scope}, our evaluations span both e |
-| `implementation&eval.tex:11` | 3 | enumerator | \noindent\textbf{Deployment System:} \new{Following \Cref{sec:BG:Scope}, our evaluations span both e |
+| `implementation&eval.tex:11` | 1 | enumerator | \noindent\textbf{Deployment System:} \new{Following \Cref{sec:BG:Scope}, our evaluations span two lo |
+| `implementation&eval.tex:11` | 2 | enumerator | \noindent\textbf{Deployment System:} \new{Following \Cref{sec:BG:Scope}, our evaluations span two lo |
+| `implementation&eval.tex:11` | 3 | enumerator | \noindent\textbf{Deployment System:} \new{Following \Cref{sec:BG:Scope}, our evaluations span two lo |
 | `implementation&eval.tex:17` | 1 | enumerator | \noindent\textbf{Metrics:} We report two key performance metrics for the end-to-end pipeline. The fi |
 | `implementation&eval.tex:17` | 2 | enumerator | \noindent\textbf{Metrics:} We report two key performance metrics for the end-to-end pipeline. The fi |
 | `implementation&eval.tex:17` | 3 | enumerator | \noindent\textbf{Metrics:} We report two key performance metrics for the end-to-end pipeline. The fi |
