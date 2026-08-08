@@ -263,13 +263,12 @@ If a query matches a cached one exactly (embedding-based), the pipeline returns 
 All experiments use TTL of 300\,s and cache capacity of 32 entries, each storing 5 retrieved documents per prompt. 
 For a fair comparison with \edgeRAG{}, we adopt a batch size of 1.
 %and maintain identical database sizes.
-Exact-match caching fully bypasses retrieval and generation to deliver the lowest latency, while similarity caching (cosine similarity $>0.9$) skips retrieval for semantically related queries. 
+\new{Exact matching returns the cached final answer and skips both retrieval and generation, placing \design{} between 0.87\,s and 0.92\,s. Similarity matching reuses only the \topk{} retrieved documents and generates afresh for the new query, placing it between 3.06\,s and 3.12\,s. The difference between the two is therefore the cost of generation, which similarity matching still incurs; it is not a RAM-capacity effect. Against \edgeRAG{}, the residual gap in the similarity-match case is our process and thread handoff across workers, which adds approximately 1.1\,s. \edgeRAG{} does not incur this cost, since its execution is largely sequential and involves no process orchestration or thread synchronization. Because the measurement uses a batch size of 1, it compares our worst case against \edgeRAG{}'s nominal case; the handoff is a fixed per-batch cost, so we expect it to amortize at larger batch sizes.}
 When 80\% of queries exhibit strong similarity, average latency improves substantially despite occasional cache misses.
 On the Jetson~AGX~Orin (15\,W power cap), caching provides consistent speedups by avoiding redundant encoder invocations and memory transfers.
 %, even under tight compute and memory budgets. 
 %Compared to \edgeRAG{}, o
 Our cache management exploits temporal and semantic locality. 
-For dissimilar queries falling below the threshold, the system gracefully reverts to full flat-index lookup, slightly increasing average latency relative to exact-match cases.
 Overall, the cache policy provides a tunable, memory-efficient approach that leverages session-level query locality, yielding significant performance gains for interactive edge deployments.
 \Cref{Fig:MainLatencyResults2} (purple stacked bar) showcases a pathological best-case exact match example on the RTX\,4090, where exact-match caching reduces latency from 6.50\,s to under 1\,s for repeated or highly similar queries.
 

@@ -1,7 +1,7 @@
 \begin{table}[]
 %\vspace{-4pt}
 \centering
-\caption{Latency with caching. \design{}: MR; EdgeRAG: ER}
+\caption{Latency with caching \new{at \texttt{BS=1}, with a TTL of 300\,s, a cache capacity of 32 entries, and 5 retrieved documents per prompt}. \design{}: MR; EdgeRAG: ER}
 \resizebox{\linewidth}{!}{%
 \begin{tabular}{lcccccc}
 \toprule
@@ -14,7 +14,6 @@ Sim   & 2.047s  & 3.116s  & 2.003s  & 3.061s  & 2.138s  & 3.089s \\
 \bottomrule
 \end{tabular}%
 }
-%\caption{Latency with caching. \design{}: MR; EdgeRAG: ER}
 \vspace{-10pt}
 \label{tab:cache_results}
 \end{table}

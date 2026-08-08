@@ -687,3 +687,67 @@ checks:
       sheet: edge vs. server
       cells: {v: H18}
       derivation: "v"
+
+  # ================== TASK 4: Table 1 caching values quoted in Section 5.7 ============
+  # These are PAPER-INTERNAL checks: prose against the table it describes. No workbook
+  # tab holds caching data at all (`CachingResults4090` is empty, and is outside the
+  # authorised set in any case), so the table itself is the only source. The regexes are
+  # anchored on row content rather than line numbers so they survive the file moving,
+  # and each must match exactly once.
+  # Section 5.7 quotes ranges: exact match "between 0.87 s and 0.92 s" and similarity
+  # match "between 3.06 s and 3.12 s". These four checks tie those four printed literals
+  # to the four table cells they came from, so prose and table cannot drift apart.
+
+  - id: table1_exact_maestro_2m
+    origin: task04
+    description: "Section 5.7 quotes 0.87 s as the low end of MaestroRAG exact-match latency; Table 1, MR at 2 mil"
+    kind: value
+    claimed: 0.87
+    locations: ["implementation&eval.tex:266"]
+    tolerance: 0.0
+    expect: PASS
+    source:
+      file: TablesAlgos/CachingTable.tex
+      regex: 'Exact\s*&[^&]*&\s*([0-9.]+)s'
+      note: "Exact row, MR column, 2 mil"
+
+  - id: table1_exact_maestro_4m
+    origin: task04
+    description: "Section 5.7 quotes 0.92 s as the high end of MaestroRAG exact-match latency; Table 1, MR at 4 mil"
+    kind: value
+    claimed: 0.92
+    locations: ["implementation&eval.tex:266"]
+    tolerance: 0.0
+    expect: PASS
+    source:
+      file: TablesAlgos/CachingTable.tex
+      regex: 'Exact\s*&[^&]*&[^&]*&[^&]*&\s*([0-9.]+)s'
+      note: "Exact row, MR column, 4 mil"
+
+  - id: table1_sim_maestro_4m
+    origin: task04
+    description: "Section 5.7 quotes 3.06 s as the low end of MaestroRAG similarity-match latency; Table 1, MR at 4 mil"
+    kind: value
+    claimed: 3.06
+    locations: ["implementation&eval.tex:266"]
+    tolerance: 0.005
+    tolerance_rationale: "prose rounds the table's 3.061 to 2 dp"
+    expect: PASS
+    source:
+      file: TablesAlgos/CachingTable.tex
+      regex: 'Sim\s*&[^&]*&[^&]*&[^&]*&\s*([0-9.]+)s'
+      note: "Sim row, MR column, 4 mil"
+
+  - id: table1_sim_maestro_2m
+    origin: task04
+    description: "Section 5.7 quotes 3.12 s as the high end of MaestroRAG similarity-match latency; Table 1, MR at 2 mil"
+    kind: value
+    claimed: 3.12
+    locations: ["implementation&eval.tex:266"]
+    tolerance: 0.005
+    tolerance_rationale: "prose rounds the table's 3.116 to 2 dp"
+    expect: PASS
+    source:
+      file: TablesAlgos/CachingTable.tex
+      regex: 'Sim\s*&[^&]*&\s*([0-9.]+)s'
+      note: "Sim row, MR column, 2 mil"

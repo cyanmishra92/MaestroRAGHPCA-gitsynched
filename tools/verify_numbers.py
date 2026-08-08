@@ -428,6 +428,29 @@ def resolve_cells(wb: Workbook, sheet: str, cells: dict):
     return values, missing
 
 
+def tex_source_value(source: dict):
+    """Pull one number out of a .tex file with an anchored regex.
+
+    Used for paper-internal consistency: a value quoted in prose against the same
+    value printed in a table, where no workbook cell backs either side. The regex is
+    anchored on row content rather than a line number so it survives the file moving.
+    """
+    path = os.path.join(REPO_ROOT, source["file"])
+    if not os.path.exists(path):
+        return None, f"tex source not found: {source['file']}"
+    with open(path, encoding="utf-8", errors="replace") as fh:
+        text = fh.read()
+    matches = re.findall(source["regex"], text)
+    if not matches:
+        return None, f"regex matched nothing in {source['file']}"
+    if len(matches) > 1:
+        return None, f"regex matched {len(matches)} times in {source['file']}; must be unique"
+    try:
+        return float(matches[0]), None
+    except (TypeError, ValueError):
+        return None, f"captured {matches[0]!r}, which is not a number"
+
+
 def evaluate(check: dict, wb: Workbook):
     """Return (status, expected, delta, detail)."""
     kind = check.get("kind", "value")
@@ -437,6 +460,19 @@ def evaluate(check: dict, wb: Workbook):
         return "UNVERIFIABLE", None, None, check.get("reason", "no workbook backing")
 
     source = check.get("source") or {}
+
+    if source.get("file"):
+        expected, err = tex_source_value(source)
+        if err:
+            return "UNVERIFIABLE", None, None, err
+        claimed = float(check["claimed"])
+        delta = claimed - expected
+        ok = abs(delta) <= tol + 1e-12
+        return ("PASS" if ok else "FAIL"), expected, delta, (
+            f"prose {claimed:g} vs {source['file']} {expected:.6g}; "
+            f"|delta| = {abs(delta):.6g} vs tolerance {tol:g}"
+        )
+
     sheet, cells = source.get("sheet"), source.get("cells")
     if not sheet:
         return "UNVERIFIABLE", None, None, "no workbook source declared"
@@ -609,6 +645,8 @@ def build_report(cfg, wb, results, literals, uncovered, stale_hits, commented_co
             refs = ", ".join(f"{src['sheet']}!{ref}" for ref in (src.get("cells") or {}).values())
             deriv = src.get("derivation", "")
             source_txt = f"`{refs}`" + (f"<br/>`{deriv}`" if deriv and deriv not in (src.get("cells") or {}) else "")
+        elif src.get("file"):
+            source_txt = f"`{src['file']}`" + (f"<br/>_{src['note']}_" if src.get("note") else "")
         else:
             source_txt = "_no workbook source_"
         where = ", ".join(f"`{loc}`" for loc in (chk.get("locations") or [])) or (
