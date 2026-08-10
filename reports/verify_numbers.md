@@ -576,14 +576,14 @@ These numbers appear in the paper and match a value found **only** in a stale ta
 
 ## Numeric literals not covered by any check
 
-Extracted **321** numeric literals from the active `.tex` files (a further 375 sit on commented-out lines and are ignored).
-**41** are accounted for by a check above; **280** are not, broken down as:
+Extracted **332** numeric literals from the active `.tex` files (a further 375 sit on commented-out lines and are ignored).
+**42** are accounted for by a check above; **290** are not, broken down as:
 
 | Category | Count | Meaning |
 |---|---:|---|
-| `claim` | 145 | prose numbers that no check covers -- the actionable list |
-| `setup` | 39 | numbers bound to a unit (15 W, 64 GB, 10 Hz, 4 M) |
-| `config` | 51 | experiment knobs (`BS=8`, `DB=4M`, `top-k=5`, core counts) |
+| `claim` | 146 | prose numbers that no check covers -- the actionable list |
+| `setup` | 42 | numbers bound to a unit (15 W, 64 GB, 10 Hz, 4 M) |
+| `config` | 57 | experiment knobs (`BS=8`, `DB=4M`, `top-k=5`, core counts) |
 | `hardware` | 38 | device/model numbers (RTX 4090, i9-14900K, Llama-3.1-8B) |
 | `enumerator` | 7 | list markers -- `(1)`, `(2)`, `(3)` |
 
@@ -630,6 +630,7 @@ so nothing is dropped. Only the `claim` bucket is treated as needing attention.
 | `implementation&eval.tex:11` | 16 | \noindent\textbf{Deployment System:} \new{Following \Cref{sec:BG:Scope}, our evaluations span two local/personal-computi |
 | `implementation&eval.tex:12` | 4 | \new{All three are personal-computing edge nodes in the sense of \Cref{sec:BG:Scope}: each runs RAG locally for a single |
 | `implementation&eval.tex:12` | 12 | \new{All three are personal-computing edge nodes in the sense of \Cref{sec:BG:Scope}: each runs RAG locally for a single |
+| `implementation&eval.tex:72` | 1.1 | \Cref{tab:latency_breakdown} decomposes the per-stage cost of \design{} and the three baselines at a common operating po |
 | `implementation&eval.tex:78` | 1 | \Cref{Fig:OurLatencyE2E4090} plots the end-to-end latency of our design on an \mbox{RTX\,4090} across batch sizes of 2-- |
 | `implementation&eval.tex:78` | 6.15 | \Cref{Fig:OurLatencyE2E4090} plots the end-to-end latency of our design on an \mbox{RTX\,4090} across batch sizes of 2-- |
 | `implementation&eval.tex:78` | 2 | \Cref{Fig:OurLatencyE2E4090} plots the end-to-end latency of our design on an \mbox{RTX\,4090} across batch sizes of 2-- |
@@ -678,41 +679,41 @@ so nothing is dropped. Only the `claim` bucket is treated as needing attention.
 | `implementation&eval.tex:171` | 5.5 | \new{Attributing CPU package energy to pipeline stages, after subtracting idle package power and with DRAM excluded, giv |
 | `implementation&eval.tex:171` | 83.2 | \new{Attributing CPU package energy to pipeline stages, after subtracting idle package power and with DRAM excluded, giv |
 | `implementation&eval.tex:171` | 11.2 | \new{Attributing CPU package energy to pipeline stages, after subtracting idle package power and with DRAM excluded, giv |
-| `implementation&eval.tex:265` | 90 | For semantically similar queries, the system reuses prior retrieval results if the new query’s embedding exceeds a cosin |
-| `implementation&eval.tex:274` | 0.87 | \new{Exact matching returns the cached final answer and skips both retrieval and generation, placing \design{} between 0 |
-| `implementation&eval.tex:274` | 0.92 | \new{Exact matching returns the cached final answer and skips both retrieval and generation, placing \design{} between 0 |
-| `implementation&eval.tex:274` | 3.06 | \new{Exact matching returns the cached final answer and skips both retrieval and generation, placing \design{} between 0 |
-| `implementation&eval.tex:274` | 3.12 | \new{Exact matching returns the cached final answer and skips both retrieval and generation, placing \design{} between 0 |
-| `implementation&eval.tex:274` | 1.1 | \new{Exact matching returns the cached final answer and skips both retrieval and generation, placing \design{} between 0 |
-| `implementation&eval.tex:274` | 1.1 | \new{Exact matching returns the cached final answer and skips both retrieval and generation, placing \design{} between 0 |
-| `implementation&eval.tex:274` | 1.069 | \new{Exact matching returns the cached final answer and skips both retrieval and generation, placing \design{} between 0 |
-| `implementation&eval.tex:274` | 1.058 | \new{Exact matching returns the cached final answer and skips both retrieval and generation, placing \design{} between 0 |
-| `implementation&eval.tex:274` | 0.951 | \new{Exact matching returns the cached final answer and skips both retrieval and generation, placing \design{} between 0 |
-| `implementation&eval.tex:275` | 80 | When 80\% of queries exhibit strong similarity, average latency improves substantially despite occasional cache misses. |
-| `implementation&eval.tex:282` | 6.50 | \Cref{Fig:MainLatencyResults2} (purple stacked bar) showcases a pathological best-case exact match example on the RTX\,4 |
-| `implementation&eval.tex:282` | 1 | \Cref{Fig:MainLatencyResults2} (purple stacked bar) showcases a pathological best-case exact match example on the RTX\,4 |
-| `implementation&eval.tex:313` | 1.25 | \noindent\textbf{Latency results insights: }\design{} yields latency reductions of $1.25\times$--$12\times$ across three |
-| `implementation&eval.tex:313` | 12 | \noindent\textbf{Latency results insights: }\design{} yields latency reductions of $1.25\times$--$12\times$ across three |
-| `implementation&eval.tex:313` | 8 | \noindent\textbf{Latency results insights: }\design{} yields latency reductions of $1.25\times$--$12\times$ across three |
-| `implementation&eval.tex:314` | 1.35 | Although Jetson-class hardware is relatively constrained and possesses unified memory, where both encoder and generation |
-| `implementation&eval.tex:316` | 6 | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, we compare the recomm |
-| `implementation&eval.tex:318` | 0.6 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
-| `implementation&eval.tex:318` | 10 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
-| `implementation&eval.tex:318` | 20 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
-| `implementation&eval.tex:318` | 1.2 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
-| `implementation&eval.tex:318` | 100 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
-| `implementation&eval.tex:318` | 20 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
-| `implementation&eval.tex:318` | 12 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
-| `implementation&eval.tex:318` | 100 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
-| `implementation&eval.tex:318` | 100 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
-| `implementation&eval.tex:318` | 500 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
-| `implementation&eval.tex:320` | 29.27 | \noindent\textbf{Impact of indexing schemes: }In addition to the flat indexing scheme for accessing the database, we als |
-| `implementation&eval.tex:320` | 28.15 | \noindent\textbf{Impact of indexing schemes: }In addition to the flat indexing scheme for accessing the database, we als |
-| `implementation&eval.tex:320` | 32.18 | \noindent\textbf{Impact of indexing schemes: }In addition to the flat indexing scheme for accessing the database, we als |
-| `implementation&eval.tex:322` | 80 | \noindent\textbf{Impact of optimization mechanisms: }To isolate the impact of individual optimizations, we performed an  |
-| `implementation&eval.tex:324` | 0.22 | \new{\noindent\textbf{Portability of optimizations to baselines: }We ported the transferable optimizations to \pipeRAG{} |
-| `implementation&eval.tex:324` | 1.55 | \new{\noindent\textbf{Portability of optimizations to baselines: }We ported the transferable optimizations to \pipeRAG{} |
-| `implementation&eval.tex:324` | 0.10 | \new{\noindent\textbf{Portability of optimizations to baselines: }We ported the transferable optimizations to \pipeRAG{} |
+| `implementation&eval.tex:266` | 90 | For semantically similar queries, the system reuses prior retrieval results if the new query’s embedding exceeds a cosin |
+| `implementation&eval.tex:275` | 0.87 | \new{Exact matching returns the cached final answer and skips both retrieval and generation, placing \design{} between 0 |
+| `implementation&eval.tex:275` | 0.92 | \new{Exact matching returns the cached final answer and skips both retrieval and generation, placing \design{} between 0 |
+| `implementation&eval.tex:275` | 3.06 | \new{Exact matching returns the cached final answer and skips both retrieval and generation, placing \design{} between 0 |
+| `implementation&eval.tex:275` | 3.12 | \new{Exact matching returns the cached final answer and skips both retrieval and generation, placing \design{} between 0 |
+| `implementation&eval.tex:275` | 1.1 | \new{Exact matching returns the cached final answer and skips both retrieval and generation, placing \design{} between 0 |
+| `implementation&eval.tex:275` | 1.1 | \new{Exact matching returns the cached final answer and skips both retrieval and generation, placing \design{} between 0 |
+| `implementation&eval.tex:275` | 1.069 | \new{Exact matching returns the cached final answer and skips both retrieval and generation, placing \design{} between 0 |
+| `implementation&eval.tex:275` | 1.058 | \new{Exact matching returns the cached final answer and skips both retrieval and generation, placing \design{} between 0 |
+| `implementation&eval.tex:275` | 0.951 | \new{Exact matching returns the cached final answer and skips both retrieval and generation, placing \design{} between 0 |
+| `implementation&eval.tex:276` | 80 | When 80\% of queries exhibit strong similarity, average latency improves substantially despite occasional cache misses. |
+| `implementation&eval.tex:283` | 6.50 | \Cref{Fig:MainLatencyResults2} (purple stacked bar) showcases a pathological best-case exact match example on the RTX\,4 |
+| `implementation&eval.tex:283` | 1 | \Cref{Fig:MainLatencyResults2} (purple stacked bar) showcases a pathological best-case exact match example on the RTX\,4 |
+| `implementation&eval.tex:314` | 1.25 | \noindent\textbf{Latency results insights: }\design{} yields latency reductions of $1.25\times$--$12\times$ across three |
+| `implementation&eval.tex:314` | 12 | \noindent\textbf{Latency results insights: }\design{} yields latency reductions of $1.25\times$--$12\times$ across three |
+| `implementation&eval.tex:314` | 8 | \noindent\textbf{Latency results insights: }\design{} yields latency reductions of $1.25\times$--$12\times$ across three |
+| `implementation&eval.tex:315` | 1.35 | Although Jetson-class hardware is relatively constrained and possesses unified memory, where both encoder and generation |
+| `implementation&eval.tex:317` | 6 | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, we compare the recomm |
+| `implementation&eval.tex:319` | 0.6 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
+| `implementation&eval.tex:319` | 10 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
+| `implementation&eval.tex:319` | 20 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
+| `implementation&eval.tex:319` | 1.2 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
+| `implementation&eval.tex:319` | 100 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
+| `implementation&eval.tex:319` | 20 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
+| `implementation&eval.tex:319` | 12 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
+| `implementation&eval.tex:319` | 100 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
+| `implementation&eval.tex:319` | 100 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
+| `implementation&eval.tex:319` | 500 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
+| `implementation&eval.tex:321` | 29.27 | \noindent\textbf{Impact of indexing schemes: }In addition to the flat indexing scheme for accessing the database, we als |
+| `implementation&eval.tex:321` | 28.15 | \noindent\textbf{Impact of indexing schemes: }In addition to the flat indexing scheme for accessing the database, we als |
+| `implementation&eval.tex:321` | 32.18 | \noindent\textbf{Impact of indexing schemes: }In addition to the flat indexing scheme for accessing the database, we als |
+| `implementation&eval.tex:323` | 80 | \noindent\textbf{Impact of optimization mechanisms: }To isolate the impact of individual optimizations, we performed an  |
+| `implementation&eval.tex:325` | 0.22 | \new{\noindent\textbf{Portability of optimizations to baselines: }We ported the transferable optimizations to \pipeRAG{} |
+| `implementation&eval.tex:325` | 1.55 | \new{\noindent\textbf{Portability of optimizations to baselines: }We ported the transferable optimizations to \pipeRAG{} |
+| `implementation&eval.tex:325` | 0.10 | \new{\noindent\textbf{Portability of optimizations to baselines: }We ported the transferable optimizations to \pipeRAG{} |
 | `TablesAlgos/CachingTable.tex:4` | 5 | \caption{Latency with caching \new{at \texttt{BS=1}, with a TTL of 300\,s, a cache capacity of 32 entries, and 5 retriev |
 | `TablesAlgos/Jetson4090A100.tex:10` | 7742 | \textbf{CPU} & Arm-A78AE & Intel i9-14900K & AMD 7742 \\ |
 | `TablesAlgos/LatencyBreakdown.tex:11` | 0.20 | \design{}   & 0.20 & \multicolumn{2}{c}{1.60}  &                              & 0.20 \\ |
@@ -769,16 +770,19 @@ so nothing is dropped. Only the `claim` bucket is treated as needing attention.
 | `implementation&eval.tex:153` | 15 | setup | On Jetson~AGX~Orin at \texttt{BS=8} and 1\,M, \design{} lowers latency to 28.56\,s, a 1.35$\times$ i |
 | `implementation&eval.tex:160` | 256 | setup | To assess throughput, we simulate bursty traffic from scaled Azure traces~\cite{azureTrace}, process |
 | `implementation&eval.tex:160` | 1.60 | setup | To assess throughput, we simulate bursty traffic from scaled Azure traces~\cite{azureTrace}, process |
-| `implementation&eval.tex:276` | 15 | setup | On the Jetson~AGX~Orin (15\,W power cap), caching provides consistent speedups by avoiding redundant |
-| `implementation&eval.tex:316` | 1 | setup | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
-| `implementation&eval.tex:316` | 2 | setup | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
-| `implementation&eval.tex:316` | 4 | setup | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
-| `implementation&eval.tex:316` | 8 | setup | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
-| `implementation&eval.tex:316` | 2 | setup | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
-| `implementation&eval.tex:316` | 4 | setup | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
-| `implementation&eval.tex:316` | 4 | setup | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
-| `implementation&eval.tex:324` | 1.38 | setup | \new{\noindent\textbf{Portability of optimizations to baselines: }We ported the transferable optimiz |
-| `implementation&eval.tex:324` | 1.60 | setup | \new{\noindent\textbf{Portability of optimizations to baselines: }We ported the transferable optimiz |
+| `implementation&eval.tex:224` | 4 | setup | \caption{\new{(a) Core allocation chosen by the adaptive worker allocator against the allocation fou |
+| `implementation&eval.tex:224` | 4 | setup | \caption{\new{(a) Core allocation chosen by the adaptive worker allocator against the allocation fou |
+| `implementation&eval.tex:224` | 1 | setup | \caption{\new{(a) Core allocation chosen by the adaptive worker allocator against the allocation fou |
+| `implementation&eval.tex:277` | 15 | setup | On the Jetson~AGX~Orin (15\,W power cap), caching provides consistent speedups by avoiding redundant |
+| `implementation&eval.tex:317` | 1 | setup | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
+| `implementation&eval.tex:317` | 2 | setup | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
+| `implementation&eval.tex:317` | 4 | setup | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
+| `implementation&eval.tex:317` | 8 | setup | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
+| `implementation&eval.tex:317` | 2 | setup | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
+| `implementation&eval.tex:317` | 4 | setup | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
+| `implementation&eval.tex:317` | 4 | setup | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
+| `implementation&eval.tex:325` | 1.38 | setup | \new{\noindent\textbf{Portability of optimizations to baselines: }We ported the transferable optimiz |
+| `implementation&eval.tex:325` | 1.60 | setup | \new{\noindent\textbf{Portability of optimizations to baselines: }We ported the transferable optimiz |
 | `TablesAlgos/CachingTable.tex:8` | 2 | setup | & \multicolumn{2}{c}{2 mil} & \multicolumn{2}{c}{4 mil} & \multicolumn{2}{c}{8 mil} \\ |
 | `TablesAlgos/CachingTable.tex:8` | 4 | setup | & \multicolumn{2}{c}{2 mil} & \multicolumn{2}{c}{4 mil} & \multicolumn{2}{c}{8 mil} \\ |
 | `TablesAlgos/CachingTable.tex:8` | 8 | setup | & \multicolumn{2}{c}{2 mil} & \multicolumn{2}{c}{4 mil} & \multicolumn{2}{c}{8 mil} \\ |
@@ -794,6 +798,9 @@ so nothing is dropped. Only the `claim` bucket is treated as needing attention.
 | `design.tex:137` | 2 | config | As an example, applying the above equations to our desktop-grade CPU platform, we determine the opti |
 | `design.tex:137` | 8 | config | As an example, applying the above equations to our desktop-grade CPU platform, we determine the opti |
 | `design.tex:144` | 8 | config | \red{For instance, as depicted in \Cref{fig:latency_oriented_pipeline}, allocating 8 cores per worke |
+| `implementation&eval.tex:72` | 8 | config | \Cref{tab:latency_breakdown} decomposes the per-stage cost of \design{} and the three baselines at a |
+| `implementation&eval.tex:72` | 4 | config | \Cref{tab:latency_breakdown} decomposes the per-stage cost of \design{} and the three baselines at a |
+| `implementation&eval.tex:72` | 1 | config | \Cref{tab:latency_breakdown} decomposes the per-stage cost of \design{} and the three baselines at a |
 | `implementation&eval.tex:78` | 16 | config | \Cref{Fig:OurLatencyE2E4090} plots the end-to-end latency of our design on an \mbox{RTX\,4090} acros |
 | `implementation&eval.tex:78` | 8 | config | \Cref{Fig:OurLatencyE2E4090} plots the end-to-end latency of our design on an \mbox{RTX\,4090} acros |
 | `implementation&eval.tex:78` | 8 | config | \Cref{Fig:OurLatencyE2E4090} plots the end-to-end latency of our design on an \mbox{RTX\,4090} acros |
@@ -817,15 +824,18 @@ so nothing is dropped. Only the `claim` bucket is treated as needing attention.
 | `implementation&eval.tex:154` | 2 | config | We also measure tail latency and amplification (\textit{P99}, \textit{P99/P50}) at \texttt{BS=8}, \t |
 | `implementation&eval.tex:160` | 4 | config | To assess throughput, we simulate bursty traffic from scaled Azure traces~\cite{azureTrace}, process |
 | `implementation&eval.tex:160` | 8 | config | To assess throughput, we simulate bursty traffic from scaled Azure traces~\cite{azureTrace}, process |
-| `implementation&eval.tex:271` | 300 | config | All experiments use TTL of 300\,s and cache capacity of 32 entries, each storing 5 retrieved documen |
-| `implementation&eval.tex:271` | 32 | config | All experiments use TTL of 300\,s and cache capacity of 32 entries, each storing 5 retrieved documen |
-| `implementation&eval.tex:274` | 1 | config | \new{Exact matching returns the cached final answer and skips both retrieval and generation, placing |
-| `implementation&eval.tex:313` | 16 | config | \noindent\textbf{Latency results insights: }\design{} yields latency reductions of $1.25\times$--$12 |
-| `implementation&eval.tex:313` | 4 | config | \noindent\textbf{Latency results insights: }\design{} yields latency reductions of $1.25\times$--$12 |
-| `implementation&eval.tex:316` | 8 | config | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
-| `implementation&eval.tex:316` | 2 | config | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
-| `implementation&eval.tex:324` | 1 | config | \new{\noindent\textbf{Portability of optimizations to baselines: }We ported the transferable optimiz |
-| `implementation&eval.tex:324` | 16 | config | \new{\noindent\textbf{Portability of optimizations to baselines: }We ported the transferable optimiz |
+| `implementation&eval.tex:224` | 8 | config | \caption{\new{(a) Core allocation chosen by the adaptive worker allocator against the allocation fou |
+| `implementation&eval.tex:224` | 4 | config | \caption{\new{(a) Core allocation chosen by the adaptive worker allocator against the allocation fou |
+| `implementation&eval.tex:224` | 8 | config | \caption{\new{(a) Core allocation chosen by the adaptive worker allocator against the allocation fou |
+| `implementation&eval.tex:272` | 300 | config | All experiments use TTL of 300\,s and cache capacity of 32 entries, each storing 5 retrieved documen |
+| `implementation&eval.tex:272` | 32 | config | All experiments use TTL of 300\,s and cache capacity of 32 entries, each storing 5 retrieved documen |
+| `implementation&eval.tex:275` | 1 | config | \new{Exact matching returns the cached final answer and skips both retrieval and generation, placing |
+| `implementation&eval.tex:314` | 16 | config | \noindent\textbf{Latency results insights: }\design{} yields latency reductions of $1.25\times$--$12 |
+| `implementation&eval.tex:314` | 4 | config | \noindent\textbf{Latency results insights: }\design{} yields latency reductions of $1.25\times$--$12 |
+| `implementation&eval.tex:317` | 8 | config | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
+| `implementation&eval.tex:317` | 2 | config | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
+| `implementation&eval.tex:325` | 1 | config | \new{\noindent\textbf{Portability of optimizations to baselines: }We ported the transferable optimiz |
+| `implementation&eval.tex:325` | 16 | config | \new{\noindent\textbf{Portability of optimizations to baselines: }We ported the transferable optimiz |
 | `TablesAlgos/CachingTable.tex:4` | 1 | config | \caption{Latency with caching \new{at \texttt{BS=1}, with a TTL of 300\,s, a cache capacity of 32 en |
 | `TablesAlgos/CachingTable.tex:4` | 300 | config | \caption{Latency with caching \new{at \texttt{BS=1}, with a TTL of 300\,s, a cache capacity of 32 en |
 | `TablesAlgos/CachingTable.tex:4` | 32 | config | \caption{Latency with caching \new{at \texttt{BS=1}, with a TTL of 300\,s, a cache capacity of 32 en |
@@ -864,10 +874,10 @@ so nothing is dropped. Only the `claim` bucket is treated as needing attention.
 | `implementation&eval.tex:152` | 4080 | hardware | On the RTX\,4080, our pipeline finishes in 3.96\,s, outperforming \edgeRAG{}, \flashRAG{}, and \pipe |
 | `implementation&eval.tex:160` | 4090 | hardware | To assess throughput, we simulate bursty traffic from scaled Azure traces~\cite{azureTrace}, process |
 | `implementation&eval.tex:160` | 4090 | hardware | To assess throughput, we simulate bursty traffic from scaled Azure traces~\cite{azureTrace}, process |
-| `implementation&eval.tex:223` | 4090 | hardware | \caption{\new{(a) Core allocation chosen by the adaptive worker allocator against the allocation fou |
-| `implementation&eval.tex:271` | 5 | hardware | All experiments use TTL of 300\,s and cache capacity of 32 entries, each storing 5 retrieved documen |
-| `implementation&eval.tex:282` | 4090 | hardware | \Cref{Fig:MainLatencyResults2} (purple stacked bar) showcases a pathological best-case exact match e |
-| `implementation&eval.tex:316` | 4090 | hardware | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
+| `implementation&eval.tex:224` | 4090 | hardware | \caption{\new{(a) Core allocation chosen by the adaptive worker allocator against the allocation fou |
+| `implementation&eval.tex:272` | 5 | hardware | All experiments use TTL of 300\,s and cache capacity of 32 entries, each storing 5 retrieved documen |
+| `implementation&eval.tex:283` | 4090 | hardware | \Cref{Fig:MainLatencyResults2} (purple stacked bar) showcases a pathological best-case exact match e |
+| `implementation&eval.tex:317` | 4090 | hardware | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
 | `TablesAlgos/Jetson4090A100.tex:3` | 4090 | hardware | \caption{\new{Platform specifications for a local/personal-computing desktop (RTX\,4090), an embedde |
 | `TablesAlgos/Jetson4090A100.tex:8` | 4090 | hardware | \textbf{Specification} & \textbf{Jetson Orin} & \textbf{RTX 4090} & \textbf{A100} \\ |
 | `TablesAlgos/LatencyBreakdown.tex:3` | 4090 | hardware | \caption{\new{Stage-level latency in seconds on the RTX\,4090 at \texttt{DB=4\,M} and \texttt{BS=8}, |
