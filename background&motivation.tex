@@ -47,7 +47,7 @@ The final stage of the RAG pipeline generates natural-language outputs using off
 
 \subsection{System Considerations}
 \label{sec:classical_pipeline}
-The fundamental RAG stages—encoding, retrieval, augmentation, and generation—are consistent across datacenter servers, \new{local/personal-computing platforms, and embedded devices}, but their execution varies widely with hardware constraints.
+The fundamental RAG stages (encoding, retrieval, augmentation, and generation) are consistent across datacenter servers, \new{local/personal-computing platforms, and embedded devices}, but their execution varies widely with hardware constraints.
 
 A typical pipeline loads the encoder model from storage into CPU memory, a significant overhead for large models under tight memory budgets. Servers usually keep both encoder and generative models resident in memory to support large batches~\cite{jiang2024piperag, jin2024flashrag, jiang2024megascale}, whereas consumer grade devices may rely on swapping,
 %desktops may swap model segments, and edge devices rely on 

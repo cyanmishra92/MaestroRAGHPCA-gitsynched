@@ -66,7 +66,7 @@
 
 % Text matter begin
 %%%%%%%%%% %%%%%%%%%% %%%%%%%%%% %%%%%%%%%% 
-This section characterizes the performance of a RAG pipeline on a desktop-class machine, highlighting how resource allocation, database size, and batching affect each stage. Our experiments use an Intel i9-14900K processor (24 physical cores), 128\,GB RAM, and an RTX 4090 GPU~\cite{intel_cpu,nvidia_rtx_gpu}, with the generation length fixed at 120 tokens. To analyze performance bottlenecks, we decompose the pipeline into four stages—\emph{encode}, \emph{retrieve}, \emph{augment}, and \emph{generate}—each with distinct computational and memory demands (further detailed in \Cref{sec:04Design}). The first three stages run on the CPU, while generation executes on the GPU. \Cref{Fig:stacked_graph} shows the stage-wise execution time for a batch of 8 queries accessing a 4M-entry database, where each knowledge element consists of approximately 100 words. For this baseline, encoding, retrieval, and augmentation are run on a single CPU core to compare their compute cost.
+This section characterizes the performance of a RAG pipeline on a desktop-class machine, highlighting how resource allocation, database size, and batching affect each stage. Our experiments use an Intel i9-14900K processor (24 physical cores), 128\,GB RAM, and an RTX 4090 GPU~\cite{intel_cpu,nvidia_rtx_gpu}, with the generation length fixed at 120 tokens. To analyze performance bottlenecks, we decompose the pipeline into four stages (\emph{encode}, \emph{retrieve}, \emph{augment}, and \emph{generate}), each with distinct computational and memory demands (further detailed in \Cref{sec:04Design}). The first three stages run on the CPU, while generation executes on the GPU. \Cref{Fig:stacked_graph} shows the stage-wise execution time for a batch of 8 queries accessing a 4M-entry database, where each knowledge element consists of approximately 100 words. For this baseline, encoding, retrieval, and augmentation are run on a single CPU core to compare their compute cost.
 
 \subsection{Encoding Stage}
 \label{sec:char:Encoding}
@@ -75,16 +75,12 @@ The encoding stage converts user inputs into high-dimensional embeddings, with l
 \subsection{Retrieval Stage}
 \label{sec:char:Retrieval}
 The retrieval stage performs a similarity search over a vector database to identify the \topk relevant entries. As a predominantly I/O- and memory-bound phase, it demands detailed characterization to expose performance bottlenecks. Retrieval comprises two components: (i) index fetch, which occurs once per batch and is independent of batch size, and (ii) similarity search, which runs per query. \Cref{Fig:batchsize_stacked_linear_labeled} shows that index fetch dominates latency at small batch sizes, while similarity search grows with \texttt{BS} and becomes dominant at larger batches. At \texttt{BS=32}, total latency increases sharply due to DRAM bandwidth saturation.
-\Cref{Fig:latency_cores} shows sub-linear latency reductions as CPU cores are increased, suggesting diminishing returns from parallelism. By contrast, \Cref{Fig:latency_dbsize} reveals near-linear latency growth with database size, indicating stronger sensitivity to memory and I/O bandwidth than to core count. Overall, retrieval latency is governed more by data movement and cache behavior than raw compute.
+\Cref{Fig:latency_cores} shows sub-linear latency reductions as CPU cores are increased, suggesting diminishing returns from parallelism\new{; beyond roughly 8 cores the gains plateau as memory bandwidth and LLC capacity dominate}. By contrast, \Cref{Fig:latency_dbsize} reveals near-linear latency growth with database size, indicating stronger sensitivity to memory and I/O bandwidth than to core count. Overall, retrieval latency is governed more by data movement and cache behavior than raw compute.
 
 % --------------------------------------------------------------------
 %  Execution, Batch/Core, DB-size, and Key Observations
 % --------------------------------------------------------------------
 
-\noindent\textbf{Execution Breakdown Across Stages:} 
-\Cref{Fig:latency_cores} shows that adding CPU cores shortens retrieval latency up to 8 cores, after which benefits plateau because shared‐resource pressure, i.e. memory bandwidth and LLC capacity, dominates.  
-\Cref{Fig:batchsize_stacked_linear_labeled} further decomposes retrieval into \emph{index fetch} (I/O-bound, once per batch) and \emph{similarity search} (compute-bound, per query).  
-At small batches, fixed I/O cost dictates latency; at larger batches, similarity search and DRAM contention take over, revealing that retrieval performance is governed primarily by the memory hierarchy, with compute parallelism offering only secondary gains.
 
 \noindent\textbf{Impact of Batch Size and Multicore Scaling:} 
 \Cref{Fig:forwardpass_8cores} illustrates that encoding enjoys linear core-utilization only when the batch size (\texttt{BS}) is large enough to saturate all cores.  

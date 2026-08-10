@@ -178,11 +178,11 @@ In this paper, we present \textbf{MaestroRAG}, a fine-grained pipeline architect
     \centering
     % \includegraphics[width=0.8\linewidth]{Figs/RAGpipegrad.pdf}
     \includegraphics[width=0.8\linewidth]{Figs/ShepherdedMaestro.pdf}
-    \caption{Classical RAG Pipeline has structural hazard and CPU under-utilization. \design{} solves it with smart orchestration.}
+    \caption{\new{Stage placement in a classical RAG pipeline and in \design{}. The classical pipeline places both encoding and generation on the GPU; \design{} places encoding and retrieval on dedicated CPU cores and reserves the GPU for generation.}}
     \label{fig:maestroRAG}
 \end{figure*}
 
-We evaluated MaestroRAG on three platforms—NVIDIA RTX 4090, RTX 4080, and Jetson AGX Orin using realistic workloads derived from Azure traces and the Wikipedia corpus. Compared to state-of-the-art systems, MaestroRAG achieves a latency reduction of up to $12\times$, a performance improvement of $5.6\times$, and energy savings of $3\times$, while remaining agnostic to the choice of encoder and LLM. Our main {\bf contributions} in this work are:
+We evaluated MaestroRAG on three platforms: NVIDIA RTX 4090, RTX 4080, and Jetson AGX Orin using realistic workloads derived from Azure traces and the Wikipedia corpus. Compared to state-of-the-art systems, MaestroRAG achieves a latency reduction of up to $12\times$, a performance improvement of $5.6\times$, and energy savings of $3\times$, while remaining agnostic to the choice of encoder and LLM. Our main {\bf contributions} in this work are:
 
 % \begin{itemize}[leftmargin=1.5em, itemsep=2pt, topsep=3pt]
 \noindent$\bullet$\textbf{Workload characterization} revealing that RAG encoding is compute-bound while retrieval is memory-bound, motivating heterogeneous CPU--GPU execution.
