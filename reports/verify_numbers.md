@@ -577,12 +577,12 @@ These numbers appear in the paper and match a value found **only** in a stale ta
 
 ## Numeric literals not covered by any check
 
-Extracted **314** numeric literals from the active `.tex` files (a further 374 sit on commented-out lines and are ignored).
-**44** are accounted for by a check above; **270** are not, broken down as:
+Extracted **314** numeric literals from the active `.tex` files (a further 375 sit on commented-out lines and are ignored).
+**41** are accounted for by a check above; **273** are not, broken down as:
 
 | Category | Count | Meaning |
 |---|---:|---|
-| `claim` | 129 | prose numbers that no check covers -- the actionable list |
+| `claim` | 132 | prose numbers that no check covers -- the actionable list |
 | `setup` | 44 | numbers bound to a unit (15 W, 64 GB, 10 Hz, 4 M) |
 | `config` | 51 | experiment knobs (`BS=8`, `DB=4M`, `top-k=5`, core counts) |
 | `hardware` | 39 | device/model numbers (RTX 4090, i9-14900K, Llama-3.1-8B) |
@@ -595,6 +595,9 @@ so nothing is dropped. Only the `claim` bucket is treated as needing attention.
 
 | File:line | Literal | Context |
 |---|---:|---|
+| `introduction.tex:186` | 12 | We evaluated MaestroRAG on three platforms—NVIDIA RTX 4090, RTX 4080, and Jetson AGX Orin using realistic workloads deri |
+| `introduction.tex:186` | 5.6 | We evaluated MaestroRAG on three platforms—NVIDIA RTX 4090, RTX 4080, and Jetson AGX Orin using realistic workloads deri |
+| `introduction.tex:186` | 3 | We evaluated MaestroRAG on three platforms—NVIDIA RTX 4090, RTX 4080, and Jetson AGX Orin using realistic workloads deri |
 | `characterization.tex:70` | 24 | This section characterizes the performance of a RAG pipeline on a desktop-class machine, highlighting how resource alloc |
 | `characterization.tex:70` | 120 | This section characterizes the performance of a RAG pipeline on a desktop-class machine, highlighting how resource alloc |
 | `characterization.tex:70` | 100 | This section characterizes the performance of a RAG pipeline on a desktop-class machine, highlighting how resource alloc |
@@ -824,8 +827,8 @@ so nothing is dropped. Only the `claim` bucket is treated as needing attention.
 | `TablesAlgos/PowerEnergy.tex:3` | 2 | config | \caption{\new{Power and energy on the Intel i9-14900K platform with an RTX\,4090 GPU at \texttt{BS=2 |
 | `TablesAlgos/PowerEnergy.tex:3` | 4 | config | \caption{\new{Power and energy on the Intel i9-14900K platform with an RTX\,4090 GPU at \texttt{BS=2 |
 | `TablesAlgos/PowerEnergy.tex:3` | 5 | config | \caption{\new{Power and energy on the Intel i9-14900K platform with an RTX\,4090 GPU at \texttt{BS=2 |
-| `introduction.tex:184` | 4090 | hardware | We evaluated MaestroRAG on three platforms—NVIDIA RTX 4090, RTX 4080, and Jetson AGX Orin using real |
-| `introduction.tex:184` | 4080 | hardware | We evaluated MaestroRAG on three platforms—NVIDIA RTX 4090, RTX 4080, and Jetson AGX Orin using real |
+| `introduction.tex:186` | 4090 | hardware | We evaluated MaestroRAG on three platforms—NVIDIA RTX 4090, RTX 4080, and Jetson AGX Orin using real |
+| `introduction.tex:186` | 4080 | hardware | We evaluated MaestroRAG on three platforms—NVIDIA RTX 4090, RTX 4080, and Jetson AGX Orin using real |
 | `background&motivation.tex:15` | 15 | hardware | We use \emph{edge} in this paper to mean \emph{personal-computing edge}: a local compute node runnin |
 | `background&motivation.tex:15` | 4 | hardware | We use \emph{edge} in this paper to mean \emph{personal-computing edge}: a local compute node runnin |
 | `background&motivation.tex:15` | 12 | hardware | We use \emph{edge} in this paper to mean \emph{personal-computing edge}: a local compute node runnin |

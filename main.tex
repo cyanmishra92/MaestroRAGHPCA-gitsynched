@@ -133,13 +133,27 @@
 \Crefname{table}{TABLE}{TABLES}  % \Cref{tab:...} -> TABLE <number>
 \crefname{table}{table}{tables}  % \cref{tab:...} -> table <number>
 
-% Always call subsections "Section" (not "subsection")
-\crefname{subsection}{section}{sections}
-\Crefname{subsection}{Section}{Sections}
+% Refer to sections as "\S N" and nothing else.
+% \creflabelformat only sets the *label* part, so cleveref still prepended its name and
+% the result read "Section \S2.1". \crefformat sets the complete reference text, so the
+% name is not emitted at all and only the section sign remains.
+\crefformat{section}{\S#2#1#3}
+\Crefformat{section}{\S#2#1#3}
+\crefformat{subsection}{\S#2#1#3}
+\Crefformat{subsection}{\S#2#1#3}
+\crefformat{subsubsection}{\S#2#1#3}
+\Crefformat{subsubsection}{\S#2#1#3}
 
-% Insert the section sign before the label (number) for sections & subsections
-\creflabelformat{section}{\S#2#1#3}
-\creflabelformat{subsection}{\S#2#1#3}
+% Same treatment for grouped and ranged references, so the duplication cannot come back
+% through a form the paper does not happen to use today.
+\crefmultiformat{section}{\S#2#1#3}{ and~\S#2#1#3}{, \S#2#1#3}{ and~\S#2#1#3}
+\Crefmultiformat{section}{\S#2#1#3}{ and~\S#2#1#3}{, \S#2#1#3}{ and~\S#2#1#3}
+\crefmultiformat{subsection}{\S#2#1#3}{ and~\S#2#1#3}{, \S#2#1#3}{ and~\S#2#1#3}
+\Crefmultiformat{subsection}{\S#2#1#3}{ and~\S#2#1#3}{, \S#2#1#3}{ and~\S#2#1#3}
+\crefrangeformat{section}{\S#3#1#4--\S#5#2#6}
+\Crefrangeformat{section}{\S#3#1#4--\S#5#2#6}
+\crefrangeformat{subsection}{\S#3#1#4--\S#5#2#6}
+\Crefrangeformat{subsection}{\S#3#1#4--\S#5#2#6}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % THEOREMS
