@@ -123,7 +123,6 @@ By confining encoding and retrieval to the CPU and using memory-mapped indices,
   \includegraphics[width=\linewidth]{Figs/cr/JetsonThemVsUs.pdf}
   \caption{Latency comparison of EdgeRAG and \design{} on a Jetson~AGX~Orin with 1\,M database.}
   \label{fig:JetsonThemVsUs}
-  \vspace{-10pt}
 \end{wrapfigure}
 we eliminate large data copies and cut overhead relative to EdgeRAG by 25\%--35\%. Although gains are smaller than on larger GPUs, they illustrate that our pipeline and data-sharing optimizations still yield meaningful benefits on edge devices.
 
@@ -228,7 +227,6 @@ The power consumption results for EdgeRAG are excluded from our evaluation due t
     \caption{Key findings: (a) The adaptive worker allocation technique often results in better resource partitioning combinations to achieve the same latency/throughput. (b) End-to-end latency comparison for configurations selected by the adaptive worker allocator. (c) Throughput comparison for configurations selected by the adaptive worker allocator.}
     %\vspace{-0.1cm}
     \label{Fig:MainLatTputFigure}  
-    \vspace{-10pt}
 \end{figure*}
 %%%%%%%%%% %%%%%%%%%% %%%%%%%%%% %%%%%%%%%%
 

@@ -180,7 +180,6 @@ In this paper, we present \textbf{MaestroRAG}, a fine-grained pipeline architect
     \includegraphics[width=0.8\linewidth]{Figs/ShepherdedMaestro.pdf}
     \caption{Classical RAG Pipeline has structural hazard and CPU under-utilization. \design{} solves it with smart orchestration.}
     \label{fig:maestroRAG}
-    \vspace{-10pt}
 \end{figure*}
 
 We evaluated MaestroRAG on three platforms—NVIDIA RTX 4090, RTX 4080, and Jetson AGX Orin using realistic workloads derived from Azure traces and the Wikipedia corpus. Compared to state-of-the-art systems, MaestroRAG achieves a latency reduction of up to $12\times$, a performance improvement of $5.6\times$, and energy savings of $3\times$, while remaining agnostic to the choice of encoder and LLM. Our main {\bf contributions} in this work are:
