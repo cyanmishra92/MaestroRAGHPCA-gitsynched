@@ -83,7 +83,8 @@ Second, moderate batch sizes (\texttt{BS=4--8}) typically provide the most effic
 Overall, from a \emph{designer’s perspective}, sweet-spot batching and CPU--GPU division together yield 6--12$\times$ latency gains over existing designs without risking out-of-memory failures.
 %\textcolor{red}{We used flat-indexing for accuracy and benchmarked three popular alternatives—IVF-Flat, IVF-PQ, and HNSW—observing performance gains of 29.27\%, 28.15\%, and 32.18\%, respectively, wrt flat-indexing.} 
 
-\noindent\textbf{Results on an \mbox{RTX\,4080} Desktop:}
+%\noindent\textbf{Results on an \mbox{RTX\,4080} Desktop:}
+\noindent\textbf{\mbox{RTX\,4080} Desktop:}
 \Cref{Fig:4080Latency_Ours} shows that, on \mbox{RTX\,4080}, our total latency follows a similar pattern, scaling to about 11.58\,s at \texttt{BS=16}, \texttt{DB=8\,M}. In \Cref{Fig:4080Speedup_Merged}, where we specifically compare speedups at \texttt{DB=4\,M}, batch sizes of 2--8 run successfully with \design{} but cause memory exhaustion in all baselines at \texttt{BS=16}. That reflects how naive GPU offloading can overwhelm the 16\,GB GPU memory if encoding and retrieval also reside there. 
 In contrast, dedicating only generation to the GPU keeps our pipeline stable for larger batches. These results confirm that CPU-driven encoding and retrieval strategies are more sustainable for mid-range GPUs while still providing significant performance gains and avoiding failures on bigger inputs. 
 
@@ -146,7 +147,7 @@ we eliminate large data copies and cut overhead relative to EdgeRAG by 25\%--35\
 % frequent embedding generations. However, in similarity matching ($\ge0.9~cosine$ similarity), the tail-end of requests faces higher retrieval latency, pushing average execution time towards a full flat index lookup, yielding inferior latency relative to \edgeRAG{}.}
 % %which uses tree-based IVF indexing.
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-\subsection{Main Latency Results}
+\subsection{Latency Analysis}
 \label{sec:main-latency-results}
 \Cref{Fig:MainLatencyResults2} reports end-to-end latencies for \design{} and three baselines on 
 (i)~an RTX\,4090 with a 4\,M database at \texttt{BS=8}, 
@@ -204,27 +205,30 @@ The power consumption results for EdgeRAG are excluded from our evaluation due t
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  \begin{figure*} [ht!]
-        \subfloat[Adaptive Worker Allocation]% in \design{}]
+        \subfloat[~]%Adaptive Worker Allocation]% in \design{}]
     {%
      % CR-REPLACED: \includegraphics[clip,width=0.32\linewidth]{Figs/cores_allocation_stacked.pdf}%
      \includegraphics[clip,width=0.32\linewidth]{Figs/cr/cores_allocation_stacked.pdf}%
     \label{Fig:cores_allocation_stacked}
     }
     \hfill
-    \subfloat[End to end latency comparison]% over all designs and devices]
+    \subfloat[~]%End to end latency comparison]% over all designs and devices]
     {%
     % CR-REPLACED: \includegraphics[clip,width=0.32\linewidth]{Figs/MainLatencyResults2.pdf}%
     \includegraphics[clip,width=0.32\linewidth]{Figs/cr/MainLatencyResults2.pdf}%
     \label{Fig:MainLatencyResults2}
     }
     \hfill
-    \subfloat[Throughput comparison]% over all designs and devices]
+    \subfloat[~]%Throughput comparison]% over all designs and devices]
     {%
     % CR-REPLACED: \includegraphics[clip,width=0.32\linewidth] {Figs/ThroughputResults.pdf}%
     \includegraphics[clip,width=0.32\linewidth]{Figs/cr/ThroughputResults.pdf}%
     \label{Fig:ThroughputResults}
     }
-    \caption{Key findings: (a) The adaptive worker allocation technique often results in better resource partitioning combinations to achieve the same latency/throughput. (b) End-to-end latency comparison for configurations selected by the adaptive worker allocator. (c) Throughput comparison for configurations selected by the adaptive worker allocator.}
+    \caption{\new {(a) Adaptive Worker (\#Cores) Allocation using \design{} allocator against an empirical one (b) End-to-end latency comparison for configurations selected by the adaptive worker allocator (c) Throughput comparison for configurations selected by the adaptive worker allocator. 
+    %The adaptive worker allocation technique often results in better resource partitioning combinations to achieve the same if not better latency/throughput.
+    }
+    }
     %\vspace{-0.1cm}
     \label{Fig:MainLatTputFigure}  
 \end{figure*}
