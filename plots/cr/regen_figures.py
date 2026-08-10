@@ -400,7 +400,7 @@ def fig7c():
                         fontsize=BASE, color="#c0392b")
             else:
                 ax.bar(xp, v, bw, color=colors[impl], **BAR)
-                ax.text(xp, v + 0.03, f"{v:.2f}", ha="center", va="bottom",
+                ax.text(xp, v + 0.03, f"{v:.3g}", ha="center", va="bottom",
                         rotation=90, fontsize=BASE, color=INK)
     ax.set_xticks(np.arange(len(devices))); ax.set_xticklabels(devices)
     ax.set_ylim(0, 1.95)

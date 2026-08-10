@@ -135,7 +135,7 @@ for balanced performance. In our experiments, we treat all CPU cores uniformly (
 % }
 
 As an example, applying the above equations to our desktop-grade CPU platform, we determine the optimal core allocation strategy for the latency-critical application to be \textbf{E:8, RA:22, G:1}\footnote{With Jetson at a 15W power budget (see \Cref{subsec:implementation}), we get 4 cores to work with of which 2 are used for \textbf{E}, 1 for \textbf{RA} and 1 for \textbf{G} and scheduler.}, with the remaining single core dedicated to the scheduler. Under this mapper-identified configuration, our proposed three-stage pipeline (\texttt{for DB=2\,M; BS=8}) results in an execution time of $1.178\,\mathrm{s}$ with a stage-wise breakdown of $\langle$E=0.21s,\, RA=0.78s$\rangle$ and a scheduler overhead of 0.188s. In comparison, the standard four-stage pipeline requires $1.448\,\mathrm{s}$ with the breakdown $\langle$E=0.192s,\,R=0.761s,\,A=0.104s$\rangle$ along with scheduler overhead of 0.391s. Both configurations ignore the \textbf{G} stage, as its execution time remains constant. 
-Notably, our three-stage pipeline delivers an approximate $22\%$ improvement over the four-stage approach, primarily due to the reduced scheduler overhead. This performance is also significantly better than the naïve allocation strategy, which requires $9.5\,\mathrm{s}$ ($8.06\times$) for similar CPU execution.
+Notably, our three-stage pipeline delivers a \new{$1.23\times$} improvement over the four-stage approach, primarily due to the reduced scheduler overhead. This performance is also significantly better than the naïve allocation strategy, which requires $9.5\,\mathrm{s}$ ($8.06\times$) for similar CPU execution.
 
 
 \noindent\textbf{Multi-Worker Duplication:}

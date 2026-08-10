@@ -213,6 +213,18 @@
   \newenvironment{newtext}{\begingroup\color{blue}}{\endgroup}
 \fi
 
+%%%%% AUTHOR ATTENTION FLAGS %%%%%
+% 1 = show flags in red   0 = hide entirely (camera-ready)
+% Independent of \revmode. A flag is a note to the author and never carries text the
+% paper needs; every flag must be deletable without leaving a gap in the prose.
+\newcommand{\flagmode}{1}
+
+\ifnum\flagmode=0
+  \newcommand{\flag}[1]{}
+\else
+  \newcommand{\flag}[1]{\textcolor{red}{\textbf{[FLAG:}~#1\textbf{]}}}
+\fi
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % CUSTOM COMMANDS - PAPER-SPECIFIC
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

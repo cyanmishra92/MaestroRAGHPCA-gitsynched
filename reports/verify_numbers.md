@@ -19,7 +19,7 @@ cannot settle a claim, the row says UNVERIFIABLE rather than offering an estimat
 
 | PASS | FAIL | UNVERIFIABLE | total | drifted from `expect` |
 |---:|---:|---:|---:|---:|
-| 98 | 2 | 1 | 101 | 0 |
+| 100 | 0 | 1 | 101 | 0 |
 
 Every check holds the status recorded in `checks.yaml` -- no drift.
 
@@ -31,8 +31,6 @@ own task; they are recorded here, not repaired.
 
 | Status | ID | Claimed | Workbook | Δ | Tol | Source | Where claimed |
 |---|---|---:|---:|---:|---:|---|---|
-| **FAIL** | `jetson_overhead_reduction_band` | [25, 35] | [8.607, 23.76, 26.05, 20.37] | -- | 0 | `LatencyResults-NoCacheJetson!D29, LatencyResults-NoCacheJetson!E29, LatencyResults-NoCacheJetson!D30, LatencyResults-NoCacheJetson!E30, LatencyResults-NoCacheJetson!D31, LatencyResults-NoCacheJetson!E31, LatencyResults-NoCacheJetson!D32, LatencyResults-NoCacheJetson!E32`<br/>`[(e2-o2)/e2*100, (e4-o4)/e4*100, (e8-o8)/e8*100, (e16-o16)/e16*100]` | `implementation&eval.tex:119` |
-| **FAIL** | `speedup_4080_flashrag_bs8` | 1.9 | 1.96009 | -0.0600909 | 0.05 | `LatencyResults-NoCache4080!D37` | `implementation&eval.tex:146` |
 | _UNVERIF_ | `cold_start_total` | 7 | -- | -- | 0 | _no workbook source_ | `implementation&eval.tex:315` |
 | PASS | `ablation_software_opt_latency` | 6.497 | 6.497 | 0 | 0.0005 | `mainLatencyResults!C5` | `implementation&eval.tex:313` |
 | PASS | `baseline_latency_4090_flashrag` | 16.39 | 16.39 | 0 | 0.005 | `mainLatencyResults!C8` | `implementation&eval.tex:145` |
@@ -98,6 +96,7 @@ own task; they are recorded here, not repaired.
 | PASS | `hwtable_vram_4090` | 24 | 24 | 0 | 0 | `edge vs. server!G18` | `TablesAlgos/Jetson4090A100.tex:13` |
 | PASS | `hwtable_vram_a100` | 80 | 80 | 0 | 0 | `edge vs. server!H18` | `TablesAlgos/Jetson4090A100.tex:13` |
 | PASS | `hwtable_vram_jetson` | 64 | 64 | 0 | 0 | `edge vs. server!F18` | `TablesAlgos/Jetson4090A100.tex:12` |
+| PASS | `jetson_overhead_reduction_band` | 26 | 26.0487 | -0.0486794 | 0.05 | `LatencyResults-NoCacheJetson!D29, LatencyResults-NoCacheJetson!E29, LatencyResults-NoCacheJetson!D30, LatencyResults-NoCacheJetson!E30, LatencyResults-NoCacheJetson!D31, LatencyResults-NoCacheJetson!E31, LatencyResults-NoCacheJetson!D32, LatencyResults-NoCacheJetson!E32`<br/>`max([(e2-o2)/e2*100, (e4-o4)/e4*100, (e8-o8)/e8*100, (e16-o16)/e16*100])` | `implementation&eval.tex:127` |
 | PASS | `jetson_speedup_bs16` | 1.25 | 1.25588 | -0.00588029 | 0.01 | `LatencyResults-NoCacheJetson!F32` | `implementation&eval.tex:109` |
 | PASS | `jetson_speedup_bs8` | 1.35 | 1.35224 | -0.0022409 | 0.01 | `LatencyResults-NoCacheJetson!F31` | `implementation&eval.tex:109`, `implementation&eval.tex:147`, `implementation&eval.tex:305` |
 | PASS | `main_latency_4080` | 3.96 | 3.959 | 0.001 | 0.005 | `mainLatencyResults!D5` | `implementation&eval.tex:146` |
@@ -112,6 +111,7 @@ own task; they are recorded here, not repaired.
 | PASS | `ported_piperag_qps` | 1.38 | 1.38 | 0 | 0 | `docs/Untitled document.md`<br/>_rebuttal, Common Concerns, ported-optimization experiment_ | `implementation&eval.tex:322` |
 | PASS | `ported_piperag_retrieve` | 1.55 | 1.55 | 0 | 0 | `docs/Untitled document.md`<br/>_rebuttal, Common Concerns, ported-optimization experiment_ | `implementation&eval.tex:322` |
 | PASS | `speedup_4080_edgerag_bs8` | 8.8 | 8.84819 | -0.048194 | 0.05 | `LatencyResults-NoCache4080!D32` | `implementation&eval.tex:146` |
+| PASS | `speedup_4080_flashrag_bs8` | 2 | 1.96009 | 0.0399091 | 0.05 | `LatencyResults-NoCache4080!D37` | `implementation&eval.tex:156` |
 | PASS | `speedup_4080_piperag_bs8` | 5.4 | 5.35489 | 0.0451124 | 0.05 | `LatencyResults-NoCache4080!D42` | `implementation&eval.tex:146` |
 | PASS | `speedup_edgerag_bs16_db8m` | 6.152 | 6.15234 | -0.000336082 | 0.001 | `LatencyResults-NoCache4090!M13` | _Figure 4b (Figs/4090speedupEdgeRAG.pdf)_ |
 | PASS | `speedup_edgerag_bs8_db8m` | 12 | 12.0811 | 0.0811359 | 0 | `LatencyResults-NoCache4090!M12` | `abstract.tex:1`, `introduction.tex:132`, `introduction.tex:184`, `conclusion.tex:3`, `conclusion.tex:8` |
@@ -122,34 +122,23 @@ own task; they are recorded here, not repaired.
 | PASS | `table3_energy_total_flashrag` | 792 | 792 | 0 | 0.005 | `PowerComp!C6, PowerComp!C7`<br/>`(cpu + gpu) / 2` | `TablesAlgos/PowerEnergy.tex:20` |
 | PASS | `table3_energy_total_maestro` | 253.28 | 253.28 | 0 | 0.005 | `PowerComp!E6, PowerComp!E7`<br/>`(cpu + gpu) / 2` | `TablesAlgos/PowerEnergy.tex:20` |
 | PASS | `table3_energy_total_piperag` | 780.92 | 780.925 | -0.005 | 0.005 | `PowerComp!D6, PowerComp!D7`<br/>`(cpu + gpu) / 2` | `TablesAlgos/PowerEnergy.tex:20` |
-| PASS | `throughput_4090_edgerag` | 0.29 | 0.28764 | 0.00235955 | 0.005 | `ThroughputResult!E5` | `implementation&eval.tex:154` |
-| PASS | `throughput_4090_flashrag` | 0.68 | 0.683104 | -0.00310385 | 0.005 | `ThroughputResult!E6` | `implementation&eval.tex:154` |
+| PASS | `throughput_4090_edgerag` | 0.288 | 0.28764 | 0.000359551 | 0.0005 | `ThroughputResult!E5` | `implementation&eval.tex:154` |
+| PASS | `throughput_4090_flashrag` | 0.683 | 0.683104 | -0.000103853 | 0.0005 | `ThroughputResult!E6` | `implementation&eval.tex:154` |
 | PASS | `throughput_4090_maestro` | 1.6 | 1.6 | 0 | 0.005 | `ThroughputResult!E4` | `implementation&eval.tex:154` |
-| PASS | `throughput_4090_piperag` | 1.19 | 1.18519 | 0.00481481 | 0.005 | `ThroughputResult!E7` | `implementation&eval.tex:154` |
-| PASS | `throughput_jetson_edgerag` | 0.064 | 0.0645161 | -0.000516129 | 0.001 | `ThroughputResult!H5` | `implementation&eval.tex:154` |
+| PASS | `throughput_4090_piperag` | 1.185 | 1.18519 | -0.000185185 | 0.0005 | `ThroughputResult!E7` | `implementation&eval.tex:154` |
+| PASS | `throughput_jetson_edgerag` | 0.0645 | 0.0645161 | -1.6129e-05 | 0.0005 | `ThroughputResult!H5` | `implementation&eval.tex:154` |
 | PASS | `throughput_jetson_flashrag_absent` | -- | -- | -- | 0 | `ThroughputResult!H6` | _--_ |
-| PASS | `throughput_jetson_maestro` | 0.43 | 0.432432 | -0.00243243 | 0.005 | `ThroughputResult!H4` | `implementation&eval.tex:154` |
-| PASS | `throughput_jetson_piperag` | 0.37 | 0.370092 | -9.19447e-05 | 0.005 | `ThroughputResult!H7` | `implementation&eval.tex:154` |
+| PASS | `throughput_jetson_maestro` | 0.432 | 0.432432 | -0.000432432 | 0.0005 | `ThroughputResult!H4` | `implementation&eval.tex:154` |
+| PASS | `throughput_jetson_piperag` | 0.37 | 0.370092 | -9.19447e-05 | 0.0005 | `ThroughputResult!H7` | `implementation&eval.tex:154` |
 | PASS | `throughput_speedup_jetson_edgerag` | 6.7 | 6.7027 | -0.0027027 | 0.05 | `ThroughputResult!H4, ThroughputResult!H5`<br/>`ours / theirs` | `implementation&eval.tex:154` |
 | PASS | `throughput_speedup_jetson_piperag` | 1.16 | 1.16845 | -0.00844595 | 0.01 | `ThroughputResult!H4, ThroughputResult!H7`<br/>`ours / theirs` | `implementation&eval.tex:154` |
 
 ### Detail
 
-**`jetson_overhead_reduction_band`** -- FAIL (seed)  
-Claimed 25-35% latency reduction vs EdgeRAG on Jetson, all batch sizes  
-derived [8.607, 23.76, 26.05, 20.37]; 3 of 4 fall outside 25-35  
-_Known defect:_ Workbook gives 8.6 / 23.8 / 26.0 / 20.4 % for BS=2/4/8/16. Only BS=8 lands in the band; the claimed range is wrong. Awaiting its own task.  
-
-**`speedup_4080_flashrag_bs8`** -- FAIL (extended)  
-4080 speedup over FlashRAG at BS=8, DB=4M  
-|1.9 - 1.96009| = 0.0600909 vs tolerance 0.05  
-_Tolerance:_ paper prints 1 dp; 1.96 should display as 2.0, not 1.9  
-_Known defect:_ Paper says 1.9x; workbook gives 1.96x. Truncated instead of rounded.  
-
 **`cold_start_total`** -- UNVERIFIABLE (seed)  
 Cold-start total: paper says ~7 s; its own components sum to 6.76 s  
-No authorised tab records cold-start timings. Components 0.36 + 3.04 + 3.36 = 6.76 s, which is 0.24 s short of the stated 7 s; this is a paper-internal arithmetic gap, not a workbook mismatch.  
-_Why unverifiable:_ No authorised tab records cold-start timings. Components 0.36 + 3.04 + 3.36 = 6.76 s, which is 0.24 s short of the stated 7 s; this is a paper-internal arithmetic gap, not a workbook mismatch.  
+No authorised tab records cold-start timings. Components 0.36 + 3.04 + 3.36 = 6.76 s; Task 8 made the 0.24 s residual explicit in the text (process creation and library initialization), so the arithmetic now closes, but none of it is backed by a sheet.  
+_Why unverifiable:_ No authorised tab records cold-start timings. Components 0.36 + 3.04 + 3.36 = 6.76 s; Task 8 made the 0.24 s residual explicit in the text (process creation and library initialization), so the arithmetic now closes, but none of it is backed by a sheet.  
 
 **`ablation_software_opt_latency`** -- PASS (extended)  
 Ablation: latency after software optimisations equals the headline 4090 number  
@@ -411,6 +400,11 @@ Hardware table: A100 VRAM, GB (contrast column)
 Hardware table: Jetson Orin GPU memory, GB -- same unified 64 GB as main memory  
 |64 - 64| = 0 vs tolerance 0  
 
+**`jetson_overhead_reduction_band`** -- PASS (seed)  
+Jetson overhead reduction vs EdgeRAG; paper claims up to 26% (corrected from 25-35% in Task 8)  
+|26 - 26.0487| = 0.0486794 vs tolerance 0.05  
+_Tolerance:_ paper prints a whole percent; the maximum of the four batch sizes is 26.049  
+
 **`jetson_speedup_bs16`** -- PASS (seed)  
 Jetson speedup over EdgeRAG at BS=16  
 |1.25 - 1.25588| = 0.00588029 vs tolerance 0.01  
@@ -475,6 +469,11 @@ paper 1.55 vs docs/Untitled document.md 1.55; |delta| = 0 vs tolerance 0
 |8.8 - 8.84819| = 0.048194 vs tolerance 0.05  
 _Tolerance:_ paper prints 1 dp  
 
+**`speedup_4080_flashrag_bs8`** -- PASS (extended)  
+4080 speedup over FlashRAG at BS=8, DB=4M  
+|2 - 1.96009| = 0.0399091 vs tolerance 0.05  
+_Tolerance:_ corrected in Task 8; 1.960 rounds to 2.0 as its neighbours were rounded  
+
 **`speedup_4080_piperag_bs8`** -- PASS (extended)  
 4080 speedup over PipeRAG at BS=8, DB=4M  
 |5.4 - 5.35489| = 0.0451124 vs tolerance 0.05  
@@ -524,11 +523,11 @@ _Tolerance:_ table prints 2 dp
 
 **`throughput_4090_edgerag`** -- PASS (seed)  
 Throughput, RTX 4090, EdgeRAG (QPS)  
-|0.29 - 0.28764| = 0.00235955 vs tolerance 0.005  
+|0.288 - 0.28764| = 0.000359551 vs tolerance 0.0005  
 
 **`throughput_4090_flashrag`** -- PASS (seed)  
 Throughput, RTX 4090, FlashRAG (QPS)  
-|0.68 - 0.683104| = 0.00310385 vs tolerance 0.005  
+|0.683 - 0.683104| = 0.000103853 vs tolerance 0.0005  
 
 **`throughput_4090_maestro`** -- PASS (seed)  
 Throughput, RTX 4090, MaestroRAG (QPS)  
@@ -536,11 +535,11 @@ Throughput, RTX 4090, MaestroRAG (QPS)
 
 **`throughput_4090_piperag`** -- PASS (seed)  
 Throughput, RTX 4090, PipeRAG (QPS)  
-|1.19 - 1.18519| = 0.00481481 vs tolerance 0.005  
+|1.185 - 1.18519| = 0.000185185 vs tolerance 0.0005  
 
 **`throughput_jetson_edgerag`** -- PASS (seed)  
 Throughput, Jetson, EdgeRAG (QPS)  
-|0.064 - 0.0645161| = 0.000516129 vs tolerance 0.001  
+|0.0645 - 0.0645161| = 1.6129e-05 vs tolerance 0.0005  
 _Tolerance:_ paper truncates 0.0645 to 0.064 rather than rounding  
 
 **`throughput_jetson_flashrag_absent`** -- PASS (seed)  
@@ -549,11 +548,11 @@ ThroughputResult!H6 is empty, as expected
 
 **`throughput_jetson_maestro`** -- PASS (seed)  
 Throughput, Jetson, MaestroRAG (QPS)  
-|0.43 - 0.432432| = 0.00243243 vs tolerance 0.005  
+|0.432 - 0.432432| = 0.000432432 vs tolerance 0.0005  
 
 **`throughput_jetson_piperag`** -- PASS (seed)  
 Throughput, Jetson, PipeRAG (QPS)  
-|0.37 - 0.370092| = 9.19447e-05 vs tolerance 0.005  
+|0.37 - 0.370092| = 9.19447e-05 vs tolerance 0.0005  
 
 **`throughput_speedup_jetson_edgerag`** -- PASS (extended)  
 Jetson throughput advantage over EdgeRAG  
@@ -577,14 +576,14 @@ These numbers appear in the paper and match a value found **only** in a stale ta
 
 ## Numeric literals not covered by any check
 
-Extracted **314** numeric literals from the active `.tex` files (a further 375 sit on commented-out lines and are ignored).
-**41** are accounted for by a check above; **273** are not, broken down as:
+Extracted **324** numeric literals from the active `.tex` files (a further 375 sit on commented-out lines and are ignored).
+**43** are accounted for by a check above; **281** are not, broken down as:
 
 | Category | Count | Meaning |
 |---|---:|---|
-| `claim` | 132 | prose numbers that no check covers -- the actionable list |
-| `setup` | 44 | numbers bound to a unit (15 W, 64 GB, 10 Hz, 4 M) |
-| `config` | 51 | experiment knobs (`BS=8`, `DB=4M`, `top-k=5`, core counts) |
+| `claim` | 144 | prose numbers that no check covers -- the actionable list |
+| `setup` | 38 | numbers bound to a unit (15 W, 64 GB, 10 Hz, 4 M) |
+| `config` | 53 | experiment knobs (`BS=8`, `DB=4M`, `top-k=5`, core counts) |
 | `hardware` | 39 | device/model numbers (RTX 4090, i9-14900K, Llama-3.1-8B) |
 | `enumerator` | 7 | list markers -- `(1)`, `(2)`, `(3)` |
 
@@ -595,6 +594,7 @@ so nothing is dropped. Only the `claim` bucket is treated as needing attention.
 
 | File:line | Literal | Context |
 |---|---:|---|
+| `abstract.tex:1` | 1.35 | Retrieval-Augmented Generation (RAG) offers a compact yet powerful alternative to massive Large Language Models (LLMs),  |
 | `introduction.tex:185` | 12 | We evaluated MaestroRAG on three platforms—NVIDIA RTX 4090, RTX 4080, and Jetson AGX Orin using realistic workloads deri |
 | `introduction.tex:185` | 5.6 | We evaluated MaestroRAG on three platforms—NVIDIA RTX 4090, RTX 4080, and Jetson AGX Orin using realistic workloads deri |
 | `introduction.tex:185` | 3 | We evaluated MaestroRAG on three platforms—NVIDIA RTX 4090, RTX 4080, and Jetson AGX Orin using realistic workloads deri |
@@ -614,9 +614,9 @@ so nothing is dropped. Only the `claim` bucket is treated as needing attention.
 | `design.tex:137` | 1 | As an example, applying the above equations to our desktop-grade CPU platform, we determine the optimal core allocation  |
 | `design.tex:137` | 1.178 | As an example, applying the above equations to our desktop-grade CPU platform, we determine the optimal core allocation  |
 | `design.tex:137` | 1.448 | As an example, applying the above equations to our desktop-grade CPU platform, we determine the optimal core allocation  |
-| `design.tex:138` | 22 | Notably, our three-stage pipeline delivers an approximate $22\%$ improvement over the four-stage approach, primarily due |
-| `design.tex:138` | 9.5 | Notably, our three-stage pipeline delivers an approximate $22\%$ improvement over the four-stage approach, primarily due |
-| `design.tex:138` | 8.06 | Notably, our three-stage pipeline delivers an approximate $22\%$ improvement over the four-stage approach, primarily due |
+| `design.tex:138` | 1.23 | Notably, our three-stage pipeline delivers a \new{$1.23\times$} improvement over the four-stage approach, primarily due  |
+| `design.tex:138` | 9.5 | Notably, our three-stage pipeline delivers a \new{$1.23\times$} improvement over the four-stage approach, primarily due  |
+| `design.tex:138` | 8.06 | Notably, our three-stage pipeline delivers a \new{$1.23\times$} improvement over the four-stage approach, primarily due  |
 | `design.tex:144` | 2 | \red{For instance, as depicted in \Cref{fig:latency_oriented_pipeline}, allocating 8 cores per worker for stage E, 22 co |
 | `design.tex:144` | 3 | \red{For instance, as depicted in \Cref{fig:latency_oriented_pipeline}, allocating 8 cores per worker for stage E, 22 co |
 | `design.tex:144` | 1 | \red{For instance, as depicted in \Cref{fig:latency_oriented_pipeline}, allocating 8 cores per worker for stage E, 22 co |
@@ -633,19 +633,19 @@ so nothing is dropped. Only the `claim` bucket is treated as needing attention.
 | `implementation&eval.tex:78` | 1 | \Cref{Fig:OurLatencyE2E4090} plots the end-to-end latency of our design on an \mbox{RTX\,4090} across batch sizes of 2-- |
 | `implementation&eval.tex:78` | 6.15 | \Cref{Fig:OurLatencyE2E4090} plots the end-to-end latency of our design on an \mbox{RTX\,4090} across batch sizes of 2-- |
 | `implementation&eval.tex:78` | 2 | \Cref{Fig:OurLatencyE2E4090} plots the end-to-end latency of our design on an \mbox{RTX\,4090} across batch sizes of 2-- |
-| `implementation&eval.tex:78` | 6 | \Cref{Fig:OurLatencyE2E4090} plots the end-to-end latency of our design on an \mbox{RTX\,4090} across batch sizes of 2-- |
+| `implementation&eval.tex:78` | 12 | \Cref{Fig:OurLatencyE2E4090} plots the end-to-end latency of our design on an \mbox{RTX\,4090} across batch sizes of 2-- |
+| `implementation&eval.tex:78` | 2 | \Cref{Fig:OurLatencyE2E4090} plots the end-to-end latency of our design on an \mbox{RTX\,4090} across batch sizes of 2-- |
+| `implementation&eval.tex:78` | 3 | \Cref{Fig:OurLatencyE2E4090} plots the end-to-end latency of our design on an \mbox{RTX\,4090} across batch sizes of 2-- |
 | `implementation&eval.tex:83` | 6 | Overall, from a \emph{designer’s perspective}, sweet-spot batching and CPU--GPU division together yield 6--12$\times$ la |
 | `implementation&eval.tex:87` | 11.58 | \Cref{Fig:4080Latency_Ours} shows that, on \mbox{RTX\,4080}, our total latency follows a similar pattern, scaling to abo |
 | `implementation&eval.tex:87` | 2 | \Cref{Fig:4080Latency_Ours} shows that, on \mbox{RTX\,4080}, our total latency follows a similar pattern, scaling to abo |
 | `implementation&eval.tex:117` | 1.35 | Although absolute latencies on Jetson are inevitably higher (tens of seconds instead of single digits), we observe speed |
 | `implementation&eval.tex:117` | 1.25 | Although absolute latencies on Jetson are inevitably higher (tens of seconds instead of single digits), we observe speed |
-| `implementation&eval.tex:127` | 25 | we eliminate large data copies and cut overhead relative to EdgeRAG by 25\%--35\%. Although gains are smaller than on la |
 | `implementation&eval.tex:155` | 6.50 | On the RTX\,4090, our method completes inference in 6.50\,s, which is 3--4$\times$ faster than \flashRAG{} (16.39\,s) or |
 | `implementation&eval.tex:155` | 3 | On the RTX\,4090, our method completes inference in 6.50\,s, which is 3--4$\times$ faster than \flashRAG{} (16.39\,s) or |
 | `implementation&eval.tex:155` | 16.39 | On the RTX\,4090, our method completes inference in 6.50\,s, which is 3--4$\times$ faster than \flashRAG{} (16.39\,s) or |
 | `implementation&eval.tex:155` | 19.80 | On the RTX\,4090, our method completes inference in 6.50\,s, which is 3--4$\times$ faster than \flashRAG{} (16.39\,s) or |
 | `implementation&eval.tex:156` | 3.96 | On the RTX\,4080, our pipeline finishes in 3.96\,s, outperforming \edgeRAG{}, \flashRAG{}, and \pipeRAG{} by up to 8.8$\ |
-| `implementation&eval.tex:156` | 1.9 | On the RTX\,4080, our pipeline finishes in 3.96\,s, outperforming \edgeRAG{}, \flashRAG{}, and \pipeRAG{} by up to 8.8$\ |
 | `implementation&eval.tex:156` | 5.4 | On the RTX\,4080, our pipeline finishes in 3.96\,s, outperforming \edgeRAG{}, \flashRAG{}, and \pipeRAG{} by up to 8.8$\ |
 | `implementation&eval.tex:157` | 28.56 | On Jetson~AGX~Orin at \texttt{BS=8} and 1\,M, \design{} lowers latency to 28.56\,s, a 1.35$\times$ improvement over \edg |
 | `implementation&eval.tex:157` | 1.35 | On Jetson~AGX~Orin at \texttt{BS=8} and 1\,M, \design{} lowers latency to 28.56\,s, a 1.35$\times$ improvement over \edg |
@@ -657,8 +657,14 @@ so nothing is dropped. Only the `claim` bucket is treated as needing attention.
 | `implementation&eval.tex:158` | 1.09 | We also measure tail latency and amplification (\textit{P99}, \textit{P99/P50}) at \texttt{BS=8}, \texttt{DB=2\,M}. Our  |
 | `implementation&eval.tex:164` | 10 | To assess throughput, we simulate bursty traffic from scaled Azure traces~\cite{azureTrace}, processing 256 queries on t |
 | `implementation&eval.tex:164` | 15 | To assess throughput, we simulate bursty traffic from scaled Azure traces~\cite{azureTrace}, processing 256 queries on t |
+| `implementation&eval.tex:164` | 0.288 | To assess throughput, we simulate bursty traffic from scaled Azure traces~\cite{azureTrace}, processing 256 queries on t |
+| `implementation&eval.tex:164` | 0.683 | To assess throughput, we simulate bursty traffic from scaled Azure traces~\cite{azureTrace}, processing 256 queries on t |
+| `implementation&eval.tex:164` | 1.185 | To assess throughput, we simulate bursty traffic from scaled Azure traces~\cite{azureTrace}, processing 256 queries on t |
+| `implementation&eval.tex:164` | 0.432 | To assess throughput, we simulate bursty traffic from scaled Azure traces~\cite{azureTrace}, processing 256 queries on t |
 | `implementation&eval.tex:164` | 6.7 | To assess throughput, we simulate bursty traffic from scaled Azure traces~\cite{azureTrace}, processing 256 queries on t |
+| `implementation&eval.tex:164` | 0.0645 | To assess throughput, we simulate bursty traffic from scaled Azure traces~\cite{azureTrace}, processing 256 queries on t |
 | `implementation&eval.tex:164` | 1.16 | To assess throughput, we simulate bursty traffic from scaled Azure traces~\cite{azureTrace}, processing 256 queries on t |
+| `implementation&eval.tex:164` | 0.370 | To assess throughput, we simulate bursty traffic from scaled Azure traces~\cite{azureTrace}, processing 256 queries on t |
 | `implementation&eval.tex:174` | 16.36 | The power and energy measurement results are reported in \Cref{tab:power_energy}. MaestroRAG significantly outperforms F |
 | `implementation&eval.tex:174` | 8.08 | The power and energy measurement results are reported in \Cref{tab:power_energy}. MaestroRAG significantly outperforms F |
 | `implementation&eval.tex:175` | 79.2 | \new{Attributing CPU package energy to pipeline stages, after subtracting idle package power and with DRAM excluded, giv |
@@ -677,30 +683,35 @@ so nothing is dropped. Only the `claim` bucket is treated as needing attention.
 | `implementation&eval.tex:278` | 3.06 | \new{Exact matching returns the cached final answer and skips both retrieval and generation, placing \design{} between 0 |
 | `implementation&eval.tex:278` | 3.12 | \new{Exact matching returns the cached final answer and skips both retrieval and generation, placing \design{} between 0 |
 | `implementation&eval.tex:278` | 1.1 | \new{Exact matching returns the cached final answer and skips both retrieval and generation, placing \design{} between 0 |
+| `implementation&eval.tex:278` | 1.1 | \new{Exact matching returns the cached final answer and skips both retrieval and generation, placing \design{} between 0 |
+| `implementation&eval.tex:278` | 1.069 | \new{Exact matching returns the cached final answer and skips both retrieval and generation, placing \design{} between 0 |
+| `implementation&eval.tex:278` | 1.058 | \new{Exact matching returns the cached final answer and skips both retrieval and generation, placing \design{} between 0 |
+| `implementation&eval.tex:278` | 0.951 | \new{Exact matching returns the cached final answer and skips both retrieval and generation, placing \design{} between 0 |
 | `implementation&eval.tex:279` | 80 | When 80\% of queries exhibit strong similarity, average latency improves substantially despite occasional cache misses. |
-| `implementation&eval.tex:285` | 6.50 | \Cref{Fig:MainLatencyResults2} (purple stacked bar) showcases a pathological best-case exact match example on the RTX\,4 |
-| `implementation&eval.tex:285` | 1 | \Cref{Fig:MainLatencyResults2} (purple stacked bar) showcases a pathological best-case exact match example on the RTX\,4 |
-| `implementation&eval.tex:316` | 1.25 | \noindent\textbf{Latency results insights: }\design{} yields latency reductions of $1.25\times$--$12\times$ across three |
-| `implementation&eval.tex:316` | 12 | \noindent\textbf{Latency results insights: }\design{} yields latency reductions of $1.25\times$--$12\times$ across three |
-| `implementation&eval.tex:316` | 8 | \noindent\textbf{Latency results insights: }\design{} yields latency reductions of $1.25\times$--$12\times$ across three |
-| `implementation&eval.tex:317` | 1.35 | Although Jetson-class hardware is relatively constrained and possesses unified memory, where both encoder and generation |
-| `implementation&eval.tex:319` | 6 | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, we compare the recomm |
-| `implementation&eval.tex:321` | 0.6 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
-| `implementation&eval.tex:321` | 10 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
-| `implementation&eval.tex:321` | 20 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
-| `implementation&eval.tex:321` | 1.2 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
-| `implementation&eval.tex:321` | 100 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
-| `implementation&eval.tex:321` | 20 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
-| `implementation&eval.tex:321` | 12 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
-| `implementation&eval.tex:321` | 100 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
-| `implementation&eval.tex:321` | 100 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
-| `implementation&eval.tex:321` | 500 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
-| `implementation&eval.tex:323` | 29.27 | \noindent\textbf{Impact of indexing schemes: }In addition to the flat indexing scheme for accessing the database, we als |
-| `implementation&eval.tex:323` | 28.15 | \noindent\textbf{Impact of indexing schemes: }In addition to the flat indexing scheme for accessing the database, we als |
-| `implementation&eval.tex:323` | 32.18 | \noindent\textbf{Impact of indexing schemes: }In addition to the flat indexing scheme for accessing the database, we als |
-| `implementation&eval.tex:327` | 0.22 | \new{\noindent\textbf{Portability of optimizations to baselines: }We ported the transferable optimizations to \pipeRAG{} |
-| `implementation&eval.tex:327` | 1.55 | \new{\noindent\textbf{Portability of optimizations to baselines: }We ported the transferable optimizations to \pipeRAG{} |
-| `implementation&eval.tex:327` | 0.10 | \new{\noindent\textbf{Portability of optimizations to baselines: }We ported the transferable optimizations to \pipeRAG{} |
+| `implementation&eval.tex:286` | 6.50 | \Cref{Fig:MainLatencyResults2} (purple stacked bar) showcases a pathological best-case exact match example on the RTX\,4 |
+| `implementation&eval.tex:286` | 1 | \Cref{Fig:MainLatencyResults2} (purple stacked bar) showcases a pathological best-case exact match example on the RTX\,4 |
+| `implementation&eval.tex:317` | 1.25 | \noindent\textbf{Latency results insights: }\design{} yields latency reductions of $1.25\times$--$12\times$ across three |
+| `implementation&eval.tex:317` | 12 | \noindent\textbf{Latency results insights: }\design{} yields latency reductions of $1.25\times$--$12\times$ across three |
+| `implementation&eval.tex:317` | 8 | \noindent\textbf{Latency results insights: }\design{} yields latency reductions of $1.25\times$--$12\times$ across three |
+| `implementation&eval.tex:318` | 1.35 | Although Jetson-class hardware is relatively constrained and possesses unified memory, where both encoder and generation |
+| `implementation&eval.tex:320` | 6 | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, we compare the recomm |
+| `implementation&eval.tex:322` | 0.6 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
+| `implementation&eval.tex:322` | 10 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
+| `implementation&eval.tex:322` | 20 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
+| `implementation&eval.tex:322` | 1.2 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
+| `implementation&eval.tex:322` | 100 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
+| `implementation&eval.tex:322` | 20 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
+| `implementation&eval.tex:322` | 12 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
+| `implementation&eval.tex:322` | 100 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
+| `implementation&eval.tex:322` | 100 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
+| `implementation&eval.tex:322` | 500 | \noindent\textbf{Impact of number of tokens: }To assess the scalability of our approach with respect to input length, we |
+| `implementation&eval.tex:324` | 29.27 | \noindent\textbf{Impact of indexing schemes: }In addition to the flat indexing scheme for accessing the database, we als |
+| `implementation&eval.tex:324` | 28.15 | \noindent\textbf{Impact of indexing schemes: }In addition to the flat indexing scheme for accessing the database, we als |
+| `implementation&eval.tex:324` | 32.18 | \noindent\textbf{Impact of indexing schemes: }In addition to the flat indexing scheme for accessing the database, we als |
+| `implementation&eval.tex:326` | 80 | \noindent\textbf{Impact of optimization mechanisms: }To isolate the impact of individual optimizations, we performed an  |
+| `implementation&eval.tex:328` | 0.22 | \new{\noindent\textbf{Portability of optimizations to baselines: }We ported the transferable optimizations to \pipeRAG{} |
+| `implementation&eval.tex:328` | 1.55 | \new{\noindent\textbf{Portability of optimizations to baselines: }We ported the transferable optimizations to \pipeRAG{} |
+| `implementation&eval.tex:328` | 0.10 | \new{\noindent\textbf{Portability of optimizations to baselines: }We ported the transferable optimizations to \pipeRAG{} |
 | `TablesAlgos/CachingTable.tex:4` | 5 | \caption{Latency with caching \new{at \texttt{BS=1}, with a TTL of 300\,s, a cache capacity of 32 entries, and 5 retriev |
 | `TablesAlgos/Jetson4090A100.tex:10` | 7742 | \textbf{CPU} & Arm-A78AE & Intel i9-14900K & AMD 7742 \\ |
 | `TablesAlgos/LatencyBreakdown.tex:11` | 0.20 | \design{}   & 0.20 & \multicolumn{2}{c}{1.60}  &                              & 0.20 \\ |
@@ -756,26 +767,22 @@ so nothing is dropped. Only the `claim` bucket is treated as needing attention.
 | `implementation&eval.tex:157` | 15 | setup | On Jetson~AGX~Orin at \texttt{BS=8} and 1\,M, \design{} lowers latency to 28.56\,s, a 1.35$\times$ i |
 | `implementation&eval.tex:164` | 256 | setup | To assess throughput, we simulate bursty traffic from scaled Azure traces~\cite{azureTrace}, process |
 | `implementation&eval.tex:164` | 1.60 | setup | To assess throughput, we simulate bursty traffic from scaled Azure traces~\cite{azureTrace}, process |
-| `implementation&eval.tex:164` | 0.29 | setup | To assess throughput, we simulate bursty traffic from scaled Azure traces~\cite{azureTrace}, process |
-| `implementation&eval.tex:164` | 0.68 | setup | To assess throughput, we simulate bursty traffic from scaled Azure traces~\cite{azureTrace}, process |
-| `implementation&eval.tex:164` | 1.19 | setup | To assess throughput, we simulate bursty traffic from scaled Azure traces~\cite{azureTrace}, process |
-| `implementation&eval.tex:164` | 0.43 | setup | To assess throughput, we simulate bursty traffic from scaled Azure traces~\cite{azureTrace}, process |
-| `implementation&eval.tex:164` | 0.064 | setup | To assess throughput, we simulate bursty traffic from scaled Azure traces~\cite{azureTrace}, process |
-| `implementation&eval.tex:164` | 0.37 | setup | To assess throughput, we simulate bursty traffic from scaled Azure traces~\cite{azureTrace}, process |
 | `implementation&eval.tex:280` | 15 | setup | On the Jetson~AGX~Orin (15\,W power cap), caching provides consistent speedups by avoiding redundant |
-| `implementation&eval.tex:319` | 1 | setup | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
-| `implementation&eval.tex:319` | 2 | setup | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
-| `implementation&eval.tex:319` | 4 | setup | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
-| `implementation&eval.tex:319` | 8 | setup | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
-| `implementation&eval.tex:319` | 2 | setup | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
-| `implementation&eval.tex:319` | 4 | setup | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
-| `implementation&eval.tex:319` | 4 | setup | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
-| `implementation&eval.tex:327` | 1.38 | setup | \new{\noindent\textbf{Portability of optimizations to baselines: }We ported the transferable optimiz |
-| `implementation&eval.tex:327` | 1.60 | setup | \new{\noindent\textbf{Portability of optimizations to baselines: }We ported the transferable optimiz |
+| `implementation&eval.tex:320` | 1 | setup | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
+| `implementation&eval.tex:320` | 2 | setup | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
+| `implementation&eval.tex:320` | 4 | setup | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
+| `implementation&eval.tex:320` | 8 | setup | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
+| `implementation&eval.tex:320` | 2 | setup | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
+| `implementation&eval.tex:320` | 4 | setup | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
+| `implementation&eval.tex:320` | 4 | setup | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
+| `implementation&eval.tex:328` | 1.38 | setup | \new{\noindent\textbf{Portability of optimizations to baselines: }We ported the transferable optimiz |
+| `implementation&eval.tex:328` | 1.60 | setup | \new{\noindent\textbf{Portability of optimizations to baselines: }We ported the transferable optimiz |
 | `TablesAlgos/CachingTable.tex:8` | 2 | setup | & \multicolumn{2}{c}{2 mil} & \multicolumn{2}{c}{4 mil} & \multicolumn{2}{c}{8 mil} \\ |
 | `TablesAlgos/CachingTable.tex:8` | 4 | setup | & \multicolumn{2}{c}{2 mil} & \multicolumn{2}{c}{4 mil} & \multicolumn{2}{c}{8 mil} \\ |
 | `TablesAlgos/CachingTable.tex:8` | 8 | setup | & \multicolumn{2}{c}{2 mil} & \multicolumn{2}{c}{4 mil} & \multicolumn{2}{c}{8 mil} \\ |
 | `TablesAlgos/Jetson4090A100.tex:3` | 64 | setup | \caption{\new{Platform specifications for a local/personal-computing desktop (RTX\,4090), an embedde |
+| `abstract.tex:1` | 8 | config | Retrieval-Augmented Generation (RAG) offers a compact yet powerful alternative to massive Large Lang |
+| `abstract.tex:1` | 8 | config | Retrieval-Augmented Generation (RAG) offers a compact yet powerful alternative to massive Large Lang |
 | `characterization.tex:49` | 16 | config | (c) Encode latency at batch size 16 as we vary the number of CPU cores. |
 | `characterization.tex:54` | 2 | config | (e) Retrieval latency as the number of CPU cores increases (DB size = 2\,M, batch size = 8). |
 | `characterization.tex:54` | 8 | config | (e) Retrieval latency as the number of CPU cores increases (DB size = 2\,M, batch size = 8). |
@@ -813,12 +820,12 @@ so nothing is dropped. Only the `claim` bucket is treated as needing attention.
 | `implementation&eval.tex:275` | 300 | config | All experiments use TTL of 300\,s and cache capacity of 32 entries, each storing 5 retrieved documen |
 | `implementation&eval.tex:275` | 32 | config | All experiments use TTL of 300\,s and cache capacity of 32 entries, each storing 5 retrieved documen |
 | `implementation&eval.tex:278` | 1 | config | \new{Exact matching returns the cached final answer and skips both retrieval and generation, placing |
-| `implementation&eval.tex:316` | 16 | config | \noindent\textbf{Latency results insights: }\design{} yields latency reductions of $1.25\times$--$12 |
-| `implementation&eval.tex:316` | 4 | config | \noindent\textbf{Latency results insights: }\design{} yields latency reductions of $1.25\times$--$12 |
-| `implementation&eval.tex:319` | 8 | config | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
-| `implementation&eval.tex:319` | 2 | config | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
-| `implementation&eval.tex:327` | 1 | config | \new{\noindent\textbf{Portability of optimizations to baselines: }We ported the transferable optimiz |
-| `implementation&eval.tex:327` | 16 | config | \new{\noindent\textbf{Portability of optimizations to baselines: }We ported the transferable optimiz |
+| `implementation&eval.tex:317` | 16 | config | \noindent\textbf{Latency results insights: }\design{} yields latency reductions of $1.25\times$--$12 |
+| `implementation&eval.tex:317` | 4 | config | \noindent\textbf{Latency results insights: }\design{} yields latency reductions of $1.25\times$--$12 |
+| `implementation&eval.tex:320` | 8 | config | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
+| `implementation&eval.tex:320` | 2 | config | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
+| `implementation&eval.tex:328` | 1 | config | \new{\noindent\textbf{Portability of optimizations to baselines: }We ported the transferable optimiz |
+| `implementation&eval.tex:328` | 16 | config | \new{\noindent\textbf{Portability of optimizations to baselines: }We ported the transferable optimiz |
 | `TablesAlgos/CachingTable.tex:4` | 1 | config | \caption{Latency with caching \new{at \texttt{BS=1}, with a TTL of 300\,s, a cache capacity of 32 en |
 | `TablesAlgos/CachingTable.tex:4` | 300 | config | \caption{Latency with caching \new{at \texttt{BS=1}, with a TTL of 300\,s, a cache capacity of 32 en |
 | `TablesAlgos/CachingTable.tex:4` | 32 | config | \caption{Latency with caching \new{at \texttt{BS=1}, with a TTL of 300\,s, a cache capacity of 32 en |
@@ -860,8 +867,8 @@ so nothing is dropped. Only the `claim` bucket is treated as needing attention.
 | `implementation&eval.tex:164` | 4090 | hardware | To assess throughput, we simulate bursty traffic from scaled Azure traces~\cite{azureTrace}, process |
 | `implementation&eval.tex:164` | 4090 | hardware | To assess throughput, we simulate bursty traffic from scaled Azure traces~\cite{azureTrace}, process |
 | `implementation&eval.tex:275` | 5 | hardware | All experiments use TTL of 300\,s and cache capacity of 32 entries, each storing 5 retrieved documen |
-| `implementation&eval.tex:285` | 4090 | hardware | \Cref{Fig:MainLatencyResults2} (purple stacked bar) showcases a pathological best-case exact match e |
-| `implementation&eval.tex:319` | 4090 | hardware | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
+| `implementation&eval.tex:286` | 4090 | hardware | \Cref{Fig:MainLatencyResults2} (purple stacked bar) showcases a pathological best-case exact match e |
+| `implementation&eval.tex:320` | 4090 | hardware | \noindent\textbf{Adaptive Batching and Worker Allocation: }In \Cref{Fig:cores_allocation_stacked}, w |
 | `TablesAlgos/Jetson4090A100.tex:3` | 4090 | hardware | \caption{\new{Platform specifications for a local/personal-computing desktop (RTX\,4090), an embedde |
 | `TablesAlgos/Jetson4090A100.tex:8` | 4090 | hardware | \textbf{Specification} & \textbf{Jetson Orin} & \textbf{RTX 4090} & \textbf{A100} \\ |
 | `TablesAlgos/LatencyBreakdown.tex:3` | 4090 | hardware | \caption{\new{Stage-level latency in seconds on the RTX\,4090 at \texttt{DB=4\,M} and \texttt{BS=8}, |

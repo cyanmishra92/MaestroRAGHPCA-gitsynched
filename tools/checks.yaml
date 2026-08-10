@@ -149,9 +149,9 @@ checks:
     origin: seed
     description: "Throughput, RTX 4090, EdgeRAG (QPS)"
     kind: value
-    claimed: 0.29
+    claimed: 0.288
     locations: ["implementation&eval.tex:154"]
-    tolerance: 0.005
+    tolerance: 0.0005
     expect: PASS
     source:
       sheet: ThroughputResult
@@ -162,9 +162,9 @@ checks:
     origin: seed
     description: "Throughput, RTX 4090, FlashRAG (QPS)"
     kind: value
-    claimed: 0.68
+    claimed: 0.683
     locations: ["implementation&eval.tex:154"]
-    tolerance: 0.005
+    tolerance: 0.0005
     expect: PASS
     source:
       sheet: ThroughputResult
@@ -175,9 +175,9 @@ checks:
     origin: seed
     description: "Throughput, RTX 4090, PipeRAG (QPS)"
     kind: value
-    claimed: 1.19
+    claimed: 1.185
     locations: ["implementation&eval.tex:154"]
-    tolerance: 0.005
+    tolerance: 0.0005
     expect: PASS
     source:
       sheet: ThroughputResult
@@ -188,9 +188,9 @@ checks:
     origin: seed
     description: "Throughput, Jetson, MaestroRAG (QPS)"
     kind: value
-    claimed: 0.43
+    claimed: 0.432
     locations: ["implementation&eval.tex:154"]
-    tolerance: 0.005
+    tolerance: 0.0005
     expect: PASS
     source:
       sheet: ThroughputResult
@@ -201,9 +201,9 @@ checks:
     origin: seed
     description: "Throughput, Jetson, EdgeRAG (QPS)"
     kind: value
-    claimed: 0.064
+    claimed: 0.0645
     locations: ["implementation&eval.tex:154"]
-    tolerance: 0.001
+    tolerance: 0.0005
     tolerance_rationale: "paper truncates 0.0645 to 0.064 rather than rounding"
     expect: PASS
     source:
@@ -228,9 +228,9 @@ checks:
     origin: seed
     description: "Throughput, Jetson, PipeRAG (QPS)"
     kind: value
-    claimed: 0.37
+    claimed: 0.370
     locations: ["implementation&eval.tex:154"]
-    tolerance: 0.005
+    tolerance: 0.0005
     expect: PASS
     source:
       sheet: ThroughputResult
@@ -382,17 +382,17 @@ checks:
   # -------------------------------------------------- seed: Jetson overhead reduction
   - id: jetson_overhead_reduction_band
     origin: seed
-    description: "Claimed 25-35% latency reduction vs EdgeRAG on Jetson, all batch sizes"
-    kind: range
-    claimed: [25, 35]
-    locations: ["implementation&eval.tex:119"]
-    tolerance: 0.0
-    expect: FAIL
-    known_defect: "Workbook gives 8.6 / 23.8 / 26.0 / 20.4 % for BS=2/4/8/16. Only BS=8 lands in the band; the claimed range is wrong. Awaiting its own task."
+    description: "Jetson overhead reduction vs EdgeRAG; paper claims up to 26% (corrected from 25-35% in Task 8)"
+    kind: value
+    claimed: 26
+    locations: ["implementation&eval.tex:127"]
+    tolerance: 0.05
+    tolerance_rationale: "paper prints a whole percent; the maximum of the four batch sizes is 26.049"
+    expect: PASS
     source:
       sheet: LatencyResults-NoCacheJetson
       cells: {e2: D29, o2: E29, e4: D30, o4: E30, e8: D31, o8: E31, e16: D32, o16: E32}
-      derivation: "[(e2-o2)/e2*100, (e4-o4)/e4*100, (e8-o8)/e8*100, (e16-o16)/e16*100]"
+      derivation: "max([(e2-o2)/e2*100, (e4-o4)/e4*100, (e8-o8)/e8*100, (e16-o16)/e16*100])"
 
   # ------------------------------------------------------------- seed: cold-start cost
   - id: cold_start_total
@@ -403,7 +403,7 @@ checks:
     locations: ["implementation&eval.tex:315"]
     tolerance: 0.0
     expect: UNVERIFIABLE
-    reason: "No authorised tab records cold-start timings. Components 0.36 + 3.04 + 3.36 = 6.76 s, which is 0.24 s short of the stated 7 s; this is a paper-internal arithmetic gap, not a workbook mismatch."
+    reason: "No authorised tab records cold-start timings. Components 0.36 + 3.04 + 3.36 = 6.76 s; Task 8 made the 0.24 s residual explicit in the text (process creation and library initialization), so the arithmetic now closes, but none of it is backed by a sheet."
     source: {}
 
   # ============================ EXTENDED CHECKS (not in the seed table) ==============
@@ -466,12 +466,11 @@ checks:
     origin: extended
     description: "4080 speedup over FlashRAG at BS=8, DB=4M"
     kind: value
-    claimed: 1.9
-    locations: ["implementation&eval.tex:146"]
+    claimed: 2.0
+    locations: ["implementation&eval.tex:156"]
     tolerance: 0.05
-    tolerance_rationale: "paper prints 1 dp; 1.96 should display as 2.0, not 1.9"
-    expect: FAIL
-    known_defect: "Paper says 1.9x; workbook gives 1.96x. Truncated instead of rounded."
+    tolerance_rationale: "corrected in Task 8; 1.960 rounds to 2.0 as its neighbours were rounded"
+    expect: PASS
     source:
       sheet: LatencyResults-NoCache4080
       cells: {v: D37}
