@@ -33,7 +33,7 @@ These embeddings are used in the retrieval stage to match against candidate know
 \label{sec:BG:Retrieval}
 Following encoding, the system searches a \emph{vector database} (constructed by encoding each knowledge item with the same model) to find relevant entries. This shared embedding space enables direct similarity comparisons, while database construction, being computationally intensive, is usually performed offline or during idle periods.
 
-For efficient lookup, the system builds either hierarchical (tree-based) indices with sublinear search but higher memory cost or flat indices that perform exhaustive searches with higher time complexity. Retrieval computes a similarity metric (e.g., cosine or L2 distance~\cite{l2}) between the query embedding and database entries to return \topk{} matches. Depending on resources, this computation can run on CPUs or accelerators, though CPUs often excel for large, I/O-intensive indices. Finally, the top entries are passed to the \emph{augmentation} stage for prompt composition and generation.
+For efficient lookup, the system builds either hierarchical (tree-based) indices with sublinear search but higher memory cost or flat indices that perform exhaustive searches with higher time complexity. Retrieval computes a similarity metric (e.g., cosine or L2 distance) between the query embedding and database entries to return \topk{} matches. Depending on resources, this computation can run on CPUs or accelerators, though CPUs often excel for large, I/O-intensive indices. Finally, the top entries are passed to the \emph{augmentation} stage for prompt composition and generation.
 
 %\subsection{Augmentation}
 \noindent$\bullet$\textbf{Augmentation:}
