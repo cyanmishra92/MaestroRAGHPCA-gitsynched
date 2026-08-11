@@ -88,7 +88,7 @@ However, pushing \texttt{BS} beyond 16 inflates the working-set footprint, incre
 Thus, while larger batches amortize per-query overheads and improve throughput, they must be balanced against memory-hierarchy limits to avoid super-linear latency growth.
 
 \noindent\textbf{Effects of Database Size:} 
-\Cref{Fig:latency_dbsize} shows nearly linear latency growth as the vector store expands from 1 M to 8 M entries on 16 cores.  Once the index outgrows the cache capacity ($\approx30 MB$) and approaches DRAM, miss penalties and page faults dominate, diminishing the marginal benefit of additional cores.  Hence, scaling the database, without architectural support such as tiered caching or sharding, yields a proportional increase in retrieval time, confirming that I/O, not compute, is the principal bottleneck for large knowledge stores.
+\Cref{Fig:latency_dbsize} shows nearly linear latency growth as the vector store expands from 1 M to 8 M entries on 16 cores.  Once the index outgrows the cache capacity ($\approx30 MB$)\flag{Untraced: the 30\,MB cache capacity appears in no workbook tab and in no rebuttal sentence.} and approaches DRAM, miss penalties and page faults dominate, diminishing the marginal benefit of additional cores.  Hence, scaling the database, without architectural support such as tiered caching or sharding, yields a proportional increase in retrieval time, confirming that I/O, not compute, is the principal bottleneck for large knowledge stores.
 
 %%%%%%%%%% %%%%%%%%%% %%%%%%%%%% %%%%%%%%%% 
 \begin{figure*}[!ht] 
