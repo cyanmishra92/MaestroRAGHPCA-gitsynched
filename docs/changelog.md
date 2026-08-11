@@ -153,3 +153,4 @@ While integrating the above we re-derived every quantitative claim from the meas
 - **Figure 5 float.** The Jetson comparison was a text-wrapped figure, which left a text column a few words wide beside it. It is now a normal single-column float at the same printed size, on page 9.
 - **Section 2.1 is new**, which shifts the numbering of the two subsections that follow it within Section 2.
 - **Section 5.2 is new**, which shifts the numbering of the evaluation subsections that follow it.
+- **Abstract.** The results sentence now names the baselines each headline number is measured against, rather than attributing all three to "state-of-the-art RAG systems" collectively. No number changed.

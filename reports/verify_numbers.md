@@ -576,14 +576,14 @@ These numbers appear in the paper and match a value found **only** in a stale ta
 
 ## Numeric literals not covered by any check
 
-Extracted **322** numeric literals from the active `.tex` files (a further 376 sit on commented-out lines and are ignored).
-**35** are accounted for by a check above; **287** are not, broken down as:
+Extracted **320** numeric literals from the active `.tex` files (a further 376 sit on commented-out lines and are ignored).
+**35** are accounted for by a check above; **285** are not, broken down as:
 
 | Category | Count | Meaning |
 |---|---:|---|
 | `claim` | 148 | prose numbers that no check covers -- the actionable list |
 | `setup` | 41 | numbers bound to a unit (15 W, 64 GB, 10 Hz, 4 M) |
-| `config` | 52 | experiment knobs (`BS=8`, `DB=4M`, `top-k=5`, core counts) |
+| `config` | 50 | experiment knobs (`BS=8`, `DB=4M`, `top-k=5`, core counts) |
 | `hardware` | 39 | device/model numbers (RTX 4090, i9-14900K, Llama-3.1-8B) |
 | `enumerator` | 7 | list markers -- `(1)`, `(2)`, `(3)` |
 
@@ -788,8 +788,6 @@ so nothing is dropped. Only the `claim` bucket is treated as needing attention.
 | `TablesAlgos/CachingTable.tex:8` | 4 | setup | & \multicolumn{2}{c}{2 mil} & \multicolumn{2}{c}{4 mil} & \multicolumn{2}{c}{8 mil} \\ |
 | `TablesAlgos/CachingTable.tex:8` | 8 | setup | & \multicolumn{2}{c}{2 mil} & \multicolumn{2}{c}{4 mil} & \multicolumn{2}{c}{8 mil} \\ |
 | `TablesAlgos/Jetson4090A100.tex:3` | 64 | setup | \caption{\new{Platform specifications for a local/personal-computing desktop (RTX\,4090), an embedde |
-| `abstract.tex:1` | 8 | config | Retrieval-Augmented Generation (RAG) offers a compact yet powerful alternative to massive Large Lang |
-| `abstract.tex:1` | 8 | config | Retrieval-Augmented Generation (RAG) offers a compact yet powerful alternative to massive Large Lang |
 | `characterization.tex:49` | 16 | config | (c) Encode latency at batch size 16 as we vary the number of CPU cores. |
 | `characterization.tex:54` | 2 | config | (e) Retrieval latency as the number of CPU cores increases (DB size = 2\,M, batch size = 8). |
 | `characterization.tex:54` | 8 | config | (e) Retrieval latency as the number of CPU cores increases (DB size = 2\,M, batch size = 8). |
