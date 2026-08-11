@@ -576,14 +576,14 @@ These numbers appear in the paper and match a value found **only** in a stale ta
 
 ## Numeric literals not covered by any check
 
-Extracted **323** numeric literals from the active `.tex` files (a further 376 sit on commented-out lines and are ignored).
-**36** are accounted for by a check above; **287** are not, broken down as:
+Extracted **322** numeric literals from the active `.tex` files (a further 376 sit on commented-out lines and are ignored).
+**35** are accounted for by a check above; **287** are not, broken down as:
 
 | Category | Count | Meaning |
 |---|---:|---|
-| `claim` | 145 | prose numbers that no check covers -- the actionable list |
-| `setup` | 43 | numbers bound to a unit (15 W, 64 GB, 10 Hz, 4 M) |
-| `config` | 53 | experiment knobs (`BS=8`, `DB=4M`, `top-k=5`, core counts) |
+| `claim` | 148 | prose numbers that no check covers -- the actionable list |
+| `setup` | 41 | numbers bound to a unit (15 W, 64 GB, 10 Hz, 4 M) |
+| `config` | 52 | experiment knobs (`BS=8`, `DB=4M`, `top-k=5`, core counts) |
 | `hardware` | 39 | device/model numbers (RTX 4090, i9-14900K, Llama-3.1-8B) |
 | `enumerator` | 7 | list markers -- `(1)`, `(2)`, `(3)` |
 
@@ -595,6 +595,10 @@ so nothing is dropped. Only the `claim` bucket is treated as needing attention.
 | File:line | Literal | Context |
 |---|---:|---|
 | `abstract.tex:1` | 1.35 | Retrieval-Augmented Generation (RAG) offers a compact yet powerful alternative to massive Large Language Models (LLMs),  |
+| `introduction.tex:181` | 4.22 | \caption{\new{Stage placement in a classical RAG pipeline and in \design{}. The classical pipeline places both encoding  |
+| `introduction.tex:181` | 4.40 | \caption{\new{Stage placement in a classical RAG pipeline and in \design{}. The classical pipeline places both encoding  |
+| `introduction.tex:181` | 8 | \caption{\new{Stage placement in a classical RAG pipeline and in \design{}. The classical pipeline places both encoding  |
+| `introduction.tex:181` | 8 | \caption{\new{Stage placement in a classical RAG pipeline and in \design{}. The classical pipeline places both encoding  |
 | `introduction.tex:185` | 12 | We evaluated MaestroRAG on three platforms: NVIDIA RTX 4090, RTX 4080, and Jetson AGX Orin using realistic workloads der |
 | `introduction.tex:185` | 5.6 | We evaluated MaestroRAG on three platforms: NVIDIA RTX 4090, RTX 4080, and Jetson AGX Orin using realistic workloads der |
 | `introduction.tex:185` | 3 | We evaluated MaestroRAG on three platforms: NVIDIA RTX 4090, RTX 4080, and Jetson AGX Orin using realistic workloads der |
@@ -624,7 +628,6 @@ so nothing is dropped. Only the `claim` bucket is treated as needing attention.
 | `design.tex:344` | 8 | Caching was disabled during all evaluations to emulate random query patterns that lack spatio-temporal locality, represe |
 | `design.tex:344` | 22 | Caching was disabled during all evaluations to emulate random query patterns that lack spatio-temporal locality, represe |
 | `design.tex:344` | 1 | Caching was disabled during all evaluations to emulate random query patterns that lack spatio-temporal locality, represe |
-| `implementation&eval.tex:9` | 70 | We implement \design{} in Python (about 6,000 lines of code), mainly using PyTorch for ML operations and FAISS for high- |
 | `implementation&eval.tex:9` | 70 | We implement \design{} in Python (about 6,000 lines of code), mainly using PyTorch for ML operations and FAISS for high- |
 | `implementation&eval.tex:11` | 32 | \noindent\textbf{Deployment System:} \new{Following \Cref{sec:BG:Scope}, our evaluations span two local/personal-computi |
 | `implementation&eval.tex:11` | 8 | \noindent\textbf{Deployment System:} \new{Following \Cref{sec:BG:Scope}, our evaluations span two local/personal-computi |
@@ -754,8 +757,6 @@ so nothing is dropped. Only the `claim` bucket is treated as needing attention.
 | `characterization.tex:91` | 1 | setup | \Cref{Fig:latency_dbsize} shows nearly linear latency growth as the vector store expands from 1 M to |
 | `characterization.tex:91` | 8 | setup | \Cref{Fig:latency_dbsize} shows nearly linear latency growth as the vector store expands from 1 M to |
 | `characterization.tex:91` | 16 | setup | \Cref{Fig:latency_dbsize} shows nearly linear latency growth as the vector store expands from 1 M to |
-| `characterization.tex:91` | 30 | setup | \Cref{Fig:latency_dbsize} shows nearly linear latency growth as the vector store expands from 1 M to |
-| `design.tex:48` | 128 | setup | Separating out augment and retrieval stages, although brings cache hit benefits in their respective  |
 | `design.tex:137` | 4 | setup | As an example, applying the above equations to our desktop-grade CPU platform, we determine the opti |
 | `design.tex:144` | 22 | setup | \red{For instance, as depicted in \Cref{fig:latency_oriented_pipeline}, allocating 8 cores per worke |
 | `design.tex:144` | 1 | setup | \red{For instance, as depicted in \Cref{fig:latency_oriented_pipeline}, allocating 8 cores per worke |
@@ -818,7 +819,6 @@ so nothing is dropped. Only the `claim` bucket is treated as needing attention.
 | `implementation&eval.tex:152` | 8 | config | (iii)~Jetson~AGX~Orin with 1\,M at \texttt{BS=8}. |
 | `implementation&eval.tex:154` | 8.8 | config | On the RTX\,4080, our pipeline finishes in 3.96\,s, outperforming \edgeRAG{}, \flashRAG{}, and \pipe |
 | `implementation&eval.tex:155` | 8 | config | On Jetson~AGX~Orin at \texttt{BS=8} and 1\,M, \design{} lowers latency to 28.56\,s, a 1.35$\times$ i |
-| `implementation&eval.tex:156` | 8 | config | We also measure tail latency and amplification (\textit{P99}, \textit{P99/P50}) at \texttt{BS=8}, \t |
 | `implementation&eval.tex:156` | 8 | config | We also measure tail latency and amplification (\textit{P99}, \textit{P99/P50}) at \texttt{BS=8}, \t |
 | `implementation&eval.tex:162` | 4 | config | To assess throughput, we simulate bursty traffic from scaled Azure traces~\cite{azureTrace}, process |
 | `implementation&eval.tex:162` | 8 | config | To assess throughput, we simulate bursty traffic from scaled Azure traces~\cite{azureTrace}, process |
